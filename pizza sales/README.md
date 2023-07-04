@@ -29,20 +29,20 @@ The relational database diagram for this project can be found below using [Quick
 ### SQL QUERY
 In order to get the final create the relational database, a sql query was created from Quick DB to set up the database in PostgresSQL.
 ```
-$ SELECT o.order_details_id,
-$ o.order_id,
-$ o.pizza_id,
-$ o.quantity,
-$ o.order_date,
-$ o.order_time,
-$ o.category_id,
-$ p.pizza_name,
-$ p.unit_price,
-$ p.pizza_size,
-$ c.pizza_category
-$ FROM orders o
-$ LEFT JOIN pizza p 
-$ ON o.pizza_id = p.pizza_num
-$ LEFT JOIN categories c
-$ ON o.category_id = c.cat_id
+SELECT o.order_details_id,
+o.order_id,
+o.pizza_id,
+o.quantity,
+o.order_date,
+o.order_time,
+o.category_id,
+p.pizza_name,
+p.unit_price,
+p.pizza_size,
+c.pizza_category
+FROM orders o
+LEFT JOIN pizza p 
+ON o.pizza_id = p.pizza_num
+LEFT JOIN categories c
+ON o.category_id = c.cat_id
 ```

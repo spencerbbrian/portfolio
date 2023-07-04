@@ -9,4 +9,7 @@ The dataset was downloaded from Kaggle. The link to that dataset can be found [h
 
 ## Exploratory Data Analysis
 ### Steps
+- Import libraries and datasets.
+- Check for missing or null values.
+- Check datatypes for each attribute.
 - 

@@ -4,6 +4,7 @@
 * [Questions](#questions)
 * [Relational Database](#relational-database)
 * [Data Visualization](#data-visualization)
+* [Answered Questions](#answered-questions)
 
 ## Datasets
 The project utilised just one dataset further split for normalization purposes.
@@ -22,7 +23,13 @@ The dataset was downloaded from Kaggle. The link to that dataset can be found [h
 - Find the count of unique values per attribute.
 
 ## QUESTIONS
-- 
+- What are the top 5 most purchased pizzas?
+- What is the least purchased pizza?
+- What is the most purchased pizza by category?
+- What is the purchased category by size?
+- What month has the most pizza sales?
+- What month has the least pizza sales?
+- What is the peak order time and the associated sales?
 
 ## Relational Database 
 To reduce the effect of data redundancy, the entire dataset was split into 3 with orders as the facts table and the pizzas and categories table used for normalization purposes.
@@ -61,3 +68,35 @@ The dashboards and visualizations for the project can be found. [here](https://p
 ![Pizza Orders Tableau Visualization](./pizza_orders_tableau.png)
 
 ## Answered Questions
+- What are the top 5 most purchased pizzas?
+    1. The Thai Chicken Pizza
+    2. The Barbecue Chicken Pizza
+    3. The California Chicken Pizza
+    4. The Classic Deluxe Pizza
+    5. The Spicy Italian Pizza
+
+- What is the least purchased pizza?
+    1. The Brie Carrie Pizza
+
+- What is the most purchased pizza by category?
+    1. S(Small) - Classic
+    2. M(Medium) - Supreme
+    3. L(Large) - Veggie
+    4. XL(Extra-Large) - Classic
+    5. XXL(Extra-Extra-Large) - Classic
+
+- What is the purchased category by size?
+    1. S - The Big Meat Pizza
+    2. M - The Classic Deluxe Pizza
+    3. L - The Thai Chicken Pizza
+    4. XL - The Greek Pizza
+    5. XXL - The Greek Pizza
+
+- What month has the most pizza sales?
+    1. **July** with **$72,558** total sales from **4392** pizzas sold.
+
+- What month has the least pizza sales?
+    1. **October** with **$64,028** total sales from **3883** pizzas sold.
+
+- What is the peak order time and the associated sales?
+    1. 12:00:00 to 12:59:59 with $111,878 total sales.

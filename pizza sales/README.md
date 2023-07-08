@@ -3,6 +3,7 @@
 * [Exploratory Data Analysis](#eda)
 * [Questions](#questions)
 * [Relational Database](#relational-database)
+* [Data Visualization](#data-visualization)
 
 ## Datasets
 The project utilised just one dataset further split for normalization purposes.
@@ -18,6 +19,9 @@ The dataset was downloaded from Kaggle. The link to that dataset can be found [h
 - Import libraries and datasets.
 - Check for missing or null values.
 - Check datatypes for each attribute.
+- Find the count of unique values per attribute.
+
+## QUESTIONS
 - 
 
 ## Relational Database 
@@ -46,3 +50,13 @@ ON o.pizza_id = p.pizza_num
 LEFT JOIN categories c
 ON o.category_id = c.cat_id
 ```
+
+The database was modeled in PgAdmin using PostgreSQL with the aid of the table schema above.
+
+## Data Visualization
+Tableau public was used to create multiple visualizations to answer the questions asked prior to starting the project.
+The dashboard and visualizations for the project can be found. [here](https://public.tableau.com/views/pizza_sales_16874426221130/TotalSales?:language=en-GB&:display_count=n&:origin=viz_share_link)
+
+![Pizza Sales Tableau Visualization](./pizza_sales_tableau.png)
+
+## Answered Questions

@@ -55,8 +55,9 @@ The database was modeled in PgAdmin using PostgreSQL with the aid of the table s
 
 ## Data Visualization
 Tableau public was used to create multiple visualizations to answer the questions asked prior to starting the project.
-The dashboard and visualizations for the project can be found. [here](https://public.tableau.com/views/pizza_sales_16874426221130/TotalSales?:language=en-GB&:display_count=n&:origin=viz_share_link)
+The dashboards and visualizations for the project can be found. [here](https://public.tableau.com/views/pizza_sales_16874426221130/TotalSales?:language=en-GB&:display_count=n&:origin=viz_share_link)
 
 ![Pizza Sales Tableau Visualization](./pizza_sales_tableau.png)
+![Pizza Orders Tableau Visualization](./pizza_orders_tableau.png)
 
 ## Answered Questions

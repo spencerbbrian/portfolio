@@ -1,7 +1,7 @@
-,education_field_id,education_field_name
-0,EF10,Human Resource
-1,EF11,Technical Degree
-2,EF12,Life Sciences
-3,EF13,Medical
-4,EF14,Marketing
-5,EF15,Other
+education_field_id,education_field_name
+EF10,Human Resource
+EF11,Technical Degree
+EF12,Life Sciences
+EF13,Medical
+EF14,Marketing
+EF15,Other

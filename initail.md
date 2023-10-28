@@ -1,7 +1,7 @@
 <p align="center"> <img src="https://komarev.com/ghpvc/?username=spencerbbrian&label=Profile%20views&color=brightgreen&style=plastic" alt="S" /> </p>
 
 
-<h3 align="left">Experienced data analyst with a unsatiable interest for aviation and city planning.</h3>
+<h3 align="left">Experienced data analyst with an interest for aviation and city planning.</h3>
 
 - 🔭 Currently searching for data analyst roles 😋
 - 🌱 Currently learning skills for analytics engineering 

@@ -4,14 +4,14 @@ These are small-scale projects that I have worked on as part of my portfolio. Po
 #### -- Current Project: Documentation and setting up my website.
 #### -- Status: 5% complete.
 
-### Methods Used
+## Methods Used
 Varying methods are required for different projects. Hence, every project will have its personal ReadMes to address the methods used.
 
-### Technologies Used
+## Technologies Used
 * Python
 * Postgres
 * Jupyter 
-These may be consistent through most projects, however the different technologies for every project can be found in its README.
+* These may be consistent through most projects, however the different technologies for every project can be found in its README.
 
 ## Getting Started
 To reproduce any project,

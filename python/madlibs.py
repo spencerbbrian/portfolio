@@ -1,4 +1,4 @@
-with open("story.txt", "r") as f:
+with open(r"C:\Users\brian\Desktop\portfolio\portfolio\python\story.txt", "r") as f:
     story = f.read()
 
 words = []

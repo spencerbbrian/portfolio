@@ -12,8 +12,9 @@ These descriptions are genuinely to help me code faster and work faster after de
 - Last Name
 - Gender (Uses the top 4 genders by numbers in the world: Male, Female, Transgender, Non-Binary)
 - Age (Between 16 and 35 to allow for postgraduates and masters.)
-- Department (72 departments grouped into <'insert number of colleges'>)
+- Department (64 departments grouped into 4 colleges)
 - Email (Uniquely generated email for every student. Eg: bai.spen@golheights.com)
+- College
 - Country (Start dataset has only 123 countries listed.)
 - Enrollment year(2020- 2024 only for this first try)
 - Student id (uniquely generated student id based on department,enrollmentyear, and a random)

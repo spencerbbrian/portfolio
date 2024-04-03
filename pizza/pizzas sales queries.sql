@@ -1,7 +1,8 @@
 -- Total Revenue
 SELECT 
-SUM(total_price) AS Total_Revenue 
+SUM(total_price) AS Total_Revenue
 FROM pizza_sales
+
 
 -- Average order sale
 SELECT 
@@ -27,21 +28,23 @@ AS Average_Pizzas_Per_Order
 FROM pizza_sales
 
 --Hourly Trend For Pizzas Sold
-SELECT 
+SELECT TOP 5
 DATEPART(HOUR,order_time) AS order_hour,
 SUM(quantity) AS total_pizzas_sold
 FROM pizza_sales
 GROUP BY DATEPART(HOUR,order_time)
-ORDER BY DATEPART(HOUR,order_time)
+ORDER BY SUM(quantity) DESC
+--ORDER BY DATEPART(HOUR,order_time)
 
 -- Weekly Trend For Total Orders
-SELECT 
+SELECT TOP 5
 DATEPART(ISOWW,order_date) AS week_number,
 YEAR(order_date) AS years,
 COUNT(DISTINCT order_id) AS total_orders
 FROM pizza_sales
 GROUP BY DATEPART(ISOWW,order_date), YEAR(order_date)
-ORDER BY DATEPART(ISOWW,order_date), YEAR(order_date)
+ORDER BY COUNT(DISTINCT order_id) DESC
+--ORDER BY DATEPART(ISOWW,order_date), YEAR(order_date)
 
 --Percentage of Sales By Pizza Category
 SELECT 
@@ -61,10 +64,33 @@ FROM pizza_sales
 GROUP BY pizza_size
 ORDER BY PCT
 
--- Top 5 pizzas by sales
+-- Top 5 pizzas by sales by month
 SELECT TOP 5 pizza_name,
 SUM(quantity) AS total_pizzas_sold
 FROM pizza_sales
 WHERE MONTH(order_date) = 8
 GROUP BY pizza_name
 ORDER BY SUM(quantity) DESC
+
+-- Order Pizza Category By Pizza Sales
+SELECT 
+pizza_category,
+COUNT(DISTINCT order_id) as pizza_sales
+FROM pizza_sales
+GROUP BY pizza_category
+
+--Top Selling Pizza By Revenue
+SELECT TOP 1
+pizza_name,
+SUM(total_price) AS total_revenue
+FROM pizza_sales
+GROUP BY pizza_name
+ORDER BY SUM(total_price) DESC
+
+--Worst Selling Pizza By Revenue
+SELECT TOP 1
+pizza_name,
+SUM(total_price) AS total_revenue
+FROM pizza_sales
+GROUP BY pizza_name
+ORDER BY SUM(total_price)

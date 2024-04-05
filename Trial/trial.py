@@ -1,10 +1,14 @@
-from flask import Flask
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-@app.route("/potato")
+@app.route("/",methods=["GET","POST"])
 def welcome():
-    return "This is my first Flask app. Yay!"
-
+    name = ""
+    food = ""
+    if request.method == "POST" and "username" in request.form:
+        name = request.form.get('username')
+        food = request.form.get('userfood')
+    return render_template("index.html", name=name, food=food)
 
 app.run()

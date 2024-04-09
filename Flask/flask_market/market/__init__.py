@@ -6,7 +6,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market.db'
 app.config["SQLALCHEMY_TRACK_MODIFICATION"] = "False"
 db = SQLAlchemy(app)
 
-with app.app_context():
-        db.create_all()
+# with app.app_context():
+#         db.create_all()
 
 from market import routes

@@ -1,5 +1,5 @@
 from market import app, db
-from market.models import Item
+from market.models import Item,User
 from flask import render_template,request,redirect
 
 @app.route('/')

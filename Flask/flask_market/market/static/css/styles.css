@@ -1,4 +1,14 @@
 body {
     background-color: #212121;
     color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.form-register {
+    color: white;
+}
+
+.register-h3 {
+    text-align: center;
+    color: beige;
 }

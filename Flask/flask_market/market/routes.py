@@ -1,6 +1,6 @@
 from market import app, db
 from market.models import Item,User
-from flask import render_template,request,redirect, url_for
+from flask import render_template,request,redirect, url_for, flash
 from market.forms import RegisterForm
 
 @app.route('/')
@@ -44,7 +44,7 @@ def register_page():
         db.session.add(user_to_create)
         db.session.commit()
         return redirect(url_for('market_page'))
-    if form.errors != {}: #If there are no errors from the validations in the model
+    if form.errors != {}: #If there are errors from the validations in the model
         for err_msg in form.errors.values():
-            print(f'There was an error with creating a user: {err_msg}')
+            flash(f'There was an error with creating a user: {err_msg}')
     return render_template('register.html', form=form)

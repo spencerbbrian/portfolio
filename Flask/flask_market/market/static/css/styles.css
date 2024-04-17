@@ -4,11 +4,16 @@ body {
     font-family: 'Times New Roman', Times, serif;
 }
 
-.form-register {
+.form-register,
+.form-signin{
     color: white;
 }
 
 .register-h3 {
     text-align: center;
     color: beige;
+}
+
+.text-center {
+    text-align: center;
 }

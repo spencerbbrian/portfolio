@@ -2,7 +2,7 @@
 These are small-scale projects that I have worked on as part of my portfolio. Portfolio projects on my [wesbite](https://sites.google.com/view/spencerbbrian/about) are taken from here and expanded. 
 
 #### -- Current Project: Documentation and setting up my website.
-#### -- Status: 5% complete.
+#### -- Status: 55% complete.
 
 ## Methods Used
 Varying methods are required for different projects. Hence, every project will have its personal ReadMes to address the methods used.

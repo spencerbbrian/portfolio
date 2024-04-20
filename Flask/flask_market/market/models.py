@@ -49,5 +49,5 @@ class Item(db.Model):
     
     def buy(self, user):
         self.owner = user.id
-        user.bidget -= self.price
+        user.budget -= self.price
         db.session.commit()

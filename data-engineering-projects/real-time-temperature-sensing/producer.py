@@ -2,7 +2,6 @@ from confluent_kafka import Producer
 import time
 import json
 import random
-import configparser
 
 def read_config():
   # reads the client configuration from client.properties

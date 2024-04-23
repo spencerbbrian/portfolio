@@ -21,8 +21,6 @@ config["auto.offset.reset"] = "earliest"
 consumer = Consumer(config)
 consumer.subscribe([topic])
 
-# sets the consumer group ID and offset  
-
 
 try:
   while True:

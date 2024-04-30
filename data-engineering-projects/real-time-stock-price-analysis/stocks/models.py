@@ -8,9 +8,20 @@ class Stock(db.Model):
     stock = db.Column(db.String(length=30), nullable=False)
     price = db.Column(db.Float(), nullable=False)
     volume = db.Column(db.Integer(), nullable=False)
-    timestamp = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow())
+    week = db.Column(db.Integer(), nullable = False, default = 1)
     high = db.Column(db.Float(), nullable=True)
     low = db.Column(db.Float(), nullable=True)
+
+    def update_week(self):
+        # Retrieve the last recorded week number for this stock
+        last_week_stock = Stock.query.filter_by(stock=self.stock).order_by(Stock.week.desc()).first()
+        if last_week_stock:
+            last_week = last_week_stock.week
+        else:
+            last_week = 0
+        
+        # Increment the week number for this stock
+        self.week = last_week + 1
 
     def __init__(self,stock,price,volume):
         self.stock = stock
@@ -52,6 +63,8 @@ stocks = [
     Stock("WMT", 140.0, 18000)  # Walmart Inc. - Initial price $140, initial volume 18000
 ]
 
-# with db.session.begin():
-#     for stock_data in stocks:
-#         db.session.add(stock_data)
+# for stock in stocks:
+#     existing_stock = Stock.query.filter_by(stock=stock.stock).first()
+#     if not existing_stock:
+#         db.session.add(stock)
+#         db.session.commit()

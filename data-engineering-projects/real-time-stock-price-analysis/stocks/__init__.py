@@ -8,8 +8,8 @@ app.config['SECRET_KEY'] = '76ce885ef548f08bec2696bd' #os.urandom(12).hex
 
 db = SQLAlchemy(app)
 
-from stocks import routes
-
 # with app.app_context():
 #     from .models import Stock
 #     db.create_all()
+
+from stocks import routes

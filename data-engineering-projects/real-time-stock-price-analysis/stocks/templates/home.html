@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+Stocks Market
+{% endblock %}
+
+{% block content %}
+<h2 class="text-white">Stocks Market</h2>
+<div class="container">
+    <br>
+    <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Stock</th>
+            <th scope="col">Price</th>
+            <th scope="col">Volume</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for stock_item in stock_items %}
+            <tr>
+                <td>{{stock_item.stock}}</td>
+                <td>{{stock_item.price}}</td>
+                <td>{{stock_item.volume}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endblock %}

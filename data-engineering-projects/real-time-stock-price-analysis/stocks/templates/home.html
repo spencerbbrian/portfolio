@@ -18,15 +18,18 @@ Stocks Market
         <tbody class="table-group-divider">
             {% for stock_item in stock_items %}
             {% include 'includes/info_modal.html' %}
+            {% include 'includes/simulate_week_modal.html' %}
             <tr>
                 <td>{{stock_item.stock}}</td>
                 <td>{{stock_item.price}}</td>
                 <td>{{stock_item.volume}}</td>
                 <td>
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal">
                     Info
                   </button>
-                  <button class="btn btn-outline btn-success">Simulate Week</button>
+                  <button type="button" class="btn btn-outline btn-success" data-bs-toggle="modal" data-bs-target="#simulateModal">
+                    Hey
+                  </button>
                 </td>
             </tr>
             {% endfor %}

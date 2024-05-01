@@ -1,8 +1,53 @@
 {% extends 'base.html' %}
 {% block title %}
-Simulate Week
+Simulate Page
 {% endblock %}
 
 {% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h2 class="mb-0">Stock Simulation</h2>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <ul class="mb-0">
+                                    {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <form method="post">
+                        <button type="submit" class="btn btn-primary">Simulate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var flashMessage = document.querySelector('.alert');
+        if (flashMessage) {
+            setTimeout(function () {
+                flashMessage.remove(); // Remove after 5 seconds
+            }, 5000);
+        }
+    });
+</script>
 {% endblock %}

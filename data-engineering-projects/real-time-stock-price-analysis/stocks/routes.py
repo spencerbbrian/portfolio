@@ -10,6 +10,8 @@ def home_page():
     if request.method == 'POST':
         week_number = request.form.get('week_number')
         stock_items = Stock.query.filter_by(week=week_number).all()
+        if not stock_items:
+            return render_template('no_stock_prices.html', week_number=week_number)
     else:
         latest_market_week = db.session.query(db.func.max(Stock.week)).scalar()
         stock_items = Stock.query.filter_by(week=latest_market_week).all()

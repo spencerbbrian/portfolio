@@ -1,3 +1,18 @@
+-- Categories Orders Rank
+with ranked_categories as(
+select
+c."Category Name",
+c."Orders",
+rank() over (order by "Orders" DESC) as rank_orders_desc,
+rank() over (order by "Orders" ASC) as rank_orders_asc
+from 
+categories c 
+)
+select
+"Category Name", "Orders"
+from ranked_categories
+where rank_orders_desc = 1 or rank_orders_asc = 1;
+
 -- Find the category with the highest and lowest orders in every volume category
 with cat_group as (
 select 

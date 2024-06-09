@@ -1,0 +1,81 @@
+import apache_beam as beam
+import argparse
+
+def startsWith(line, term):
+   if line.startswith(term):
+      yield line
+
+def splitPackageName(packageName):
+   """e.g. given com.example.appname.library.widgetname
+           returns com
+                   com.example
+                   com.example.appname
+      etc.
+   """
+   result = []
+   end = packageName.find('.')
+   while end > 0:
+      result.append(packageName[0:end])
+      end = packageName.find('.', end+1)
+   result.append(packageName)
+   return result
+
+def getPackages(line, keyword):
+   start = line.find(keyword) + len(keyword)
+   end = line.find(';', start)
+
+def packageUse(line, keyword):
+   packages = getPackages(line, keyword)
+   for p in packages:
+      yield (p, 1)
+
+if __name__ == '__main__':
+   parser = argparse.ArgumentParser(description='Find the most used Java packages')
+   parser.add_argument('--output_prefix', default='/tmp/output', help='Output prefix>
+   parser.add_argument('--input', default='../javahelp/src/main/java/com/google/clou>
+
+   options, pipeline_args = parser.parse_known_args()
+   p = beam.Pipeline(argv=pipeline_args)
+
+   input = '{0}*.java'.format(options.input)
+   output_prefix = options.output_prefix
+   keyword = 'import'
+
+   # find most used packages
+   (p
+      | 'GetJava' >> beam.io.ReadFromText(input)
+      | 'GetImports' >> beam.FlatMap(lambda line: startsWith(line, keyword))
+      | 'PackageUse' >> beam.FlatMap(lambda line: packageUse(line, keyword))
+      | 'TotalUse' >> beam.CombinePerKey(sum)
+      | 'Top_5' >> beam.transforms.combiners.Top.Of(5, key=lambda kv: kv[1])
+      | 'write' >> beam.io.WriteToText(output_prefix)
+   )
+
+   p.run().wait_until_finish()
+
+
+Explanation:
+This Python script utilizes Apache Beam to find the most used Java packages in a set of Java source files. Let's break down the main components and what they do:
+
+1. **Importing Libraries**:
+   - The script imports necessary libraries such as `apache_beam` for using Apache Beam and `argparse` for parsing command-line arguments.
+
+2. **Utility Functions**:
+   - `startsWith(line, term)`: This function checks if a line starts with a given term and yields the line if it does.
+   - `splitPackageName(packageName)`: This function splits a Java package name into its constituent parts.
+   - `getPackages(line, keyword)`: This function extracts package names from a line of code where the keyword (usually 'import') is found.
+
+3. **Main Logic**:
+   - Inside the `if __name__ == '__main__':` block, the script defines command-line arguments using `argparse`.
+   - It creates a Beam pipeline (`p`) with the specified pipeline arguments.
+   - The input source files are read using `beam.io.ReadFromText`.
+   - The lines starting with the 'import' keyword are filtered using `beam.FlatMap`.
+   - Package names are extracted from these lines using another `beam.FlatMap`.
+   - The usage count for each package is calculated using `beam.CombinePerKey(sum)`.
+   - The top 5 most used packages are obtained using `beam.transforms.combiners.Top.Of`.
+   - Finally, the results are written to text files using `beam.io.WriteToText`.
+
+4. **Pipeline Execution**:
+   - The pipeline is executed with `p.run().wait_until_finish()`.
+
+This script essentially processes Java source files, extracts import statements, counts the occurrences of each imported package, and outputs the top 5 most used packages along with their counts.

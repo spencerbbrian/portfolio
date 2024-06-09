@@ -7,7 +7,7 @@ right join orders o
 on c."Order Id" = o."Order Id" 
 group by c."Customer Segment"  
 
---Late Deliveries vs Customer Segment
+--Late Deliveries per Customer Segment
 select
 count(o."Order Id") as "total orders",
 COUNT(CASE WHEN s."Late_delivery_risk" = 1 THEN s."Late_delivery_risk" END) AS count_ldr_1,
@@ -20,7 +20,7 @@ right join orders o
 on c."Order Id"  = o."Order Id" 
 group by c."Customer Segment" 
 
---Late Deliveries vs Customer Segment vs Customer Location
+--Late Deliveries per Customer Segment and Customer Location
 select
 o."Market",
 c."Customer Segment",

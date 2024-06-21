@@ -23,16 +23,26 @@
                 <input
                 id="degree-0" name="degree" required type="radio" value="important">
                 Important
-                <label for="Important"></label>
+                <label for="important"></label>
             </p>
             <p>
                 <input
                 id="degree-1" name="degree" required type="radio" value="unimportant">
                 Unimportant
-                <label for="Unimportant"></label>
+                <label for="unimportant"></label>
             </p>
             <button type="submit">submit</button>
         </form>
+        <!-- Fetching a todo document -->
+        {% for todo in todos %}
+        <div class="todo">
+            <p> {{ todo['content'] }} <i>{{ todo['degree'] }}</i></p>
+             <!-- Delete a todo document from the collection -->
+            <form method="POST" action="{{ url_for('delete', id=todo['_id'])}}">
+                <input type="submit" value="delete todo" onclick="return confirm('Are you sure you want to delete this entry?')">
+            </form>
+        </div>
+        {% endfor %}
     </div>
 </body>
 </html>

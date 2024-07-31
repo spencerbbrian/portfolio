@@ -1,0 +1,17 @@
+{% extends 'gh-base.html' %}
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-signin">
+            {{ form.hidden_tag() }}
+            <h1>
+                Please Login
+            </h1>
+        </form>
+    </div>
+</body>
+{% endblock %}

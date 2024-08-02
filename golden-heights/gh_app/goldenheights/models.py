@@ -1,5 +1,9 @@
-from goldenheights import db, bcrypt
+from goldenheights import db, bcrypt,login_manager
 from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(),primary_key=True)
@@ -21,3 +25,6 @@ class User(db.Model, UserMixin):
     def check_password_correction(self,attempted_password):
         if bcrypt.check_password_hash(self.password_hash,attempted_password):
             return True
+    
+    def check_student_id(self,student_id):
+        return self.student_id == student_id

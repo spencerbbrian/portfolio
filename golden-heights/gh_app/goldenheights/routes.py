@@ -33,11 +33,12 @@ def login_page():
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(username=form.username.data).first() 
         if attempted_user and attempted_user.check_password_correction(
-            attempted_password=form.password.data):
+            attempted_password=form.password.data) and attempted_user.check_student_id(    
+            student_id=form.student_id.data):
             login_user(attempted_user)
             flash(f"Welcome! You are logged in as: {attempted_user.username}", category='success')
-            return redirect(url_for('market_page'))
+            return redirect(url_for('home_page'))
         else:
             flash("Username or password is incorrect! Please try again", category='danger')
 
-    return render_template('login.html',form=form)
+    return render_template('gh-login.html',form=form)

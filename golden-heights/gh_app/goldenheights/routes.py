@@ -2,7 +2,7 @@ from goldenheights import app, db
 from goldenheights.models import User
 from flask import render_template, request, redirect,url_for,flash
 from goldenheights.forms import RegisterForm, LoginForm
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 @app.route('/home')
@@ -22,10 +22,16 @@ def register_page():
         db.session.add(user_to_create)
         db.session.commit()
         return redirect(url_for('home_page'))
-    # if form.errors != {}: #If there are errors from the validations in the model
-    #     for err_msg in form.errors.values():
-    #         flash(f'{err_msg}', category='danger')
+    if form.errors != {}: #If there are errors from the validations in the model
+        for err_msg in form.errors.values():
+            flash(f'{err_msg}', category='danger')
     return render_template('gh-register.html', form=form)
+
+@app.route('/courses',methods=["GET","POST"])
+@login_required
+def courses_page():
+    if current_user:
+        flash(f"Welcome",category='success')
 
 @app.route('/login', methods=['GET','POST'])
 def login_page():
@@ -36,9 +42,17 @@ def login_page():
             attempted_password=form.password.data) and attempted_user.check_student_id(    
             student_id=form.student_id.data):
             login_user(attempted_user)
+            print('You are logged in!')
             flash(f"Welcome! You are logged in as: {attempted_user.username}", category='success')
             return redirect(url_for('home_page'))
         else:
             flash("Username or password is incorrect! Please try again", category='danger')
 
     return render_template('gh-login.html',form=form)
+
+@app.route('/logout')
+def logout_page():
+    logout_user()
+    print('You have been logged out!')
+    flash("You have been logged out!", category='info')
+    return redirect(url_for('home_page'))

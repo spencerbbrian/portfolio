@@ -32,6 +32,7 @@ def register_page():
 def courses_page():
     if current_user:
         flash(f"Welcome",category='success')
+    return render_template('gh-courses.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login_page():

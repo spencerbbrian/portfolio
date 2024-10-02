@@ -1,30 +1,20 @@
-from goldenheights import db, bcrypt,login_manager
 from flask_login import UserMixin
+from goldenheights import students
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+class User(UserMixin):
+    def __init__(self, student_id, email):
+        self.student_id = student_id
+        self.email = email
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer(),primary_key=True)
-    username = db.Column(db.String(length=30),nullable=False,unique=True)
-    student_id = db.Column(db.String(length=30),nullable=False,unique=True)
-    email_address = db.Column(db.String(length=50),nullable=False,unique=True)
-    password_hash = db.Column(db.String(length=60),nullable=False)
-    first_name = db.Column(db.String(length=20),nullable=False)
-    last_name = db.Column(db.String(length=20),nullable=False)
-
-    @property
-    def password(self):
-        return self.password
-    
-    @password.setter
-    def password(self, plain_text_password):
-        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
-
-    def check_password_correction(self,attempted_password):
-        if bcrypt.check_password_hash(self.password_hash,attempted_password):
-            return True
-    
-    def check_student_id(self,student_id):
-        return self.student_id == student_id
+    @classmethod
+    def find_by_student_id(cls, student_id):
+        user_data = students.find_one({"student_id": student_id})
+        if user_data:
+            return cls(
+                student_id=user_data['student_id'],
+                email=user_data['email']
+            )
+        return None
+        
+    def get_id(self):
+        return self.student_id

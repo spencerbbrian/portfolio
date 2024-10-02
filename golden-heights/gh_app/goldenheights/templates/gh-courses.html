@@ -4,21 +4,17 @@ Courses
 {% endblock %}
 
 {% block content %}
-<h1> Create New Course </h1>
-<div class="course_create">
-    <form method="POST">
-        <p>
-            <b><label for="course"> Course</label></b>
-        </p>
-        <p>
-            <select name="category" id="category">
-                <option value="" disabled selected>Select a category</option>
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-                <option value="shopping">Shopping</option>
-                <option value="other">Other</option>
-            </select>
-        </p>
-    </form>
-</div>
+<h2>Courses</h2>
+<ul>
+    {% for course in courses %}
+    <li>{{ course }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Electives</h2>
+<ul>
+    {% for elective in electives %}
+    <li>{{ elective }}</li>
+    {% endfor %}
+</ul>
 {% endblock %}

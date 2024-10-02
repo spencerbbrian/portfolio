@@ -1,59 +1,92 @@
-from goldenheights import app, db
-from goldenheights.models import User
-from flask import render_template, request, redirect,url_for,flash
-from goldenheights.forms import RegisterForm, LoginForm
+from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
+from goldenheights import app, students
+from goldenheights.models import User  # Ensure your User model is defined correctly
+from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
+
+
 
 @app.route('/')
 @app.route('/home')
 def home_page():
     return render_template('gh-home.html')
 
-@app.route('/register',methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_to_create = User(username=form.username.data,
-                              email_address=form.email_address.data,
-                              student_id=form.student_id.data,
-                              password=form.password1.data,
-                              first_name=form.first_name.data,
-                              last_name=form.last_name.data)
-        db.session.add(user_to_create)
-        db.session.commit()
-        return redirect(url_for('home_page'))
-    if form.errors != {}: #If there are errors from the validations in the model
-        for err_msg in form.errors.values():
-            flash(f'{err_msg}', category='danger')
-    return render_template('gh-register.html', form=form)
+        # Query the database for a student with the provided student_id and email_address
+        existing_student = students.find_one({
+            'student_id': form.student_id.data,
+            'email': form.email_address.data
+        })
 
-@app.route('/courses',methods=["GET","POST"])
-@login_required
-def courses_page():
-    if current_user:
-        flash(f"Welcome",category='success')
-    return render_template('gh-courses.html')
-
-@app.route('/login', methods=['GET','POST'])
-def login_page():
-    form = LoginForm()
-    if form.validate_on_submit():
-        attempted_user = User.query.filter_by(username=form.username.data).first() 
-        if attempted_user and attempted_user.check_password_correction(
-            attempted_password=form.password.data) and attempted_user.check_student_id(    
-            student_id=form.student_id.data):
-            login_user(attempted_user)
-            print('You are logged in!')
-            flash(f"Welcome! You are logged in as: {attempted_user.username}", category='success')
+        # If a matching student is found, log them in
+        if existing_student:
+            user_to_login = User(
+                student_id=existing_student['student_id'],
+                email=existing_student['email']
+            )
+            login_user(user_to_login)  # Log in the user
+            flash('Login successful!', category='success')
             return redirect(url_for('home_page'))
         else:
-            flash("Username or password is incorrect! Please try again", category='danger')
+            flash('Student ID or email address is incorrect. Please try again.', category='danger')
 
-    return render_template('gh-login.html',form=form)
+    # If there are validation errors, display them
+    if form.errors:
+        for err_msg in form.errors.values():
+            flash(f'{err_msg}', category='danger')
+
+    return render_template('gh-register.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        # Strip input to avoid leading/trailing spaces and ensure case-insensitivity
+        student_id = form.student_id.data
+        email = form.email_address.data  
+        print(f"Login attempt for student_id: {student_id}, email: {email}")
+        # Query the database
+        user_data = students.find_one({
+            'student_id': student_id,
+            'email': email
+        })
+
+        if user_data:
+            print(f"User found: {user_data}")
+            # Create User object and log in
+            user_to_login = User(
+                student_id=user_data['student_id'],
+                email=user_data['email'],
+            )
+            login_user(user_to_login)
+            flash('Login successful!', category='success')
+            return redirect(url_for('home_page'))
+        else:
+            print(f"User not found for student_id: {student_id} and email: {email}")
+            flash('Student ID or email address is incorrect. Please try again.', category='danger')
+
+    return render_template('gh-login.html', form=form)
 
 @app.route('/logout')
+@login_required  # Ensure the user is logged in to access this route
 def logout_page():
-    logout_user()
-    print('You have been logged out!')
-    flash("You have been logged out!", category='info')
+    logout_user()  # Log out the current user
+    flash('You have been logged out.', category='info')
     return redirect(url_for('home_page'))
+
+@app.route('/courses', methods=['GET'])
+@login_required
+def courses_page():
+    student_id = current_user.student_id
+    user_data = students.find_one({"student_id": student_id})
+
+    if user_data:
+        courses = user_data.get("graded_course", [])
+        electives = user_data.get("graded_electives", [])
+        return render_template("gh-courses.html", courses=courses, electives=electives)
+    else:
+        return "No user found", 404

@@ -34,16 +34,13 @@
         {% if current_user.is_authenticated %} <!--from flask login in routes-->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('home_page')}}">Home</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" style="color: lawngreen; font-weight:bold">
               <i class="fa-solid fa-coins"></i>
               {{ current_user.prettier_budget }}
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">{{ current_user.email }}</a>
+            <a class="nav-link"> {{ current_user.first_name }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('logout_page')}}">Logout</a>

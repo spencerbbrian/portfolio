@@ -4,5 +4,51 @@ Golden Heights
 {% endblock %}
 
 {% block content %}
-HELLO
+<body class="homebody">
+    <div class="homepage-container">
+        <header class="homepage-header">
+            <h1>Welcome to the Golden Heights University</h1>
+            <p>Manage student information, enrolled courses, and grades easily.</p>
+        </header>
+
+        <nav class="homepage-navbar">
+            <a href="/courses">Courses Page</a>
+            <a href="/students">Students List</a>
+            <a href="/enroll">Enroll New Student</a>
+            <a href="/catalog">Course Catalog</a>
+            <a href="/add-grades">Add Grades</a>
+        </nav>
+
+        <section class="homepage-dashboard">
+            <h2>System Overview</h2>
+            <div class="homepage-stats">
+                <div class="homepage-stat-box">
+                    <h3>Number of Students</h3>
+                    <p> {{ total_students}} </p>
+                </div>
+                <div class="homepage-stat-box">
+                    <h3>Courses Offered</h3>
+                    <p>{{ total_courses }}</p>
+                </div>
+                <div class="homepage-stat-box">
+                    <h3>n</h3>
+                    <p>A: 40%, B: 35%, C: 20%, D: 5%</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="homepage-recent-updates">
+            <h2>Recent Updates</h2>
+            <ul>
+                <li>John Doe was enrolled in "Data Structures" on October 5th, 2024.</li>
+                <li>"Machine Learning" course was added on October 3rd, 2024.</li>
+                <li>Jane Smith's grade for "Algorithms" was updated on October 2nd, 2024.</li>
+            </ul>
+        </section>
+
+        <footer class="homepage-footer">
+            <p>&copy; 2024 Golden Heights</p>
+        </footer>
+    </div>
+</body>
 {% endblock %}

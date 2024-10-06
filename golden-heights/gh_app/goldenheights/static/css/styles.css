@@ -26,3 +26,125 @@ body {
 .text-center {
     text-align: center;
 }
+
+
+ /* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+.homebody {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+} 
+
+.homepage-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.homepage-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.homepage-header h1 {
+    font-size: 36px;
+    color: #2c3e50;
+}
+
+.homepage-header p {
+    font-size: 18px;
+    color: #7f8c8d;
+}
+
+.homepage-navbar {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.homepage-navbar a {
+    text-decoration: none;
+    color: white;
+    background-color: #3498db;
+    padding: 10px 15px;
+    margin: 5px;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.homepage-navbar a:hover {
+    background-color: #2980b9;
+}
+
+.homepage-dashboard {
+    margin-bottom: 40px;
+}
+
+.homepage-dashboard h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.homepage-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.homepage-stat-box {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 30%;
+    text-align: center;
+}
+
+.homepage-stat-box h3 {
+    font-size: 18px;
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+.homepage-stat-box p {
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+.homepage-recent-updates {
+    margin-bottom: 40px;
+}
+
+.homepage-recent-updates h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.homepage-recent-updates ul {
+    list-style-type: none;
+}
+
+.homepage-recent-updates ul li {
+    background-color: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.homepage-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.homepage-footer p {
+    font-size: 14px;
+    color: #7f8c8d;
+}

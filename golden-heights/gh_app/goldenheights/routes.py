@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from goldenheights import app, students
+from goldenheights import app, students, courses, departments
 from goldenheights.models import User  # Ensure your User model is defined correctly
 from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
 
@@ -9,7 +9,10 @@ from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
 @app.route('/')
 @app.route('/home')
 def home_page():
-    return render_template('gh-home.html')
+    total_courses = departments.count_documents({})
+    total_students = students.count_documents({})
+    return render_template('gh-home.html', total_courses=total_courses,
+                           total_students=total_students)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
@@ -25,7 +28,8 @@ def register_page():
         if existing_student:
             user_to_login = User(
                 student_id=existing_student['student_id'],
-                email=existing_student['email']
+                email=existing_student['email'],
+                first_name=existing_student['first_name']
             )
             login_user(user_to_login)  # Log in the user
             flash('Login successful!', category='success')
@@ -61,8 +65,11 @@ def login_page():
             user_to_login = User(
                 student_id=user_data['student_id'],
                 email=user_data['email'],
+                first_name=user_data['first_name']
             )
             login_user(user_to_login)
+            print(current_user.first_name)
+            print(user_to_login.first_name)
             flash('Login successful!', category='success')
             return redirect(url_for('home_page'))
         else:

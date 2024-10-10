@@ -27,33 +27,14 @@ departments = db.department
 awards = db.awards
 accounts = db.accounts
 housing = db.housing
+transcripts = db.transcript
 
 # Set up Flask-Login
 login_manager = LoginManager(app)
-login_manager.login_view = "login_page"  # Ensure this points to your actual login view
+login_manager.login_view = "login_page"  
 login_manager.login_message_category = 'info'
 
-# User class for Flask-Login
-class User(UserMixin):
-    def __init__(self, student_id, email,first_name):
-        self.student_id = student_id
-        self.email = email
-        self.first_name = first_name
-
-    @classmethod
-    def find_by_student_id(cls, student_id):
-        user_data = students.find_one({"student_id": student_id})  # Use the 'students' collection
-        if user_data:
-            return cls(
-                student_id=user_data['student_id'],
-                email=user_data['email'],
-                first_name = user_data['first_name']
-            )
-        return None  # Return None if user not found
-    
-    def get_id(self):
-        return  self.student_id
-
+from goldenheights.models import User
 
 # User loader for Flask-Login
 @login_manager.user_loader

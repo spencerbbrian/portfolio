@@ -4,17 +4,59 @@ Courses
 {% endblock %}
 
 {% block content %}
-<h2>Courses</h2>
-<ul>
-    {% for course in courses %}
-    <li>{{ course }}</li>
-    {% endfor %}
-</ul>
-
-<h2>Electives</h2>
-<ul>
-    {% for elective in electives %}
-    <li>{{ elective }}</li>
-    {% endfor %}
-</ul>
+<h3>Program Courses</h3>
+<style>
+    .table-condensed {
+        margin-bottom: 0; /* Remove default margin */
+    }
+    .table-condensed tbody tr {
+        margin: 0; /* Remove any margin */
+        padding: 0; /* Reduce padding */
+    }
+    .table-condensed tbody td {
+        padding: 0.2rem; /* Adjust padding for table cells */
+    }
+</style>
+<table class="table table-borderless">
+    <thead>
+      <tr>
+        <th scope="col">Course Id</th>
+        <th scope="col">Course</th>
+        <th scope="col">Grade</th>
+        <th scope="col"> Grade Point</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for score in courses_data %}
+        <tr>
+            <td> {{ score['course_id'] }}</td>
+            <td> {{ score['course_name']}}</td>
+            <td> {{ score['course_grade'] }}</td>
+            <td> {{ score['course_grade_point'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <p></p>
+  <h3>Electives</h3>
+<table class="table table-borderless">
+    <thead>
+      <tr>
+        <th scope="col">Course Id</th>
+        <th scope="col">Course</th>
+        <th scope="col">Grade</th>
+        <th scope="col">Grade Point</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for score in electives_data %}
+        <tr>
+            <td> {{ score['course_id'] }}</td>
+            <td> {{ score['course_name']}}</td>
+            <td> {{ score['course_grade'] }}</td>
+            <td> {{ score['course_grade_point'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

@@ -8,19 +8,19 @@ h1 {
 }
 
 body {
-    background-color: #212121;
-    color: white;
+    background-color: rgb(201, 234, 201);
+    color: rgb(0, 0, 0);
     font-family: 'Times New Roman', Times, serif;
 }
 
 .form-register,
 .form-signin{
-    color: white;
+    color: black;
 }
 
 .register-h3 {
     text-align: center;
-    color: beige;
+    color: black;
 }
 
 .text-center {
@@ -28,16 +28,11 @@ body {
 }
 
 
- /* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-} */
 
 .homebody {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: rgb(201, 234, 201);
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
 } 
 
 .homepage-container {

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from goldenheights import app, students, courses, departments
+from goldenheights import app, students, courses, departments, transcripts
 from goldenheights.models import User  # Ensure your User model is defined correctly
 from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
 
@@ -92,8 +92,42 @@ def courses_page():
     user_data = students.find_one({"student_id": student_id})
 
     if user_data:
-        courses = user_data.get("graded_course", [])
-        electives = user_data.get("graded_electives", [])
-        return render_template("gh-courses.html", courses=courses, electives=electives)
+        graded_courses = user_data.get("graded_course", [])
+        courses_names = []
+        course_grades = []
+        course_grade_points = []
+
+        for course in graded_courses:
+            course_name = courses.find_one({"course_code": course})['title']
+            courses_names.append(course_name)
+            course_grade = transcripts.find_one({"course": course, "student_id":student_id})['grade']
+            course_grades.append(course_grade)
+            course_grade_point =  transcripts.find_one({"course": course, "student_id":student_id})['grade_point']
+            course_grade_points.append(course_grade_point)
+
+        courses_data = [{'course_id': course, 'course_name': course_name, 'course_grade': course_grade, 'course_grade_point': course_grade_point} for 
+                (course, course_name, course_grade, course_grade_point) in 
+                zip(graded_courses, courses_names, course_grades, course_grade_points)]
+
+        graded_electives = user_data.get("graded_electives", [])
+        electives_names = []
+        electives_grades = []
+        electives_grade_points = []
+
+        for course in graded_electives:
+            course_name = courses.find_one({"course_code": course})['title']
+            electives_names.append(course_name)
+            course_grade = transcripts.find_one({"course": course, "student_id":student_id})['grade']
+            electives_grades.append(course_grade)
+            course_grade_point =  transcripts.find_one({"course": course, "student_id":student_id})['grade_point']
+            electives_grade_points.append(course_grade_point)
+
+        electives_data = [{'course_id': course, 'course_name': course_name, 'course_grade': course_grade, 'course_grade_point': course_grade_point} for 
+                (course, course_name, course_grade, course_grade_point) in 
+                zip(graded_electives, electives_names, electives_grades, electives_grade_points)]
+        
+        gpa = students.find_one({'student_id': current_user.student_id})['gpa']
+
+        return render_template("gh-courses.html", courses_data=courses_data, electives_data=electives_data, gpa=gpa)
     else:
         return "No user found", 404

@@ -11,8 +11,19 @@ from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
 def home_page():
     total_courses = departments.count_documents({})
     total_students = students.count_documents({})
+    As = transcripts.count_documents({"grade": {'$in' : ["A", "A-"]}})
+    Bs = transcripts.count_documents({"grade": {'$in' :  ["B+", "B", "B-"]}})
+    Cs = transcripts.count_documents({"grade":  {'$in' : ["C+", "C", "C-"]}})
+    Ds = transcripts.count_documents({"grade": {'$in' : ["D+", "D"]}})
+    Total =  As + Bs + Cs + Ds
+    As1 =  round((As / Total) * 100)
+    Bs1 =  round((Bs / Total) * 100)
+    Cs1 =  round((Cs / Total) * 100)
+    Ds1 =  round((Ds / Total) * 100)
+
     return render_template('gh-home.html', total_courses=total_courses,
-                           total_students=total_students)
+                           total_students=total_students, As1=As1, Bs1=Bs1, Cs1=Cs1,  Ds1=Ds1)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():

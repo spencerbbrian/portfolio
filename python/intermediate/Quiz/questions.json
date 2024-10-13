@@ -1,15 +1,113 @@
 {
     "easy": [
-        {
-            "question":  "What is the capital of France?",
-            "options": ["Paris", "Amsterdam", "Lille", "London"],
-            "answer": "Paris"
-        }
-    ],
+            {
+                "question":  "What is the capital of France?",
+                "options": ["Paris", "Amsterdam", "Lille", "London"],
+                "answer": "Paris"
+            }
+            ],
     "medium": [
-
-    ],
+            {
+                "question":  "What is the largest desert in the world?",
+                "options": ["Sahara", "Gobi", "Mojave", "Atacama"],
+                "answer": "Sahara"
+            },
+            {
+                "question":  "What is the world's largest waterfall, by volume of water?",
+                "options": ["Victoria Falls", "Iguazu Falls", "Niagara Falls", "Angel Falls"],
+                "answer": "Victoria Falls"
+            },
+            {
+                "question":  "What is the longest mountain range in the world?",
+                "options": ["Andes", "Himalayas", "Rocky Mountains", "Appalachian Mountains"],
+                "answer": "Andes"
+            },
+            {
+                "question":  "What is the world's largest island?",
+                "options": ["Greenland", "New Guinea", "Borneo", "Iceland"],
+                "answer": "Greenland"
+            },
+            {
+                "question":  "What is the largest lake in South America?",
+                "options": ["Lake Titicaca", "Lake Maracaibo", "Lake Valencia", "Lake Junin"],
+                "answer": "Lake Titicaca"
+            },
+            {
+                "question":  "What is the world's longest river?",
+                "options": ["Nile", "Amazon", "Yangtze", "Mississippi"],
+                "answer": "Nile"
+            },
+            {
+                "question":  "What is the highest peak in North America?",
+                "options": ["Mount Denali", "Mount Foraker", "Mount Bona", "Mount Blackburn"],
+                "answer": "Mount Denali"
+            },
+            {
+                "question":  "What is the largest coral reef system in the world?",
+                "options": ["Great Barrier Reef", "Red Sea Coral Reef", "New Caledonia Barrier Reef", "Andros Barrier Reef"],
+                "answer": "Great Barrier Reef"
+            },
+            {
+                "question":  "What is the world's largest waterfall, by height?",
+                "options": ["Angel Falls", "Tugela Falls", "Mardalsfossen", "Gocta Cataracts"],
+                "answer": "Angel Falls"
+            },
+            {
+                "question":  "What is the world's largest bay?",
+                "options": ["Bay of Bengal", "Hudson Bay", "James Bay", "Bay of Fundy"],
+                "answer": "Bay of Bengal"
+            }
+            ],
     "hard": [
-        
+            {
+                "question":  "What is the world's largest island in the Mediterranean Sea?",
+                "options": ["Sicily", "Sardinia", "Corsica", "Crete"],
+                "answer": "Sicily"
+                },
+                {
+                "question":  "What is the longest strait in the world?",
+                "options": ["Bosphorus", "Strait of Malacca", "Bering Strait", "Strait of Hormuz"],
+                "answer": "Bering Strait"
+                },
+                {
+                "question":  "What is the world's largest artificial lake?",
+                "options": ["Lake Volta", "Lake Nasser", "Lake Kariba", "Lake Mead"],
+                "answer": "Lake Volta"
+                },
+                {
+                "question":  "What is the world's largest ice cap?",
+                "options": ["Antarctic Ice Sheet", "Greenland Ice Sheet", "Arctic Ice Cap", "Patagonia Ice Cap"],
+                "answer": "Antarctic Ice Sheet"
+                },
+                {
+                "question":  "What is the highest unclimbed peak in the world?",
+                "options": ["Gangkhar Puensum", "Mount Everest", "K2", "Annapurna"],
+                "answer": "Gangkhar Puensum"
+                },
+                {
+                "question":  "What is the world's longest mountain range?",
+                "options": ["Andes", "Himalayas", "Mid-Ocean Ridge", "Rocky Mountains"],
+                "answer": "Mid-Ocean Ridge"
+                },
+                {
+                "question":  "What is the world's largest hot desert?",
+                "options": ["Sahara", "Gobi", "Mojave", "Atacama"],
+                "answer": "Sahara"
+                },
+                {
+                "question":  "What is the world's largest saltwater lake?",
+                "options": ["Caspian Sea", "Lake Superior", "Lake Tanganyika", "Lake Baikal"],
+                "answer": "Caspian Sea"
+                },
+                {
+                "question":  "What is the highest peak in the solar system?",
+                "options": ["Olympus Mons", "Mauna Kea", "Mount Everest", "Denali"],
+                "answer": "Olympus Mons"
+                },
+                {
+                "question":  "What is the world's largest waterfall, by volume of water, located underground?",
+                "options": ["Krubera Cave", "Mammoth Cave", "Lechuguilla Cave", "Timpanogos Cave"],
+                "answer": "Krubera Cave"
+                }
     ]
 }

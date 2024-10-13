@@ -1,0 +1,15 @@
+{
+    "easy": [
+        {
+            "question":  "What is the capital of France?",
+            "options": ["Paris", "Amsterdam", "Lille", "London"],
+            "answer": "Paris"
+        }
+    ],
+    "medium": [
+
+    ],
+    "hard": [
+        
+    ]
+}

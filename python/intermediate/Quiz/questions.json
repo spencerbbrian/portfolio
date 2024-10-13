@@ -4,6 +4,51 @@
                 "question":  "What is the capital of France?",
                 "options": ["Paris", "Amsterdam", "Lille", "London"],
                 "answer": "Paris"
+            },
+            {
+                "question": "What is the capital of Japan?",
+                "options": ["Tokyo", "Seoul", "Beijing", "Hong Kong"],
+                "answer": "Tokyo"
+            },
+            {
+                "question": "What is the largest planet in our solar system?",
+                "options": ["Earth", "Saturn", "Jupiter", "Uranus"],
+                "answer": "Jupiter"
+            },
+            {
+                "question": "What is the world's largest living structure?",
+                "options": ["Great Barrier Reef", "Amazon Rainforest", "Grand Canyon", "Mount Everest"],
+                "answer": "Great Barrier Reef"
+            },
+            {
+                "question": "What is the capital of China?",
+                "options": ["Beijing", "Shanghai", "Guangzhou", "Hong Kong"],
+                "answer": "Beijing"
+            },
+            {
+                "question": "What is the world's largest waterfall, by width?",
+                "options": ["Iguazu Falls", "Victoria Falls", "Niagara Falls", "Angel Falls"],
+                "answer": "Iguazu Falls"
+            },
+            {
+                "question": "What is the capital of Australia?",
+                "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+                "answer": "Canberra"
+            },
+            {
+                "question": "What is the world's largest island in the Arctic Ocean?",
+                "options": ["Greenland", "Ellesmere Island", "Baffin Island", "Svalbard"],
+                "answer": "Greenland"
+            },
+            {
+                "question": "What is the capital of Denmark?",
+                "options": ["Copenhagen", "Stockholm", "Oslo", "Helsinki"],
+                "answer": "Copenhagen"
+            },
+            {
+                "question": "What is the world's largest lake by surface area?",
+                "options": ["Caspian Sea", "Lake Superior", "Lake Tanganyika", "Lake Baikal"],
+                "answer": "Caspian Sea"
             }
             ],
     "medium": [

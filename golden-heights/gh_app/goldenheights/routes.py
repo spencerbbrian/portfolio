@@ -96,6 +96,12 @@ def logout_page():
     flash('You have been logged out.', category='info')
     return redirect(url_for('home_page'))
 
+@app.route('/catalogue', methods=['GET'])
+def catalogue_page():
+    CBAS = [x['department'] for x in departments.find({"college": "CBAS"})]
+    
+    return render_template('gh-catalogue.html', CBAS=CBAS)
+
 @app.route('/courses', methods=['GET'])
 @login_required
 def courses_page():

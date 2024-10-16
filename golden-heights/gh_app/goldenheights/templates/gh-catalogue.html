@@ -4,18 +4,66 @@ Catalogue
 {% endblock %}
 
 {% block content %}
-<div class="card" style="width: 18rem;">
-    <div class="card-header">
-      Basic and Applied Sciences
-    </div>
-    <ul class="list-group list-group-flush">
-        {% for course in CBAS %}
-        <li class="list-group-item">{{course}}
-        {% if course == 'Biology' %}<span class="badge badge-secondary">New</span>
-        {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-  </div>
+<div class="container">
+    <div class="row">
+        <!-- Column 1: Basic and Applied Sciences -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Basic and Applied Sciences
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for course in CBAS %}
+                    <li class="list-group-item">{{ course }}
+                    {% if course == 'Biology' %}<span class="badge badge-secondary">New</span>
+                    {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
 
+        <!-- Column 2: Humanities and Social Sciences -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Humanities and Social Sciences
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for course in CHSS %}
+                    <li class="list-group-item">{{ course }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Column 3: Business and Economics -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Business and Economics
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for course in CBE %}
+                    <li class="list-group-item">{{ course }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Column 4: Health Sciences and Professions -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Health Sciences and Professions
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for course in CHSP %}
+                    <li class="list-group-item">{{ course }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

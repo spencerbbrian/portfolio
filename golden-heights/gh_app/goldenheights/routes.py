@@ -99,8 +99,11 @@ def logout_page():
 @app.route('/catalogue', methods=['GET'])
 def catalogue_page():
     CBAS = [x['department'] for x in departments.find({"college": "CBAS"})]
+    CHSS = [x['department'] for x in departments.find({"college": "CHSS"})]
+    CBE = [x['department'] for x in departments.find({"college": "CBE"})]
+    CHSP = [x['department'] for x in departments.find({"college": "CHSP"})]
     
-    return render_template('gh-catalogue.html', CBAS=CBAS)
+    return render_template('gh-catalogue.html', CBAS=CBAS,CHSS=CHSS,CHSP=CHSP,CBE=CBE)
 
 @app.route('/courses', methods=['GET'])
 @login_required

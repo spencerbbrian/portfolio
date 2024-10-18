@@ -1,0 +1,13 @@
+{
+    "$jsonSchema": {
+        "bsonType": "object",
+        "required": ["bank_id", "bank_name", "country", "transfer_fee", "minimum_balance"],
+        "properties": {
+            "bank_id": {"bsonType": "int"},
+            "bank_name": {"bsonType": "string"},
+            "country": {"bsonType": "string"},
+            "transfer_fee": {"bsonType": "double", "minimum": 0.0},
+            "minimum_balance": {"bsonType": "double", "minimum": 0.0}
+        }
+    }
+}

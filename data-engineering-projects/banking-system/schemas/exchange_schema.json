@@ -1,0 +1,11 @@
+{
+    "$jsonSchema": {
+        "bsonType": "object",
+        "required": ["currency_pair", "exchange_rate", "timestamp"],
+        "properties": {
+            "currency_pair": {"bsonType": "string"},
+            "exchange_rate": {"bsonType": "double", "minimum": 0.0},
+            "timestamp": {"bsonType": "date"}
+        }
+    }
+}

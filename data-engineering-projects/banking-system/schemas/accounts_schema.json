@@ -1,0 +1,17 @@
+{
+    "$jsonSchema": {
+        "bsonType": "object",
+        "required": ["account_id","account_holder_name","account_type","current_balance","minimum_balance","bank_id","currency"],
+        "properties": {
+            "account_id": {"bsonType": "int"},
+            "account_holder_name": {"bsonType": "string"},
+            "account_type": {"bsonType":"string", "enum": ["savings", "checking", "credit"]},
+            "credit_limit": {"bsonType": "double"},
+            "credit_balance": {"bsonType":"double", "minimum": 0.0},
+            "current_balance": {"bsonType":"double", "minimum": 0.0},
+            "minimum_balance": {"bsonType":"double", "minimum": 0.0},
+            "bank_id": {"bsonType":"int"},
+            "currency": {"bsonType":"string"}
+        }
+    }
+}

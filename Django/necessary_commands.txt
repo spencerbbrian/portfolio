@@ -1,0 +1,13 @@
+py manage.py makemigrations <app_name>: Create tables made in models.py
+
+py manage.py migrate: Create the tables
+
+py manage.py sqlmigrate <app_name> 0001(migration number): View SQL
+
+py manage.py shell: Create a python shell
+
+from members.models import Member
+x = Member.objects.all()[4]
+x.firstname = "Stalikken"
+x.save()
+Member.objects.all().values()

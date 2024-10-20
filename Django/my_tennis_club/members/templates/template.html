@@ -6,10 +6,16 @@
     <title>Document</title>
 </head>
 <body>
-    {% for x in fruits %}
-        <h1>{{ x }}</h1>
-    {% endfor %}
-
+    <ul>
+        {% for x in mymembers reversed %}
+        <h1>{{ x.id }}</h1>
+        <p>
+            {{ x.firstname }}
+            {{ x.lastname }}
+        </p>
+        {% endfor %}
+    </ul>
     <p>In views.py you can see what the fruits variable looks like.</p>
+    {% include 'footer.html' %}
 </body>
 </html>

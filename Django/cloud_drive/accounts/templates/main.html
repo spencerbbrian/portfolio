@@ -11,6 +11,11 @@
     </header>
     <main>
         <p>This is your main content area.</p>
+
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
     </main>
     <footer>
         <p>&copy; 2023 Cloud Drive. All rights reserved.</p>

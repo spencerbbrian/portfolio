@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .forms import UploadFileForm
 
 # Create your views here.
 @login_required
@@ -29,5 +30,25 @@ def signup(request):
         form = UserCreationForm()
     return render(request,'signup.html',{'form':form})
 
+from django.contrib.auth import logout as auth_logout
+
 def logout(request):
-    return HttpResponse('logout')
+    auth_logout(request)
+    messages.success(request, 'You have been logged out successfully!')
+    return redirect('login')
+
+@login_required
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = form.save(commit=False)
+            uploaded_file.user = request.user
+            uploaded_file.save()
+            messages.success(request, 'File uploaded successfully!')
+            return redirect('main')
+        else:
+            messages.error(request, 'File upload failed. Please correct the errors below.')
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})

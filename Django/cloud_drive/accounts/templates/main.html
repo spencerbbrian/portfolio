@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Drive</title>
-</head>
-<body>
+{% extends "master.html" %}
+
+{% block title %}
+Cloud Drive
+{% endblock %}
+
+{% block content %}
     <header>
         <h1>Welcome to Cloud Drive</h1>
     </header>
     <main>
         <p>This is your main content area.</p>
+    
 
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button type="submit">Logout</button>
     </form>
+    <form action="{% url 'upload_file' %}" method="get">
+        <button type="submit">Upload</button>
+    </form>
     </main>
     <footer>
         <p>&copy; 2023 Cloud Drive. All rights reserved.</p>
     </footer>
-</body>
-</html>
+{% endblock %}

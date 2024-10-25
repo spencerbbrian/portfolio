@@ -1,0 +1,10 @@
+[
+    {
+        "currency_pair": "USD/EUR",
+        "rate": 0.93
+    },
+    {
+        "currency_pair": "EUR/USD",
+        "rate": 1.08
+    }
+]

@@ -1,0 +1,1890 @@
+[{
+  "_id": {
+    "$oid": "6608776808561a30e9c619ba"
+  },
+  "employee_id": "goladviBraJac982",
+  "email": "iJacgolemp@golheights.com",
+  "first_name": "Jacob",
+  "last_name": "Bradley",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-6-15",
+  "students": 46
+},
+{
+  "_id": {
+    "$oid": "66087a5608561a30e9c619bd"
+  },
+  "employee_id": "goladviCorMic451",
+  "email": "iMicgolemp@golheights.com",
+  "first_name": "Michael",
+  "last_name": "Cortez",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-30",
+  "students": 47
+},
+{
+  "_id": {
+    "$oid": "66087a5908561a30e9c619be"
+  },
+  "employee_id": "goladviGonDan943",
+  "email": "iDangolemp@golheights.com",
+  "first_name": "Daniel",
+  "last_name": "Gonzalez",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-19",
+  "students": 46
+},
+{
+  "_id": {
+    "$oid": "66087a5a08561a30e9c619bf"
+  },
+  "employee_id": "goladviSmiJos852",
+  "email": "iJosgolemp@golheights.com",
+  "first_name": "Joshua",
+  "last_name": "Smith",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-10",
+  "students": 49
+},
+{
+  "_id": {
+    "$oid": "66087a5a08561a30e9c619c0"
+  },
+  "employee_id": "goladviSchTif437",
+  "email": "iTifgolemp@golheights.com",
+  "first_name": "Tiffany",
+  "last_name": "Schmidt",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-24",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a5a08561a30e9c619c1"
+  },
+  "employee_id": "goladviMcdJos500",
+  "email": "iJosgolemp@golheights.com",
+  "first_name": "Joseph",
+  "last_name": "Mcdonald",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-30",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a5a08561a30e9c619c2"
+  },
+  "employee_id": "goladviKraBra608",
+  "email": "iBragolemp@golheights.com",
+  "first_name": "Brandon",
+  "last_name": "Kramer",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-6-17",
+  "students": 43
+},
+{
+  "_id": {
+    "$oid": "66087a5a08561a30e9c619c3"
+  },
+  "employee_id": "goladviBroAll624",
+  "email": "iAllgolemp@golheights.com",
+  "first_name": "Allison",
+  "last_name": "Brown",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-1",
+  "students": 25
+},
+{
+  "_id": {
+    "$oid": "66087a5a08561a30e9c619c4"
+  },
+  "employee_id": "goladviHenDan851",
+  "email": "iDangolemp@golheights.com",
+  "first_name": "Daniel",
+  "last_name": "Henry",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-22",
+  "students": 35
+},
+{
+  "_id": {
+    "$oid": "66087a5b08561a30e9c619c5"
+  },
+  "employee_id": "goladviHalAsh481",
+  "email": "iAshgolemp@golheights.com",
+  "first_name": "Ashley",
+  "last_name": "Hall",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-5",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a5b08561a30e9c619c6"
+  },
+  "employee_id": "goladviCraKev761",
+  "email": "iKevgolemp@golheights.com",
+  "first_name": "Kevin",
+  "last_name": "Crane",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-30",
+  "students": 35
+},
+{
+  "_id": {
+    "$oid": "66087a5b08561a30e9c619c7"
+  },
+  "employee_id": "goladviMilJor698",
+  "email": "iJorgolemp@golheights.com",
+  "first_name": "Jordan",
+  "last_name": "Mills",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-30",
+  "students": 30
+},
+{
+  "_id": {
+    "$oid": "66087a5b08561a30e9c619c8"
+  },
+  "employee_id": "goladviEvaSte630",
+  "email": "iStegolemp@golheights.com",
+  "first_name": "Stephanie",
+  "last_name": "Evans",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-30",
+  "students": 45
+},
+{
+  "_id": {
+    "$oid": "66087a5b08561a30e9c619c9"
+  },
+  "employee_id": "goladviStaFel365",
+  "email": "iFelgolemp@golheights.com",
+  "first_name": "Felicia",
+  "last_name": "Stafford",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-8",
+  "students": 50
+},
+{
+  "_id": {
+    "$oid": "66087a5b08561a30e9c619ca"
+  },
+  "employee_id": "goladviMonVic45",
+  "email": "vVicgolemp@golheights.com",
+  "first_name": "Vicki",
+  "last_name": "Montgomery",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-27",
+  "students": 46
+},
+{
+  "_id": {
+    "$oid": "66087a5c08561a30e9c619cb"
+  },
+  "employee_id": "goladviMckJon445",
+  "email": "iJongolemp@golheights.com",
+  "first_name": "Jonathan",
+  "last_name": "Mckenzie",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-6-23",
+  "students": 55
+},
+{
+  "_id": {
+    "$oid": "66087a5c08561a30e9c619cc"
+  },
+  "employee_id": "goladviSanJas2",
+  "email": "dJasgolemp@golheights.com",
+  "first_name": "Jason",
+  "last_name": "Sanchez",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-20",
+  "students": 29
+},
+{
+  "_id": {
+    "$oid": "66087a5c08561a30e9c619cd"
+  },
+  "employee_id": "goladviGooMac567",
+  "email": "iMacgolemp@golheights.com",
+  "first_name": "Mackenzie",
+  "last_name": "Goodman",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-6",
+  "students": 52
+},
+{
+  "_id": {
+    "$oid": "66087a5c08561a30e9c619ce"
+  },
+  "employee_id": "goladviCarCha745",
+  "email": "iChagolemp@golheights.com",
+  "first_name": "Charles",
+  "last_name": "Carroll",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-1-30",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a5c08561a30e9c619cf"
+  },
+  "employee_id": "goladviSanMar172",
+  "email": "iMargolemp@golheights.com",
+  "first_name": "Mary",
+  "last_name": "Sanchez",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-9",
+  "students": 33
+},
+{
+  "_id": {
+    "$oid": "66087a5d08561a30e9c619d0"
+  },
+  "employee_id": "goladviWarLar758",
+  "email": "iLargolemp@golheights.com",
+  "first_name": "Larry",
+  "last_name": "Warner",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-26",
+  "students": 42
+},
+{
+  "_id": {
+    "$oid": "66087a5d08561a30e9c619d1"
+  },
+  "employee_id": "goladviJohNor390",
+  "email": "iNorgolemp@golheights.com",
+  "first_name": "Norman",
+  "last_name": "Johnson",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-14",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a5d08561a30e9c619d2"
+  },
+  "employee_id": "goladviMarChr333",
+  "email": "iChrgolemp@golheights.com",
+  "first_name": "Christopher",
+  "last_name": "Marshall",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-6",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a5d08561a30e9c619d3"
+  },
+  "employee_id": "goladviWonJes16",
+  "email": "vJesgolemp@golheights.com",
+  "first_name": "Jessica",
+  "last_name": "Wong",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-25",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a5d08561a30e9c619d4"
+  },
+  "employee_id": "goladviGeoChr923",
+  "email": "iChrgolemp@golheights.com",
+  "first_name": "Christopher",
+  "last_name": "George",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-18",
+  "students": 26
+},
+{
+  "_id": {
+    "$oid": "66087a5e08561a30e9c619d5"
+  },
+  "employee_id": "goladviPalWal576",
+  "email": "iWalgolemp@golheights.com",
+  "first_name": "Walter",
+  "last_name": "Palmer",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-5",
+  "students": 45
+},
+{
+  "_id": {
+    "$oid": "66087a5e08561a30e9c619d6"
+  },
+  "employee_id": "goladviWooMel434",
+  "email": "iMelgolemp@golheights.com",
+  "first_name": "Melanie",
+  "last_name": "Woods",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-28",
+  "students": 57
+},
+{
+  "_id": {
+    "$oid": "66087a5f08561a30e9c619d7"
+  },
+  "employee_id": "goladviNewWil667",
+  "email": "iWilgolemp@golheights.com",
+  "first_name": "William",
+  "last_name": "Newman",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-1",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a5f08561a30e9c619d8"
+  },
+  "employee_id": "goladviCraChr442",
+  "email": "iChrgolemp@golheights.com",
+  "first_name": "Christine",
+  "last_name": "Crawford",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-1",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a5f08561a30e9c619d9"
+  },
+  "employee_id": "goladviDunJos465",
+  "email": "iJosgolemp@golheights.com",
+  "first_name": "Joshua",
+  "last_name": "Duncan",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-9",
+  "students": 53
+},
+{
+  "_id": {
+    "$oid": "66087a5f08561a30e9c619da"
+  },
+  "employee_id": "goladviHunAar56",
+  "email": "vAargolemp@golheights.com",
+  "first_name": "Aaron",
+  "last_name": "Hunt",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-11",
+  "students": 50
+},
+{
+  "_id": {
+    "$oid": "66087a5f08561a30e9c619db"
+  },
+  "employee_id": "goladviReeJor920",
+  "email": "iJorgolemp@golheights.com",
+  "first_name": "Jordan",
+  "last_name": "Reese",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-19",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a6008561a30e9c619dc"
+  },
+  "employee_id": "goladviBolJoh842",
+  "email": "iJohgolemp@golheights.com",
+  "first_name": "John",
+  "last_name": "Bolton",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-20",
+  "students": 42
+},
+{
+  "_id": {
+    "$oid": "66087a6008561a30e9c619dd"
+  },
+  "employee_id": "goladviSchJes621",
+  "email": "iJesgolemp@golheights.com",
+  "first_name": "Jesse",
+  "last_name": "Schwartz",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-1",
+  "students": 40
+},
+{
+  "_id": {
+    "$oid": "66087a6008561a30e9c619de"
+  },
+  "employee_id": "goladviHowJam76",
+  "email": "vJamgolemp@golheights.com",
+  "first_name": "James",
+  "last_name": "Howard",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-20",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a6008561a30e9c619df"
+  },
+  "employee_id": "goladviGriJoh631",
+  "email": "iJohgolemp@golheights.com",
+  "first_name": "John",
+  "last_name": "Grimes",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-28",
+  "students": 36
+},
+{
+  "_id": {
+    "$oid": "66087a6008561a30e9c619e0"
+  },
+  "employee_id": "goladviLopCou266",
+  "email": "iCougolemp@golheights.com",
+  "first_name": "Courtney",
+  "last_name": "Lopez",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-10",
+  "students": 42
+},
+{
+  "_id": {
+    "$oid": "66087a6008561a30e9c619e1"
+  },
+  "employee_id": "goladviGarCur664",
+  "email": "iCurgolemp@golheights.com",
+  "first_name": "Curtis",
+  "last_name": "Garner",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-16",
+  "students": 52
+},
+{
+  "_id": {
+    "$oid": "66087a6108561a30e9c619e2"
+  },
+  "employee_id": "goladviGomJoh307",
+  "email": "iJohgolemp@golheights.com",
+  "first_name": "John",
+  "last_name": "Gomez",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-31",
+  "students": 26
+},
+{
+  "_id": {
+    "$oid": "66087a6108561a30e9c619e3"
+  },
+  "employee_id": "goladviBurCol498",
+  "email": "iColgolemp@golheights.com",
+  "first_name": "Colleen",
+  "last_name": "Burke",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-13",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a6108561a30e9c619e4"
+  },
+  "employee_id": "goladviVegWil658",
+  "email": "iWilgolemp@golheights.com",
+  "first_name": "William",
+  "last_name": "Vega",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-11",
+  "students": 27
+},
+{
+  "_id": {
+    "$oid": "66087a6108561a30e9c619e5"
+  },
+  "employee_id": "goladviPerJac728",
+  "email": "iJacgolemp@golheights.com",
+  "first_name": "Jacob",
+  "last_name": "Perez",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-13",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a6108561a30e9c619e6"
+  },
+  "employee_id": "goladviHawNat913",
+  "email": "iNatgolemp@golheights.com",
+  "first_name": "Natasha",
+  "last_name": "Hawkins",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-7",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6108561a30e9c619e7"
+  },
+  "employee_id": "goladviTorGav419",
+  "email": "iGavgolemp@golheights.com",
+  "first_name": "Gavin",
+  "last_name": "Torres",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-1-24",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a6208561a30e9c619e8"
+  },
+  "employee_id": "goladviRomJen753",
+  "email": "iJengolemp@golheights.com",
+  "first_name": "Jennifer",
+  "last_name": "Romero",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-20",
+  "students": 30
+},
+{
+  "_id": {
+    "$oid": "66087a6208561a30e9c619e9"
+  },
+  "employee_id": "goladviLewMar369",
+  "email": "iMargolemp@golheights.com",
+  "first_name": "Mark",
+  "last_name": "Lewis",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-1-16",
+  "students": 44
+},
+{
+  "_id": {
+    "$oid": "66087a6208561a30e9c619ea"
+  },
+  "employee_id": "goladviReiJoe101",
+  "email": "iJoegolemp@golheights.com",
+  "first_name": "Joel",
+  "last_name": "Reilly",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-7",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a6208561a30e9c619eb"
+  },
+  "employee_id": "goladviDanLor882",
+  "email": "iLorgolemp@golheights.com",
+  "first_name": "Lori",
+  "last_name": "Daniels",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-27",
+  "students": 29
+},
+{
+  "_id": {
+    "$oid": "66087a6208561a30e9c619ec"
+  },
+  "employee_id": "goladviBroLis475",
+  "email": "iLisgolemp@golheights.com",
+  "first_name": "Lisa",
+  "last_name": "Brown",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-7",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a6208561a30e9c619ed"
+  },
+  "employee_id": "goladviCarLis929",
+  "email": "iLisgolemp@golheights.com",
+  "first_name": "Lisa",
+  "last_name": "Carr",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-7",
+  "students": 45
+},
+{
+  "_id": {
+    "$oid": "66087a6308561a30e9c619ee"
+  },
+  "employee_id": "goladviWooMel960",
+  "email": "iMelgolemp@golheights.com",
+  "first_name": "Melanie",
+  "last_name": "Wood",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-21",
+  "students": 33
+},
+{
+  "_id": {
+    "$oid": "66087a6308561a30e9c619ef"
+  },
+  "employee_id": "goladviLeeCry692",
+  "email": "iCrygolemp@golheights.com",
+  "first_name": "Crystal",
+  "last_name": "Lee",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-7",
+  "students": 29
+},
+{
+  "_id": {
+    "$oid": "66087a6308561a30e9c619f0"
+  },
+  "employee_id": "goladviGreMic445",
+  "email": "iMicgolemp@golheights.com",
+  "first_name": "Michael",
+  "last_name": "Green",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-10",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a6308561a30e9c619f1"
+  },
+  "employee_id": "goladviLanTam635",
+  "email": "iTamgolemp@golheights.com",
+  "first_name": "Tammy",
+  "last_name": "Lang",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-24",
+  "students": 46
+},
+{
+  "_id": {
+    "$oid": "66087a6308561a30e9c619f2"
+  },
+  "employee_id": "goladviAreGra294",
+  "email": "iGragolemp@golheights.com",
+  "first_name": "Grace",
+  "last_name": "Arellano",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-5",
+  "students": 51
+},
+{
+  "_id": {
+    "$oid": "66087a6308561a30e9c619f3"
+  },
+  "employee_id": "goladviHerBen331",
+  "email": "iBengolemp@golheights.com",
+  "first_name": "Benjamin",
+  "last_name": "Hernandez",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-22",
+  "students": 36
+},
+{
+  "_id": {
+    "$oid": "66087a6408561a30e9c619f4"
+  },
+  "employee_id": "goladviHerSte858",
+  "email": "iStegolemp@golheights.com",
+  "first_name": "Steven",
+  "last_name": "Hernandez",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-23",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6408561a30e9c619f5"
+  },
+  "employee_id": "goladviDavLar753",
+  "email": "iLargolemp@golheights.com",
+  "first_name": "Larry",
+  "last_name": "Davis",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-4",
+  "students": 35
+},
+{
+  "_id": {
+    "$oid": "66087a6408561a30e9c619f6"
+  },
+  "employee_id": "goladviMarKim941",
+  "email": "iKimgolemp@golheights.com",
+  "first_name": "Kimberly",
+  "last_name": "Martin",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-25",
+  "students": 36
+},
+{
+  "_id": {
+    "$oid": "66087a6408561a30e9c619f7"
+  },
+  "employee_id": "goladviHilBet84",
+  "email": "vBetgolemp@golheights.com",
+  "first_name": "Beth",
+  "last_name": "Hill",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-22",
+  "students": 42
+},
+{
+  "_id": {
+    "$oid": "66087a6408561a30e9c619f8"
+  },
+  "employee_id": "goladviWalGin342",
+  "email": "iGingolemp@golheights.com",
+  "first_name": "Gina",
+  "last_name": "Walters",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-7",
+  "students": 47
+},
+{
+  "_id": {
+    "$oid": "66087a6508561a30e9c619f9"
+  },
+  "employee_id": "goladviMilTod154",
+  "email": "iTodgolemp@golheights.com",
+  "first_name": "Todd",
+  "last_name": "Mills",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-12",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6508561a30e9c619fa"
+  },
+  "employee_id": "goladviHalSte364",
+  "email": "iStegolemp@golheights.com",
+  "first_name": "Stephanie",
+  "last_name": "Hall",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-18",
+  "students": 37
+},
+{
+  "_id": {
+    "$oid": "66087a6508561a30e9c619fb"
+  },
+  "employee_id": "goladviWalChr312",
+  "email": "iChrgolemp@golheights.com",
+  "first_name": "Christopher",
+  "last_name": "Walls",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-14",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a6508561a30e9c619fc"
+  },
+  "employee_id": "goladviAllLyn651",
+  "email": "iLyngolemp@golheights.com",
+  "first_name": "Lynn",
+  "last_name": "Allen",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-11",
+  "students": 44
+},
+{
+  "_id": {
+    "$oid": "66087a6508561a30e9c619fd"
+  },
+  "employee_id": "goladviFigMad824",
+  "email": "iMadgolemp@golheights.com",
+  "first_name": "Madeline",
+  "last_name": "Figueroa",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-6-14",
+  "students": 37
+},
+{
+  "_id": {
+    "$oid": "66087a6508561a30e9c619fe"
+  },
+  "employee_id": "goladviLeeSam228",
+  "email": "iSamgolemp@golheights.com",
+  "first_name": "Samuel",
+  "last_name": "Lee",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-22",
+  "students": 62
+},
+{
+  "_id": {
+    "$oid": "66087a6608561a30e9c619ff"
+  },
+  "employee_id": "goladviSteEli681",
+  "email": "iEligolemp@golheights.com",
+  "first_name": "Elizabeth",
+  "last_name": "Stewart",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-8",
+  "students": 35
+},
+{
+  "_id": {
+    "$oid": "66087a6608561a30e9c61a00"
+  },
+  "employee_id": "goladviAyaLin335",
+  "email": "iLingolemp@golheights.com",
+  "first_name": "Linda",
+  "last_name": "Ayala",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-21",
+  "students": 44
+},
+{
+  "_id": {
+    "$oid": "66087a6608561a30e9c61a01"
+  },
+  "employee_id": "goladviAllNan558",
+  "email": "iNangolemp@golheights.com",
+  "first_name": "Nancy",
+  "last_name": "Allen",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-17",
+  "students": 47
+},
+{
+  "_id": {
+    "$oid": "66087a6608561a30e9c61a02"
+  },
+  "employee_id": "goladviAndBil506",
+  "email": "iBilgolemp@golheights.com",
+  "first_name": "Bill",
+  "last_name": "Anderson",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-21",
+  "students": 30
+},
+{
+  "_id": {
+    "$oid": "66087a6708561a30e9c61a03"
+  },
+  "employee_id": "goladviMilAnd234",
+  "email": "iAndgolemp@golheights.com",
+  "first_name": "Andrew",
+  "last_name": "Miller",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-6-18",
+  "students": 27
+},
+{
+  "_id": {
+    "$oid": "66087a6708561a30e9c61a04"
+  },
+  "employee_id": "goladviDalCur538",
+  "email": "iCurgolemp@golheights.com",
+  "first_name": "Curtis",
+  "last_name": "Dalton",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-7",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a6708561a30e9c61a05"
+  },
+  "employee_id": "goladviHopDan469",
+  "email": "iDangolemp@golheights.com",
+  "first_name": "Daniel",
+  "last_name": "Hopkins",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-4",
+  "students": 45
+},
+{
+  "_id": {
+    "$oid": "66087a6708561a30e9c61a06"
+  },
+  "employee_id": "goladviCurEdg44",
+  "email": "vEdggolemp@golheights.com",
+  "first_name": "Edgar",
+  "last_name": "Curtis",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-30",
+  "students": 28
+},
+{
+  "_id": {
+    "$oid": "66087a6808561a30e9c61a07"
+  },
+  "employee_id": "goladviCobJos94",
+  "email": "vJosgolemp@golheights.com",
+  "first_name": "Jose",
+  "last_name": "Cobb",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-26",
+  "students": 40
+},
+{
+  "_id": {
+    "$oid": "66087a6808561a30e9c61a08"
+  },
+  "employee_id": "goladviSanRac505",
+  "email": "iRacgolemp@golheights.com",
+  "first_name": "Rachel",
+  "last_name": "Sanchez",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-18",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6808561a30e9c61a09"
+  },
+  "employee_id": "goladviFigRya855",
+  "email": "iRyagolemp@golheights.com",
+  "first_name": "Ryan",
+  "last_name": "Figueroa",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-4",
+  "students": 44
+},
+{
+  "_id": {
+    "$oid": "66087a6808561a30e9c61a0a"
+  },
+  "employee_id": "goladviColPhi337",
+  "email": "iPhigolemp@golheights.com",
+  "first_name": "Philip",
+  "last_name": "Collins",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-9",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a6808561a30e9c61a0b"
+  },
+  "employee_id": "goladviCarPau114",
+  "email": "iPaugolemp@golheights.com",
+  "first_name": "Paula",
+  "last_name": "Carroll",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-26",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6908561a30e9c61a0c"
+  },
+  "employee_id": "goladviPetBar236",
+  "email": "iBargolemp@golheights.com",
+  "first_name": "Barbara",
+  "last_name": "Peters",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-26",
+  "students": 46
+},
+{
+  "_id": {
+    "$oid": "66087a6908561a30e9c61a0d"
+  },
+  "employee_id": "goladviCobAmy731",
+  "email": "iAmygolemp@golheights.com",
+  "first_name": "Amy",
+  "last_name": "Cobb",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-8",
+  "students": 35
+},
+{
+  "_id": {
+    "$oid": "66087a6908561a30e9c61a0e"
+  },
+  "employee_id": "goladviLeeLau967",
+  "email": "iLaugolemp@golheights.com",
+  "first_name": "Lauren",
+  "last_name": "Lee",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-22",
+  "students": 36
+},
+{
+  "_id": {
+    "$oid": "66087a6908561a30e9c61a0f"
+  },
+  "employee_id": "goladviHerBri198",
+  "email": "iBrigolemp@golheights.com",
+  "first_name": "Brian",
+  "last_name": "Hernandez",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-1",
+  "students": 29
+},
+{
+  "_id": {
+    "$oid": "66087a6908561a30e9c61a10"
+  },
+  "employee_id": "goladviRilBen493",
+  "email": "iBengolemp@golheights.com",
+  "first_name": "Benjamin",
+  "last_name": "Riley",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-29",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a6908561a30e9c61a11"
+  },
+  "employee_id": "goladviPetNan148",
+  "email": "iNangolemp@golheights.com",
+  "first_name": "Nancy",
+  "last_name": "Peterson",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-26",
+  "students": 52
+},
+{
+  "_id": {
+    "$oid": "66087a6a08561a30e9c61a12"
+  },
+  "employee_id": "goladviThoDea664",
+  "email": "iDeagolemp@golheights.com",
+  "first_name": "Deanna",
+  "last_name": "Thompson",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-1",
+  "students": 29
+},
+{
+  "_id": {
+    "$oid": "66087a6a08561a30e9c61a13"
+  },
+  "employee_id": "goladviRicMis120",
+  "email": "iMisgolemp@golheights.com",
+  "first_name": "Misty",
+  "last_name": "Richard",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-3",
+  "students": 50
+},
+{
+  "_id": {
+    "$oid": "66087a6a08561a30e9c61a14"
+  },
+  "employee_id": "goladviMilChr194",
+  "email": "iChrgolemp@golheights.com",
+  "first_name": "Christopher",
+  "last_name": "Miller",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-1",
+  "students": 52
+},
+{
+  "_id": {
+    "$oid": "66087a6a08561a30e9c61a15"
+  },
+  "employee_id": "goladviWebJas210",
+  "email": "iJasgolemp@golheights.com",
+  "first_name": "Jason",
+  "last_name": "Weber",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-4",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a6a08561a30e9c61a16"
+  },
+  "employee_id": "goladviCooSte58",
+  "email": "vStegolemp@golheights.com",
+  "first_name": "Stephanie",
+  "last_name": "Cook",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-26",
+  "students": 34
+},
+{
+  "_id": {
+    "$oid": "66087a6a08561a30e9c61a17"
+  },
+  "employee_id": "goladviBonEli794",
+  "email": "iEligolemp@golheights.com",
+  "first_name": "Elizabeth",
+  "last_name": "Bonilla",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-5",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6b08561a30e9c61a18"
+  },
+  "employee_id": "goladviWriZac982",
+  "email": "iZacgolemp@golheights.com",
+  "first_name": "Zachary",
+  "last_name": "Wright",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-30",
+  "students": 27
+},
+{
+  "_id": {
+    "$oid": "66087a6b08561a30e9c61a19"
+  },
+  "employee_id": "goladviBroTho708",
+  "email": "iThogolemp@golheights.com",
+  "first_name": "Thomas",
+  "last_name": "Brooks",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-20",
+  "students": 33
+},
+{
+  "_id": {
+    "$oid": "66087a6b08561a30e9c61a1a"
+  },
+  "employee_id": "goladviSmiJoh460",
+  "email": "iJohgolemp@golheights.com",
+  "first_name": "John",
+  "last_name": "Smith",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-30",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a6c08561a30e9c61a1b"
+  },
+  "employee_id": "goladviHerRic452",
+  "email": "iRicgolemp@golheights.com",
+  "first_name": "Rick",
+  "last_name": "Hernandez",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-1-11",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6c08561a30e9c61a1c"
+  },
+  "employee_id": "goladviBlaAma392",
+  "email": "iAmagolemp@golheights.com",
+  "first_name": "Amanda",
+  "last_name": "Blankenship",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-19",
+  "students": 48
+},
+{
+  "_id": {
+    "$oid": "66087a6c08561a30e9c61a1d"
+  },
+  "employee_id": "goladviWriJul942",
+  "email": "iJulgolemp@golheights.com",
+  "first_name": "Julian",
+  "last_name": "Wright",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-11",
+  "students": 37
+},
+{
+  "_id": {
+    "$oid": "66087a6c08561a30e9c61a1e"
+  },
+  "employee_id": "goladviWalCor935",
+  "email": "iCorgolemp@golheights.com",
+  "first_name": "Corey",
+  "last_name": "Walters",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-1-12",
+  "students": 33
+},
+{
+  "_id": {
+    "$oid": "66087a6d08561a30e9c61a1f"
+  },
+  "employee_id": "goladviGarCin554",
+  "email": "iCingolemp@golheights.com",
+  "first_name": "Cindy",
+  "last_name": "Garcia",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-11",
+  "students": 48
+},
+{
+  "_id": {
+    "$oid": "66087a6d08561a30e9c61a20"
+  },
+  "employee_id": "goladviFisLin432",
+  "email": "iLingolemp@golheights.com",
+  "first_name": "Linda",
+  "last_name": "Fischer",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-3-28",
+  "students": 39
+},
+{
+  "_id": {
+    "$oid": "66087a6d08561a30e9c61a21"
+  },
+  "employee_id": "goladviSmiAle874",
+  "email": "iAlegolemp@golheights.com",
+  "first_name": "Alexandra",
+  "last_name": "Smith",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-26",
+  "students": 43
+},
+{
+  "_id": {
+    "$oid": "66087a6d08561a30e9c61a22"
+  },
+  "employee_id": "goladviLowBra748",
+  "email": "iBragolemp@golheights.com",
+  "first_name": "Brandon",
+  "last_name": "Lowery",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-1-5",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a6d08561a30e9c61a23"
+  },
+  "employee_id": "goladviMarRac539",
+  "email": "iRacgolemp@golheights.com",
+  "first_name": "Rachel",
+  "last_name": "Martinez",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-28",
+  "students": 35
+},
+{
+  "_id": {
+    "$oid": "66087a6e08561a30e9c61a24"
+  },
+  "employee_id": "goladviMcdLin527",
+  "email": "iLingolemp@golheights.com",
+  "first_name": "Linda",
+  "last_name": "Mcdonald",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-20",
+  "students": 46
+},
+{
+  "_id": {
+    "$oid": "66087a6f08561a30e9c61a25"
+  },
+  "employee_id": "goladviMacJen581",
+  "email": "iJengolemp@golheights.com",
+  "first_name": "Jennifer",
+  "last_name": "Mack",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-1",
+  "students": 33
+},
+{
+  "_id": {
+    "$oid": "66087a6f08561a30e9c61a26"
+  },
+  "employee_id": "goladviHerCha514",
+  "email": "iChagolemp@golheights.com",
+  "first_name": "Chad",
+  "last_name": "Hernandez",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-4",
+  "students": 31
+},
+{
+  "_id": {
+    "$oid": "66087a6f08561a30e9c61a27"
+  },
+  "employee_id": "goladviWilCar623",
+  "email": "iCargolemp@golheights.com",
+  "first_name": "Carly",
+  "last_name": "Williams",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-20",
+  "students": 47
+},
+{
+  "_id": {
+    "$oid": "66087a6f08561a30e9c61a28"
+  },
+  "employee_id": "goladviDavKim621",
+  "email": "iKimgolemp@golheights.com",
+  "first_name": "Kimberly",
+  "last_name": "Davis",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-19",
+  "students": 33
+},
+{
+  "_id": {
+    "$oid": "66087a7008561a30e9c61a29"
+  },
+  "employee_id": "goladviFloTam447",
+  "email": "iTamgolemp@golheights.com",
+  "first_name": "Tammy",
+  "last_name": "Flores",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-10",
+  "students": 49
+},
+{
+  "_id": {
+    "$oid": "66087a7008561a30e9c61a2a"
+  },
+  "employee_id": "goladviMerAnn754",
+  "email": "iAnngolemp@golheights.com",
+  "first_name": "Anne",
+  "last_name": "Merritt",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-5",
+  "students": 49
+},
+{
+  "_id": {
+    "$oid": "66087a7008561a30e9c61a2b"
+  },
+  "employee_id": "goladviManJon874",
+  "email": "iJongolemp@golheights.com",
+  "first_name": "Jonathan",
+  "last_name": "Mann",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-26",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a7008561a30e9c61a2c"
+  },
+  "employee_id": "goladviRomSus187",
+  "email": "iSusgolemp@golheights.com",
+  "first_name": "Susan",
+  "last_name": "Roman",
+  "gender": "Female",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-14",
+  "students": 49
+},
+{
+  "_id": {
+    "$oid": "66087a7008561a30e9c61a2d"
+  },
+  "employee_id": "goladviBryMat820",
+  "email": "iMatgolemp@golheights.com",
+  "first_name": "Matthew",
+  "last_name": "Bryan",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-7-7",
+  "students": 30
+},
+{
+  "_id": {
+    "$oid": "66087a7008561a30e9c61a2e"
+  },
+  "employee_id": "goladviParAsh237",
+  "email": "iAshgolemp@golheights.com",
+  "first_name": "Ashley",
+  "last_name": "Parker",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-13",
+  "students": 45
+},
+{
+  "_id": {
+    "$oid": "66087a7108561a30e9c61a2f"
+  },
+  "employee_id": "goladviCalMat949",
+  "email": "iMatgolemp@golheights.com",
+  "first_name": "Matthew",
+  "last_name": "Calhoun",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-21",
+  "students": 48
+},
+{
+  "_id": {
+    "$oid": "66087a7108561a30e9c61a30"
+  },
+  "employee_id": "goladviGonRob332",
+  "email": "iRobgolemp@golheights.com",
+  "first_name": "Robert",
+  "last_name": "Gonzalez",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-16",
+  "students": 48
+},
+{
+  "_id": {
+    "$oid": "66087a7108561a30e9c61a31"
+  },
+  "employee_id": "goladviKinKev767",
+  "email": "iKevgolemp@golheights.com",
+  "first_name": "Kevin",
+  "last_name": "King",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-1-22",
+  "students": 46
+},
+{
+  "_id": {
+    "$oid": "66087a7108561a30e9c61a32"
+  },
+  "employee_id": "goladviBelChr321",
+  "email": "iChrgolemp@golheights.com",
+  "first_name": "Christopher",
+  "last_name": "Bell",
+  "gender": "Male",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-23",
+  "students": 42
+},
+{
+  "_id": {
+    "$oid": "66087a7108561a30e9c61a33"
+  },
+  "employee_id": "goladviNguJes695",
+  "email": "iJesgolemp@golheights.com",
+  "first_name": "Jesse",
+  "last_name": "Nguyen",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-18",
+  "students": 42
+},
+{
+  "_id": {
+    "$oid": "66087a7208561a30e9c61a34"
+  },
+  "employee_id": "goladviSimAma14",
+  "email": "vAmagolemp@golheights.com",
+  "first_name": "Amanda",
+  "last_name": "Sims",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-11-4",
+  "students": 24
+},
+{
+  "_id": {
+    "$oid": "66087a7208561a30e9c61a35"
+  },
+  "employee_id": "goladviHanJes52",
+  "email": "vJesgolemp@golheights.com",
+  "first_name": "Jessica",
+  "last_name": "Hanson",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-8-21",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a7308561a30e9c61a36"
+  },
+  "employee_id": "goladviMorJoh754",
+  "email": "iJohgolemp@golheights.com",
+  "first_name": "John",
+  "last_name": "Mora",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-6-9",
+  "students": 48
+},
+{
+  "_id": {
+    "$oid": "66087a7308561a30e9c61a37"
+  },
+  "employee_id": "goladviTorKen466",
+  "email": "iKengolemp@golheights.com",
+  "first_name": "Kenneth",
+  "last_name": "Torres",
+  "gender": "Male",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-23",
+  "students": 30
+},
+{
+  "_id": {
+    "$oid": "66087a7308561a30e9c61a38"
+  },
+  "employee_id": "goladviGreJef720",
+  "email": "iJefgolemp@golheights.com",
+  "first_name": "Jeffery",
+  "last_name": "Gregory",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-12-21",
+  "students": 49
+},
+{
+  "_id": {
+    "$oid": "66087a7308561a30e9c61a39"
+  },
+  "employee_id": "goladviJohLyd992",
+  "email": "iLydgolemp@golheights.com",
+  "first_name": "Lydia",
+  "last_name": "Johnston",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-5",
+  "students": 53
+},
+{
+  "_id": {
+    "$oid": "66087a7308561a30e9c61a3a"
+  },
+  "employee_id": "goladviHofMel153",
+  "email": "iMelgolemp@golheights.com",
+  "first_name": "Melinda",
+  "last_name": "Hoffman",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-20",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a7308561a30e9c61a3b"
+  },
+  "employee_id": "goladviWilCou632",
+  "email": "iCougolemp@golheights.com",
+  "first_name": "Courtney",
+  "last_name": "Williams",
+  "gender": "Female",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-8",
+  "students": 21
+},
+{
+  "_id": {
+    "$oid": "66087a7408561a30e9c61a3c"
+  },
+  "employee_id": "goladviCohLes713",
+  "email": "iLesgolemp@golheights.com",
+  "first_name": "Leslie",
+  "last_name": "Cohen",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-2-19",
+  "students": 38
+},
+{
+  "_id": {
+    "$oid": "66087a7408561a30e9c61a3d"
+  },
+  "employee_id": "goladviGarBai715",
+  "email": "iBaigolemp@golheights.com",
+  "first_name": "Bailey",
+  "last_name": "Garner",
+  "gender": "Female",
+  "campus": "Lakeside Vista Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-7",
+  "students": 41
+},
+{
+  "_id": {
+    "$oid": "66087a7508561a30e9c61a3e"
+  },
+  "employee_id": "goladviPerNic502",
+  "email": "iNicgolemp@golheights.com",
+  "first_name": "Nicholas",
+  "last_name": "Perry",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-27",
+  "students": 44
+},
+{
+  "_id": {
+    "$oid": "66087a7508561a30e9c61a3f"
+  },
+  "employee_id": "goladviHunRac762",
+  "email": "iRacgolemp@golheights.com",
+  "first_name": "Rachel",
+  "last_name": "Hunter",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-4-13",
+  "students": 35
+},
+{
+  "_id": {
+    "$oid": "66087a7508561a30e9c61a40"
+  },
+  "employee_id": "goladviGroSte712",
+  "email": "iStegolemp@golheights.com",
+  "first_name": "Steven",
+  "last_name": "Gross",
+  "gender": "Male",
+  "campus": "Golden Grove Campus",
+  "position": "Advisor",
+  "date_hired": "2019-5-26",
+  "students": 54
+},
+{
+  "_id": {
+    "$oid": "66087a7508561a30e9c61a41"
+  },
+  "employee_id": "goladviCarPam390",
+  "email": "iPamgolemp@golheights.com",
+  "first_name": "Pamela",
+  "last_name": "Carrillo",
+  "gender": "Female",
+  "campus": "Summit Valley Campus",
+  "position": "Advisor",
+  "date_hired": "2019-10-9",
+  "students": 42
+},
+{
+  "_id": {
+    "$oid": "66087a7508561a30e9c61a42"
+  },
+  "employee_id": "goladviJonTim804",
+  "email": "iTimgolemp@golheights.com",
+  "first_name": "Timothy",
+  "last_name": "Jones",
+  "gender": "Male",
+  "campus": "Evergreen Heights Campus",
+  "position": "Advisor",
+  "date_hired": "2019-9-29",
+  "students": 39
+}]

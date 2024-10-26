@@ -1,7 +1,7 @@
 {
     "$jsonSchema": {
         "bsonType": "object",
-        "required": ["merchant_id", "merchant_name", "merchant_type", "merchant_category", "currency", "account_id"],
+        "required": ["merchant_id", "merchant_name", "merchant_type", "currency", "account_id"],
         "properties": {
             "merchant_id": {"bsonType": "int"},
             "merchant_name": {"bsonType": "string"},
@@ -9,7 +9,6 @@
                 "bsonType": "string",
                 "enum": ["online", "retail", "restaurant", "service", "grocery", "other"]
             },
-            "merchant_category": {"bsonType": "string"},
             "currency": {"bsonType": "string"},
             "location": {
                 "bsonType": "object",

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .models import UploadedFile
@@ -45,6 +45,7 @@ def upload_file(request):
         if form.is_valid():
             uploaded_file = form.save(commit=False)
             uploaded_file.user = request.user
+            uploaded_file.file_size = uploaded_file.file.size
             uploaded_file.save()
             messages.success(request, 'File uploaded successfully!')
             return redirect('main')
@@ -53,3 +54,12 @@ def upload_file(request):
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
+
+@login_required
+def delete_file(request, file_id):
+    uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
+    uploaded_file.file.delete()
+    uploaded_file.delete()
+
+    messages.success(request,'File deleted successfully!')
+    return redirect('main')

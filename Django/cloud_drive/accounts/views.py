@@ -1,8 +1,7 @@
 from django.shortcuts import render,redirect
-from django.template import loader
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from django.http import HttpResponse
+from .models import UploadedFile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
@@ -14,7 +13,9 @@ def main(request):
         print(f'Logged in user: {request.user.username}')
     else:
         print('No user is logged in')
-    return render(request,'main.html')
+    user_files = UploadedFile.objects.filter(user=request.user)
+    
+    return render(request,'main.html', {'user_files':user_files})
 
 def signup(request):
     if request.method == 'POST':

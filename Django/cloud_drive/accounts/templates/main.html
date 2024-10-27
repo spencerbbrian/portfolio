@@ -6,11 +6,25 @@ Cloud Drive
 
 {% block content %}
     <header>
-        <h1>Welcome to Cloud Drive</h1>
+        <h1>Welcome {{ user.username }} to your Cloud Drive</h1>
     </header>
     <main>
         <p>This is your main content area.</p>
-    
+    <h3>
+        Your Uploaded Files
+    </h3>
+    <ul>
+        {% for file in user_files %}
+        <li>
+            <a href="{{ file.file.url }}">{{ file.file.name }}</a>
+            Uploaded on {{ file.uploaded_at }}
+        </li>
+        {% empty %}
+        <li>
+            No file uploaded yet.
+        </li>
+        {% endfor %}
+    </ul>
 
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
@@ -21,6 +35,6 @@ Cloud Drive
     </form>
     </main>
     <footer>
-        <p>&copy; 2023 Cloud Drive. All rights reserved.</p>
+        <p>&copy; 2024 Cloud Drive. All rights reserved.</p>
     </footer>
 {% endblock %}

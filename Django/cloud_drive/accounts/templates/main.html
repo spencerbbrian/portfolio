@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% load file_extras %}
 
 {% block title %}
 Cloud Drive
@@ -17,7 +18,7 @@ Cloud Drive
         {% for file in user_files %}
         <li>
             <a href="{{ file.file.url }}">{{ file.file.name }}</a>
-            Uploaded on: {{ file.uploaded_at }}, Size: {{ file.file.size }}
+            Uploaded on: {{ file.uploaded_at }}, Size: {{ file.file.size|filesizeformat }}
             <a href="{% url 'delete_file' file.id %}" onclick="return confirm('Are you sure you want to delete this file?')">Delete</a>
         </li>
         {% empty %}

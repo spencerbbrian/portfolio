@@ -46,9 +46,14 @@ def upload_file(request):
             uploaded_file = form.save(commit=False)
             uploaded_file.user = request.user
             uploaded_file.file_size = uploaded_file.file.size
-            uploaded_file.save()
-            messages.success(request, 'File uploaded successfully!')
-            return redirect('main')
+            if uploaded_file.file_size > 41943040:
+                messages.error(request, 'File size exceeds 40MB. Please upload a smaller file.')
+                return redirect('upload_file')
+            else:
+                uploaded_file.save()
+                print(f'File size: {uploaded_file.file_size}')
+                messages.success(request, 'File uploaded successfully!')
+                return redirect('main')
         else:
             messages.error(request, 'File upload failed. Please correct the errors below.')
     else:

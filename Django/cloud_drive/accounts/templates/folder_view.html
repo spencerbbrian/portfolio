@@ -1,3 +1,10 @@
+{% extends "master.html" %}
+
+{% block title %}
+{{ folder.name }}
+{% endblock %}
+
+{% block content %}
 <h1>Folder: {{ folder.name }}</h1>
 
 <h2>Subfolders</h2>
@@ -17,10 +24,14 @@
     {% for file in files %}
     <li>
         <a href="{{ file.file.url }}">{{ file.file.name }}</a>
-        <a href="{% url 'move_file_to_folder' file.id folder.id %}">Move</a>
+        <a href="{% url 'move_file' file.id %}">Move</a>
+        <a href="{% url 'move_file_to_main' file.id %}">Move to Main Page</a>
         <!-- Add delete or other actions as needed -->
     </li>
     {% empty %}
     <li>No files in this folder.</li>
     {% endfor %}
 </ul>
+
+<a href="{% url 'main' %}" class="btn btn-primary">Back to Main Page</a>
+{% endblock %}

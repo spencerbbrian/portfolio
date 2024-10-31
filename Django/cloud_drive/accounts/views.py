@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from .models import UploadedFile, Folder
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UploadFileForm, FolderForm
+from .forms import UploadFileForm, FolderForm, MoveFileForm
 
 # Create your views here.
 @login_required
@@ -12,10 +12,11 @@ def main(request):
     if request.user.is_authenticated:
         print(f'Logged in user: {request.user.username}')
         user_folders = Folder.objects.filter(user=request.user, parent_folder__isnull=True)
+        user_files = UploadedFile.objects.filter(user=request.user, folder__isnull=True)
     else:
         print('No user is logged in')
-    user_files = UploadedFile.objects.filter(user=request.user)
-    
+        user_folders = []
+        user_files = []
     return render(request,'main.html', {'user_files':user_files, 'user_folders':user_folders})
 
 def signup(request):
@@ -43,9 +44,9 @@ def create_folder(request):
             new_folder.save()
             messages.success(request, 'Folder created successfully!')
             return redirect('main')
-        else:
-            form = FolderForm()
-        return render(request, 'create_folder.html',{'form':form})
+    else:
+        form = FolderForm()
+    return render(request, 'create_folder.html',{'form':form})
 
 def rename_folder(request, folder_id):
     folder = get_object_or_404(Folder, id=folder_id, user=request.user)
@@ -61,17 +62,40 @@ def rename_folder(request, folder_id):
 
 def view_folder(request, folder_id):
     folder = get_object_or_404(Folder, id=folder_id, user=request.user)
-    files_in_folder = folder.files.all()  # get all files in this folder
+    files_in_folder = UploadedFile.objects.filter(folder=folder)  # get all files in this folder
     subfolders = folder.subfolders.all()  # get all subfolders
     return render(request, 'folder_view.html', {'folder': folder, 'files': files_in_folder, 'subfolders': subfolders})
 
-def move_file_to_folder(request, file_id, folder_id):
-    file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
-    folder = get_object_or_404(Folder, id=folder_id, user=request.user)
-    file.folder = folder
-    file.save()
-    messages.success(request, 'File moved successfully!')
-    return redirect('main')
+@login_required
+def move_file(request, file_id):
+    uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
+
+    if request.method == 'POST':
+        form = MoveFileForm(request.POST, user=request.user)
+        if form.is_valid():
+            folder = form.cleaned_data['folder']
+            uploaded_file.folder = folder  # Update the folder of the file
+            uploaded_file.save()  # Save the changes
+            messages.success(request, 'File moved successfully!')
+            return redirect('main')  # Redirect to your main page
+    else:
+        form = MoveFileForm(user=request.user)
+
+    return render(request, 'move_file.html', {'form': form, 'file': uploaded_file})
+
+@login_required
+def move_file_to_main(request, file_id):
+    uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
+    
+    if request.method == 'POST':
+        # Move the file back to the main page
+        uploaded_file.folder = None  # Set folder to None
+        uploaded_file.save()  # Save changes
+        
+        messages.success(request, 'File moved back to the main page successfully!')
+        return redirect('main')  # Redirect to your main page
+    
+    return render(request, 'move_file_to_main.html', {'file': uploaded_file})
 
 def logout(request):
     auth_logout(request)
@@ -102,9 +126,33 @@ def upload_file(request):
 
 @login_required
 def delete_file(request, file_id):
-    uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
-    uploaded_file.file.delete()
-    uploaded_file.delete()
+    file_to_delete = get_object_or_404(UploadedFile, id=file_id, user=request.user)
+    file_to_delete.file.delete()  # Remove file from storage
+    file_to_delete.delete()       # Remove file record from the database
+    messages.success(request, 'File deleted successfully!')
+    return redirect('main')
 
-    messages.success(request,'File deleted successfully!')
+@login_required
+def delete_subfolder(subfolder):
+    """Helper function to delete subfolder contents."""
+    for file in subfolder.user.files.filter(folder=subfolder):
+        file.file.delete()  # Delete the file from storage
+        file.delete()       # Delete the file record from the database
+    for nested_subfolder in subfolder.subfolders.all():
+        delete_subfolder(nested_subfolder)  # Recursively delete subfolders
+    subfolder.delete()  # Delete the subfolder itself
+
+@login_required
+def delete_folder(request, folder_id):
+    folder_to_delete = get_object_or_404(Folder, id=folder_id, user=request.user)
+    # Delete all files in this folder
+    for file in folder_to_delete.user.files.filter(folder=folder_to_delete):
+        file.file.delete()  # Delete the file from storage
+        file.delete()       # Delete the file record from the database  
+    # Optionally, delete all subfolders and their contents
+    for subfolder in folder_to_delete.subfolders.all():
+        delete_subfolder(subfolder) 
+    # Delete the folder itself
+    folder_to_delete.delete()
+    messages.success(request, 'Folder deleted successfully!')
     return redirect('main')

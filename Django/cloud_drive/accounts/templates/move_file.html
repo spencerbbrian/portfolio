@@ -1,0 +1,15 @@
+{% extends "master.html" %}
+
+{% block title %}
+Move file
+{% endblock %}
+
+{% block content %}
+<h2>Move File: {{ file.file.name }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Move</button>
+</form>
+<a href="{% url 'main' %}">Cancel</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "master.html" %}
+
+{% block title %}
+Move file
+{% endblock %}
+
+{% block content %}
+<h2>Move File Back to Main Page</h2>
+<p>Are you sure you want to move "{{ file.file.name }}" back to the main page?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Move to Main Page</button>
+    <a href="{% url 'view_folder' file.folder.id %}">Cancel</a>
+</form>
+{% endblock %}

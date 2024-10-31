@@ -15,6 +15,20 @@ Cloud Drive
         Your Uploaded Files
     </h3>
     <ul>
+        {% for folder in user_folders %}
+        <li>
+            <a href="{% url 'view_folder' folder.id %}">{{ folder.name }}</a>
+            <a href="{% url 'rename_folder' folder.id %}">Rename</a>
+        </li>
+        {% empty %}
+        <li>No folders created yet.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Create a new folder</h2>
+    <a href="{% url 'create_folder' %}">New Folder</a>
+    
+    <ul>
         {% for file in user_files %}
         <li>
             <a href="{{ file.file.url }}">{{ file.file.name }}</a>

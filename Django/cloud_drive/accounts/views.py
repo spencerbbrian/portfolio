@@ -1,21 +1,22 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from .models import UploadedFile
+from .models import UploadedFile, Folder
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UploadFileForm
+from .forms import UploadFileForm, FolderForm
 
 # Create your views here.
 @login_required
 def main(request):
     if request.user.is_authenticated:
         print(f'Logged in user: {request.user.username}')
+        user_folders = Folder.objects.filter(user=request.user, parent_folder__isnull=True)
     else:
         print('No user is logged in')
     user_files = UploadedFile.objects.filter(user=request.user)
     
-    return render(request,'main.html', {'user_files':user_files})
+    return render(request,'main.html', {'user_files':user_files, 'user_folders':user_folders})
 
 def signup(request):
     if request.method == 'POST':
@@ -32,6 +33,45 @@ def signup(request):
     return render(request,'signup.html',{'form':form})
 
 from django.contrib.auth import logout as auth_logout
+
+def create_folder(request):
+    if request.method == 'POST':
+        form = FolderForm(request.POST)
+        if form.is_valid():
+            new_folder = form.save(commit=False)
+            new_folder.user = request.user
+            new_folder.save()
+            messages.success(request, 'Folder created successfully!')
+            return redirect('main')
+        else:
+            form = FolderForm()
+        return render(request, 'create_folder.html',{'form':form})
+
+def rename_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id, user=request.user)
+    if request.method == 'POST':
+        form = FolderForm(request.POST, instance=folder)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Folder renamed successfully!')
+            return redirect('main')
+    else:
+        form = FolderForm(instance=folder)
+    return render(request, 'rename_folder.html', {'form': form, 'folder': folder})
+
+def view_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id, user=request.user)
+    files_in_folder = folder.files.all()  # get all files in this folder
+    subfolders = folder.subfolders.all()  # get all subfolders
+    return render(request, 'folder_view.html', {'folder': folder, 'files': files_in_folder, 'subfolders': subfolders})
+
+def move_file_to_folder(request, file_id, folder_id):
+    file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
+    folder = get_object_or_404(Folder, id=folder_id, user=request.user)
+    file.folder = folder
+    file.save()
+    messages.success(request, 'File moved successfully!')
+    return redirect('main')
 
 def logout(request):
     auth_logout(request)

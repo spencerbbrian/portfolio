@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+import mimetypes
 from .models import UploadedFile, Folder
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -65,6 +66,32 @@ def view_folder(request, folder_id):
     files_in_folder = UploadedFile.objects.filter(folder=folder)  # get all files in this folder
     subfolders = folder.subfolders.all()  # get all subfolders
     return render(request, 'folder_view.html', {'folder': folder, 'files': files_in_folder, 'subfolders': subfolders})
+
+import mimetypes
+
+@login_required
+def preview_file(request, file_id):
+    uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
+    mime_type = mimetypes.guess_type(uploaded_file.file.url)[0]
+    
+    # Debug output
+    print(f"Detected MIME type: {mime_type}")
+
+    absolute_url = request.build_absolute_uri(uploaded_file.file.url)
+    context = {
+        'uploaded_file': uploaded_file,
+        'mime_type': mime_type,
+        'is_image': mime_type and mime_type.startswith('image'),
+        'is_video': mime_type and mime_type.startswith('video'),
+        'is_audio': mime_type and mime_type.startswith('audio'),
+        'is_pdf': uploaded_file.file.name.lower().endswith('.pdf'),
+        'is_doc': uploaded_file.file.name.lower().endswith(('.doc', '.docx')),
+        'is_text': mime_type and mime_type.startswith('text'),
+        'absolute_url': absolute_url,
+    }
+    return render(request, 'preview_file.html', context)
+
+
 
 @login_required
 def move_file(request, file_id):

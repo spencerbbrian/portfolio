@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+
+{% block title %}
+Preview file
+{% endblock %}
+
+{% block content %}
+    <h2>Preview: {{ uploaded_file.file.name }}</h2>
+
+    {% if is_image %}
+        <img src="{{ uploaded_file.file.url }}" alt="Image Preview" style="max-width: 100%;">
+    {% elif is_video %}
+        <video controls style="max-width: 100%;">
+            <source src="{{ uploaded_file.file.url }}" type="{{ mime_type }}">
+            Your browser does not support the video tag.
+        </video>
+    {% elif is_audio %}
+        <audio controls style="max-width: 100%;">
+            <source src="{{ uploaded_file.file.url }}" type="{{ mime_type }}">
+            Your browser does not support the audio tag.
+        </audio>
+    {% elif is_pdf %}
+        <embed src="{{ uploaded_file.file.url }}" type="application/pdf" width="100%" height="600px">
+    {% elif is_doc %}
+        <!-- Using Google Docs viewer for .doc/.docx -->
+        <iframe src="https://docs.google.com/viewer?url={{ absolute_url }}&embedded=true" width="100%" height="600px"></iframe>
+    {% elif is_text %}
+        <pre><code>{{ uploaded_file.file.read|escape }}</code></pre>
+    {% else %}
+        <p>Preview not supported for this file type.</p>
+    {% endif %}
+
+    <a href="{% url 'main' %}">Back to Main Page</a>
+
+{% endblock %}
+

@@ -37,6 +37,7 @@ Cloud Drive
             <a href="{% url 'preview_file' file.id %}">Preview</a>
             <a href="{% url 'move_file' file.id %}">Move</a>
             <a href="{% url 'delete_file' file.id %}" onclick="return confirm('Are you sure you want to delete this file?')">Delete</a>
+            <a href="{% url 'copy_file' file.id %}" class="btn btn-secondary">Copy File</a>
         </li>
         {% empty %}
         <li>

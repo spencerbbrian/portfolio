@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.core.files import File
 import mimetypes
+import uuid
+import os
 from .models import UploadedFile, Folder
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -91,6 +94,29 @@ def preview_file(request, file_id):
     }
     return render(request, 'preview_file.html', context)
 
+@login_required
+def copy_file(request, file_id):
+    # Get the original file
+    original_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
+    
+    # Create a copy of the file
+    original_file_path = original_file.file.path
+    file_basename, file_extension = os.path.splitext(original_file.file.name)
+    new_file_name = f"{file_basename}_copy_{uuid.uuid4().hex[:6]}{file_extension}"
+    file_size = original_file.file.size
+    
+    # Create a new UploadedFile instance
+    with open(original_file_path, 'rb') as file_content:
+        new_file_instance = UploadedFile(
+            user=request.user,
+            file=File(file_content, name=new_file_name),
+            file_size=file_size
+        )
+        new_file_instance.save()
+
+    # Notify user and redirect
+    messages.success(request, f"{original_file.file.name} copied successfully as {new_file_name}.")
+    return redirect('main')  # Redirect to main page or file listing page
 
 
 @login_required

@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+
+{% block content %}
+<h1>Move Folder: {{ folder.name }}</h1>
+
+<form method="post" action="{% url 'move_to_folder' folder.id %}">
+    {% csrf_token %}
+    <label for="target_folder_id">Select Target Folder:</label>
+    <select name="target_folder_id" id="target_folder_id" required>
+        <option value="">-- Select Folder --</option>
+        {% for target_folder in possible_folders %}
+        <option value="{{ target_folder.id }}">{{ target_folder.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Move</button>
+</form>
+
+<a href="{% url 'view_folder' folder.id %}">Cancel</a>
+{% endblock %}

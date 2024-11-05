@@ -18,5 +18,12 @@ urlpatterns = [
     path('move-to-main/<int:file_id>/', views.move_file_to_main, name='move_file_to_main'),
     path('preview-file/<int:file_id>/', views.preview_file, name='preview_file'),
     path('copy-file/<int:file_id>/', views.copy_file, name='copy_file'),
+    path('move-folder/<int:folder_id>/', views.move_folder, name='move_folder'),
+    path('move-folder/<int:folder_id>/<int:target_folder_id>/', views.move_folder, name='move_folder'),
+    path('folder/<int:folder_id>/', views.view_folder, name='view_folder'),
+    path('folder/<int:folder_id>/create-subfolder/', views.create_subfolder, name='create_subfolder'),
+    path('folder/<int:folder_id>/move-to-main/', views.move_to_main_menu, name='move_to_main_menu'),
+    path('folder/<int:folder_id>/move-to-folder/', views.move_to_folder, name='move_to_folder'),
+    path('copy-folder/<int:folder_id>/', views.copy_folder, name='copy_folder'),
 
 ]

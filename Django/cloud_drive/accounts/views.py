@@ -5,6 +5,7 @@ from django.core.files import File
 import mimetypes
 import uuid
 import os
+from django.db import transaction
 from .models import UploadedFile, Folder
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -15,13 +16,14 @@ from .forms import UploadFileForm, FolderForm, MoveFileForm
 def main(request):
     if request.user.is_authenticated:
         print(f'Logged in user: {request.user.username}')
-        user_folders = Folder.objects.filter(user=request.user, parent_folder__isnull=True)
+        main_folders = Folder.objects.filter(parent_folder__isnull=True)
+        all_folders = Folder.objects.all()
         user_files = UploadedFile.objects.filter(user=request.user, folder__isnull=True)
     else:
         print('No user is logged in')
-        user_folders = []
+        main_folders = []
         user_files = []
-    return render(request,'main.html', {'user_files':user_files, 'user_folders':user_folders})
+    return render(request,'main.html', {'user_files':user_files, 'main_folders': main_folders, 'all_folders': all_folders})
 
 def signup(request):
     if request.method == 'POST':
@@ -66,11 +68,18 @@ def rename_folder(request, folder_id):
 
 def view_folder(request, folder_id):
     folder = get_object_or_404(Folder, id=folder_id, user=request.user)
-    files_in_folder = UploadedFile.objects.filter(folder=folder)  # get all files in this folder
-    subfolders = folder.subfolders.all()  # get all subfolders
+    files_in_folder = UploadedFile.objects.filter(folder=folder)
+    subfolders = folder.subfolders.all()
     return render(request, 'folder_view.html', {'folder': folder, 'files': files_in_folder, 'subfolders': subfolders})
 
-import mimetypes
+
+def move_folder(request, folder_id, target_folder_id=None):
+    folder = get_object_or_404(Folder, id=folder_id)
+    target_folder = get_object_or_404(Folder, id=target_folder_id) if target_folder_id else None
+    
+    folder.parent_folder = target_folder  # `None` means it will move to the main menu
+    folder.save()
+    return redirect('main')  # Adjust the redirect as necessary
 
 @login_required
 def preview_file(request, file_id):
@@ -184,6 +193,87 @@ def delete_file(request, file_id):
     file_to_delete.delete()       # Remove file record from the database
     messages.success(request, 'File deleted successfully!')
     return redirect('main')
+
+def create_subfolder(request, folder_id):
+    if request.method == 'POST':
+        folder = get_object_or_404(Folder, id=folder_id, user=request.user)
+        subfolder_name = request.POST.get('subfolder_name')
+        if subfolder_name:
+            Folder.objects.create(name=subfolder_name, parent_folder=folder, user=request.user)
+            messages.success(request, "Subfolder created successfully.")
+        return redirect('view_folder', folder_id=folder_id)
+    
+# Move a folder to the main menu (i.e., set its parent folder to None)
+def move_to_main_menu(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id, user=request.user)
+    folder.parent_folder = None
+    folder.save()
+    messages.success(request, f"'{folder.name}' has been moved to the main menu.")
+    return redirect('main')
+
+# Move a folder into another folder
+def move_to_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id, user=request.user)
+
+    # If the request method is POST, process the form
+    if request.method == 'POST':
+        target_folder_id = request.POST.get('target_folder_id')
+        if target_folder_id:
+            target_folder = get_object_or_404(Folder, id=target_folder_id, user=request.user)
+
+            # Avoid self-referencing moves
+            if folder.id == target_folder.id:
+                messages.error(request, "Cannot move a folder into itself.")
+                return redirect('view_folder', folder_id=folder_id)
+
+            # Update the folder's parent to the selected target folder and save
+            folder.parent_folder = target_folder
+            folder.save()
+            messages.success(request, f"'{folder.name}' has been moved to '{target_folder.name}'.")
+            return redirect('view_folder', folder_id=target_folder.id)
+        else:
+            messages.error(request, "Please select a target folder.")
+
+    # Exclude the folder itself and all its subfolders from possible move targets
+    possible_folders = Folder.objects.filter(user=request.user).exclude(id=folder.id)
+    subfolder_ids = folder.get_all_subfolder_ids()  # This method collects IDs for all nested subfolders
+    possible_folders = possible_folders.exclude(id__in=subfolder_ids)
+
+    return render(request, 'move_folder.html', {
+        'folder': folder,
+        'possible_folders': possible_folders
+    })
+
+def copy_folder(request, folder_id):
+    original_folder = get_object_or_404(Folder, id=folder_id, user=request.user)
+
+    # Recursive function to copy folders and files
+    def duplicate_folder(folder, parent=None):
+        # Create the new folder
+        new_folder = Folder.objects.create(
+            name=f"{folder.name} (Copy)",
+            user=folder.user,
+            parent_folder=parent
+        )
+        
+        # Copy files in this folder
+        for file in folder.uploadedfile_set.all():
+            UploadedFile.objects.create(
+                file=file.file,
+                folder=new_folder,
+                file_size=file.file_size,
+                uploaded_at=file.uploaded_at,
+                user=file.user
+            )
+
+        # Recursively copy subfolders
+        for subfolder in folder.subfolders.all():
+            duplicate_folder(subfolder, new_folder)
+
+    # Start copying from the root folder
+    duplicate_folder(original_folder)
+
+    return redirect('view_folder', folder_id=original_folder.parent_folder.id if original_folder.parent_folder else None)
 
 @login_required
 def delete_subfolder(subfolder):

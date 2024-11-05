@@ -7,12 +7,24 @@
 {% block content %}
 <h1>Folder: {{ folder.name }}</h1>
 
+<!-- Form to create a new subfolder -->
+<h2>Create a New Subfolder</h2>
+<form method="post" action="{% url 'create_subfolder' folder.id %}">
+    {% csrf_token %}
+    <label for="subfolder_name">Subfolder Name:</label>
+    <input type="text" name="subfolder_name" id="subfolder_name" required>
+    <button type="submit">Create Subfolder</button>
+</form>
+
 <h2>Subfolders</h2>
 <ul>
     {% for subfolder in subfolders %}
     <li>
         <a href="{% url 'view_folder' subfolder.id %}">{{ subfolder.name }}</a>
         <a href="{% url 'rename_folder' subfolder.id %}">Rename</a>
+        <a href="{% url 'move_to_main_menu' subfolder.id %}">Move to Main Menu</a>
+        <a href="{% url 'move_to_folder' subfolder.id %}">Move to Another Folder</a>
+        <a href="{% url 'copy_folder' subfolder.id %}">Copy</a>
     </li>
     {% empty %}
     <li>No subfolders.</li>
@@ -26,7 +38,6 @@
         <a href="{{ file.file.url }}">{{ file.file.name }}</a>
         <a href="{% url 'move_file' file.id %}">Move</a>
         <a href="{% url 'move_file_to_main' file.id %}">Move to Main Page</a>
-        <!-- Add delete or other actions as needed -->
     </li>
     {% empty %}
     <li>No files in this folder.</li>

@@ -15,7 +15,7 @@ Cloud Drive
         Your Uploaded Files
     </h3>
     <ul>
-        {% for folder in user_folders %}
+        {% for folder in main_folders %}
         <li>
             <a href="{% url 'view_folder' folder.id %}">{{ folder.name }}</a>
             <a href="{% url 'rename_folder' folder.id %}">Rename</a>

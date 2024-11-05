@@ -2,9 +2,13 @@ from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.core.files import File
+from django.core.serializers.json import DjangoJSONEncoder
 import mimetypes
+from collections import Counter
+from django.utils import timezone
 import uuid
-import os
+import os, json, calendar
+from django.db.models import Count, Sum
 from django.db import transaction
 from .models import UploadedFile, Folder
 from django.contrib import messages
@@ -14,16 +18,64 @@ from .forms import UploadFileForm, FolderForm, MoveFileForm
 # Create your views here.
 @login_required
 def main(request):
+    # Log in check (although @login_required ensures this is always an authenticated request)
     if request.user.is_authenticated:
         print(f'Logged in user: {request.user.username}')
+        
+        # Get the main folders, all folders, and user files not in a folder
         main_folders = Folder.objects.filter(parent_folder__isnull=True)
         all_folders = Folder.objects.all()
         user_files = UploadedFile.objects.filter(user=request.user, folder__isnull=True)
+
+        # 1. File Type Distribution
+        file_types = [file.file.name.split('.')[-1].lower() for file in user_files]
+        file_type_counts = Counter(file_types)
+
+        # Prepare data for file types and counts for chart
+        file_type_labels = list(file_type_counts.keys())
+        file_type_counts = list(file_type_counts.values())
+
+        # 2. Storage Usage Over Time
+        current_year = timezone.now().year
+        monthly_usage = []
+
+        for month in range(1, 13):
+            month_files = UploadedFile.objects.filter(
+                user=request.user,
+                uploaded_at__year=current_year,
+                uploaded_at__month=month
+            )
+            total_size = month_files.aggregate(total=Sum('file_size'))['total'] or 0
+            monthly_usage.append(total_size / (1024 * 1024))  # Convert to MB or GB as needed
+
+        month_labels = [calendar.month_abbr[m] for m in range(1, 13)]
+
+        # Pass all necessary data to the template context
+        context = {
+            'user_files': user_files,
+            'main_folders': main_folders,
+            'all_folders': all_folders,
+            'file_type_labels': file_type_labels,
+            'file_type_counts': file_type_counts,
+            'month_labels': month_labels,
+            'monthly_usage': monthly_usage,
+        }
+
     else:
         print('No user is logged in')
         main_folders = []
         user_files = []
-    return render(request,'main.html', {'user_files':user_files, 'main_folders': main_folders, 'all_folders': all_folders})
+        context = {
+            'user_files': user_files,
+            'main_folders': main_folders,
+            'all_folders': [],
+            'file_type_labels': [],
+            'file_type_counts': [],
+            'month_labels': [],
+            'monthly_usage': [],
+        }
+
+    return render(request, 'main.html', context)
 
 def signup(request):
     if request.method == 'POST':
@@ -299,3 +351,35 @@ def delete_folder(request, folder_id):
     folder_to_delete.delete()
     messages.success(request, 'Folder deleted successfully!')
     return redirect('main')
+
+def file_drive_stats(request):
+    # Aggregate File Type Distribution
+    file_type_counts = (
+        UploadedFile.objects.filter(user=request.user)
+        .values('file_type')
+        .annotate(count=Count('id'))
+    )
+
+    # Prepare data for file type chart
+    file_types = [entry['file_type'] for entry in file_type_counts]
+    file_counts = [entry['count'] for entry in file_type_counts]
+
+    # Aggregate Storage Usage Over Time (e.g., by month)
+    storage_usage = (
+        UploadedFile.objects.filter(user=request.user)
+        .extra({'month': "DATE_TRUNC('month', upload_date)"})
+        .values('month')
+        .annotate(usage=Sum('file_size'))
+    )
+
+    # Prepare data for storage usage chart
+    months = [entry['month'].strftime('%Y-%m') for entry in storage_usage]
+    usage = [entry['usage'] / (1024 ** 3) for entry in storage_usage]  # Convert bytes to GB
+
+    # Pass data to the template
+    return render(request, 'file_drive_stats.html', {
+        'file_types': json.dumps(file_types, cls=DjangoJSONEncoder),
+        'file_counts': json.dumps(file_counts, cls=DjangoJSONEncoder),
+        'months': json.dumps(months, cls=DjangoJSONEncoder),
+        'usage': json.dumps(usage, cls=DjangoJSONEncoder),
+    })

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>File Drive Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>File Drive Statistics</h1>
+    
+    <!-- File Type Distribution Chart -->
+    <h2>File Type Distribution</h2>
+    <canvas id="fileTypeChart"></canvas>
+    
+    <!-- Storage Usage Over Time Chart -->
+    <h2>Storage Usage Over Time (MB)</h2>
+    <canvas id="storageUsageChart"></canvas>
+
+    <script type="application/json" id="file-types">{{ file_types|json_script:"fileTypes" }}</script>
+<script type="application/json" id="file-counts">{{ file_counts|json_script:"fileCounts" }}</script>
+<script type="application/json" id="months">{{ months|json_script:"months" }}</script>
+<script type="application/json" id="usage">{{ usage|json_script:"usage" }}</script>
+
+<script>
+    // Parse JSON data from script tags
+    const fileTypes = JSON.parse(document.getElementById('file-types').textContent);
+    const fileCounts = JSON.parse(document.getElementById('file-counts').textContent);
+    const months = JSON.parse(document.getElementById('months').textContent);
+    const usage = JSON.parse(document.getElementById('usage').textContent);
+
+    // Proceed with creating the charts
+    new Chart(document.getElementById('fileTypeChart'), {
+        type: 'bar',
+        data: {
+            labels: fileTypes,
+            datasets: [{
+                label: 'Count',
+                data: fileCounts,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+    });
+
+    new Chart(document.getElementById('storageUsageChart'), {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Usage (MB)',
+                data: usage,
+                borderColor: 'rgba(153, 102, 255, 1)',
+                tension: 0.3,
+                fill: false,
+            }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+    });
+</script>

@@ -15,14 +15,18 @@ Cloud Drive
     
     <!-- File Type Distribution Chart -->
     <h2>File Type Distribution</h2>
-    <canvas id="fileTypeChart"></canvas>
+    <div style="width: 50%; margin: auto;">
+        <canvas id="fileTypeChart"></canvas>
+    </div>
 
     <!-- Storage Usage Over Time Chart -->
     <h2>Storage Usage Over Time (MB)</h2>
-    <canvas id="storageUsageChart"></canvas>
+    <div style="width: 50%; margin: auto;">
+        <canvas id="storageUsageChart"></canvas>
+    </div>
 
     <!-- Uploaded Files and Folders Section -->
-    <h3>Your Uploaded Files</h3>
+    <h3>Your Uploaded Folders</h3>
     <ul>
         {% for folder in main_folders %}
         <li>
@@ -128,5 +132,7 @@ Cloud Drive
         }
     });
 </script>
+
+<a href="{% url 'home' %}" class="btn btn-primary">Go to Home Page</a>
 
 {% endblock %}

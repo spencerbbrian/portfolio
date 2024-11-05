@@ -1,0 +1,39 @@
+{% extends "master.html" %}
+{% load file_extras %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+{% block content %}
+<h1>User Files and Folders</h1>
+
+{% for username, data in users_data.items %}
+    <h3>User: 
+        {% if username == request.user.username %}
+            <a href="{% url 'main' %}">{{ username }}</a>
+        {% else %}
+            {{ username }}
+        {% endif %}
+    </h3>
+    <ul>
+        {% for folder in data.folders %}
+            <li>
+                {{ folder.name }} 
+                <span>({{ folder.size|filesizeformat }})</span>  <!-- Ensure using the size field -->
+            </li>
+            <ul>
+                {% for subfolder in folder.subfolders.all %}
+                    <li>{{ subfolder.name }} <span>({{ subfolder.size|filesizeformat }})</span></li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+        {% for file in data.files %}
+            <li>{{ file.file.name }} <span>({{ file.file_size|filesizeformat }})</span></li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<a href="{% url 'main' %}" class="btn btn-secondary">Back to Main Page</a>
+
+{% endblock %}

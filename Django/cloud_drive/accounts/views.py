@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from django.core.files import File
 from django.core.serializers.json import DjangoJSONEncoder
 import mimetypes
+from django.contrib.auth.models import User
 from collections import Counter
 from django.utils import timezone
 import uuid
@@ -17,63 +18,75 @@ from .forms import UploadFileForm, FolderForm, MoveFileForm
 
 # Create your views here.
 @login_required
+def home(request):
+    # Retrieve all users and their folders/files
+    users_data = {}
+    users = User.objects.exclude(username=request.user.username)
+
+    for user in User.objects.all():
+        folders = Folder.objects.filter(user=user)
+        files = UploadedFile.objects.filter(user=user)
+
+        users_data[user.username] = {
+            'folders': folders,
+            'files': files,
+            'folder_sizes': {folder.id: get_folder_size(folder) for folder in folders}
+        }
+
+    context = {
+        'current_user': request.user,
+        'other_users': users,
+        'users_data': users_data,
+    }
+
+    return render(request, 'home.html', context)
+
+@login_required
 def main(request):
-    # Log in check (although @login_required ensures this is always an authenticated request)
-    if request.user.is_authenticated:
-        print(f'Logged in user: {request.user.username}')
-        
-        # Get the main folders, all folders, and user files not in a folder
-        main_folders = Folder.objects.filter(parent_folder__isnull=True)
-        all_folders = Folder.objects.all()
-        user_files = UploadedFile.objects.filter(user=request.user, folder__isnull=True)
+    print(f'Logged in user: {request.user.username}')
+    
+    # Get main folders (top-level folders)
+    main_folders = Folder.objects.filter(user=request.user, parent_folder__isnull=True)
+    
+    # Get all folders for the user (not just main folders)
+    all_folders = Folder.objects.filter(user=request.user)  # Ensure we only get folders for the logged-in user
+    
+    # Get user files not in a folder
+    user_files = UploadedFile.objects.filter(user=request.user, folder__isnull=True)
 
-        # 1. File Type Distribution
-        file_types = [file.file.name.split('.')[-1].lower() for file in user_files]
-        file_type_counts = Counter(file_types)
+    # 1. File Type Distribution
+    file_types = [file.file.name.split('.')[-1].lower() for file in user_files]
+    file_type_counts = Counter(file_types)
 
-        # Prepare data for file types and counts for chart
-        file_type_labels = list(file_type_counts.keys())
-        file_type_counts = list(file_type_counts.values())
+    # Prepare data for file types and counts for chart
+    file_type_labels = list(file_type_counts.keys())
+    file_type_counts = list(file_type_counts.values())
 
-        # 2. Storage Usage Over Time
-        current_year = timezone.now().year
-        monthly_usage = []
+    # 2. Storage Usage Over Time
+    current_year = timezone.now().year
+    monthly_usage = []
 
-        for month in range(1, 13):
-            month_files = UploadedFile.objects.filter(
-                user=request.user,
-                uploaded_at__year=current_year,
-                uploaded_at__month=month
-            )
-            total_size = month_files.aggregate(total=Sum('file_size'))['total'] or 0
-            monthly_usage.append(total_size / (1024 * 1024))  # Convert to MB or GB as needed
+    for month in range(1, 13):
+        month_files = UploadedFile.objects.filter(
+            user=request.user,
+            uploaded_at__year=current_year,
+            uploaded_at__month=month
+        )
+        total_size = month_files.aggregate(total=Sum('file_size'))['total'] or 0
+        monthly_usage.append(total_size / (1024 * 1024))  # Convert to MB
 
-        month_labels = [calendar.month_abbr[m] for m in range(1, 13)]
+    month_labels = [calendar.month_abbr[m] for m in range(1, 13)]
 
-        # Pass all necessary data to the template context
-        context = {
-            'user_files': user_files,
-            'main_folders': main_folders,
-            'all_folders': all_folders,
-            'file_type_labels': file_type_labels,
-            'file_type_counts': file_type_counts,
-            'month_labels': month_labels,
-            'monthly_usage': monthly_usage,
-        }
-
-    else:
-        print('No user is logged in')
-        main_folders = []
-        user_files = []
-        context = {
-            'user_files': user_files,
-            'main_folders': main_folders,
-            'all_folders': [],
-            'file_type_labels': [],
-            'file_type_counts': [],
-            'month_labels': [],
-            'monthly_usage': [],
-        }
+    # Pass all necessary data to the template context
+    context = {
+        'user_files': user_files,
+        'main_folders': main_folders,
+        'all_folders': all_folders,  # You can decide if you want to show all folders or just main folders
+        'file_type_labels': file_type_labels,
+        'file_type_counts': file_type_counts,
+        'month_labels': month_labels,
+        'monthly_usage': monthly_usage,
+    }
 
     return render(request, 'main.html', context)
 
@@ -105,6 +118,18 @@ def create_folder(request):
     else:
         form = FolderForm()
     return render(request, 'create_folder.html',{'form':form})
+
+def get_folder_size(folder):
+    total_size = 0
+    # Add size of files in the folder
+    for file in UploadedFile.objects.filter(folder=folder):
+        total_size += file.file_size
+
+    # Recursively add sizes of subfolders
+    for subfolder in folder.subfolders.all():
+        total_size += get_folder_size(subfolder)
+
+    return total_size
 
 def rename_folder(request, folder_id):
     folder = get_object_or_404(Folder, id=folder_id, user=request.user)
@@ -179,7 +204,6 @@ def copy_file(request, file_id):
     messages.success(request, f"{original_file.file.name} copied successfully as {new_file_name}.")
     return redirect('main')  # Redirect to main page or file listing page
 
-
 @login_required
 def move_file(request, file_id):
     uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
@@ -187,15 +211,25 @@ def move_file(request, file_id):
     if request.method == 'POST':
         form = MoveFileForm(request.POST, user=request.user)
         if form.is_valid():
-            folder = form.cleaned_data['folder']
-            uploaded_file.folder = folder  # Update the folder of the file
+            new_folder = form.cleaned_data['folder']
+            old_folder = uploaded_file.folder  # Reference to the old folder
+
+            # Move the file to the new folder
+            uploaded_file.folder = new_folder
             uploaded_file.save()  # Save the changes
+
+            # Update sizes of both folders
+            if old_folder:  # Ensure old_folder exists
+                old_folder.update_size()  # Update the old folder's size
+            new_folder.update_size()  # Update the new folder's size
+
             messages.success(request, 'File moved successfully!')
-            return redirect('main')  # Redirect to your main page
+            return redirect('main')
     else:
         form = MoveFileForm(user=request.user)
 
     return render(request, 'move_file.html', {'form': form, 'file': uploaded_file})
+
 
 @login_required
 def move_file_to_main(request, file_id):
@@ -224,19 +258,32 @@ def upload_file(request):
             uploaded_file = form.save(commit=False)
             uploaded_file.user = request.user
             uploaded_file.file_size = uploaded_file.file.size
-            if uploaded_file.file_size > 41943040:
+            
+            # Check if the individual file size exceeds 40MB
+            if uploaded_file.file_size > 41943040:  # 40 MB in bytes
                 messages.error(request, 'File size exceeds 40MB. Please upload a smaller file.')
                 return redirect('upload_file')
-            else:
-                uploaded_file.save()
-                print(f'File size: {uploaded_file.file_size}')
-                messages.success(request, 'File uploaded successfully!')
-                return redirect('main')
+
+            # Calculate the total size of all uploaded files for the current user
+            total_size = sum(file.file_size for file in UploadedFile.objects.filter(user=request.user))
+            
+            # Check if adding this file would exceed the 100MB limit
+            if total_size + uploaded_file.file_size > 100 * 1024 * 1024:  # 100 MB in bytes
+                messages.error(request, 'Total file size exceeds 100MB. Please delete some files before uploading new ones.')
+                return redirect('upload_file')
+
+            # Save the uploaded file
+            uploaded_file.save()
+            print(f'File size: {uploaded_file.file_size}')
+            messages.success(request, 'File uploaded successfully!')
+            return redirect('main')
         else:
             messages.error(request, 'File upload failed. Please correct the errors below.')
     else:
         form = UploadFileForm()
+    
     return render(request, 'upload.html', {'form': form})
+
 
 @login_required
 def delete_file(request, file_id):

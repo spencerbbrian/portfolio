@@ -9,6 +9,7 @@ from django.utils import timezone
 import uuid
 import mimetypes
 import nbformat
+from pdf2image import convert_from_path
 from pygments import highlight
 from pygments.lexers import PythonLexer, HtmlLexer, CssLexer, TextLexer
 from pygments.formatters import HtmlFormatter
@@ -183,6 +184,24 @@ def preview_file(request, file_id):
     is_text = mime_type and mime_type.startswith('text')
     is_notebook = uploaded_file.file.name.lower().endswith('.ipynb')
 
+    # Process PDF file to generate preview images for all pages
+    preview_images_urls = []
+    if is_pdf:
+        # Ensure the 'media' directory exists
+        media_dir = os.path.join(settings.MEDIA_ROOT, 'temp')
+        if not os.path.exists(media_dir):
+            os.makedirs(media_dir)
+        
+        # Convert all pages of the PDF to images
+        poppler_path = r"C:\Program Files\poppler-24.08.0\Library\bin"  # Update this path as needed
+        images = convert_from_path(uploaded_file.file.path, poppler_path=poppler_path)
+        
+        # Save each image with a unique name and add it to the list
+        for page_num, image in enumerate(images, start=1):
+            image_path = os.path.join(media_dir, f'{file_id}_page_{page_num}.jpg')
+            image.save(image_path, 'JPEG')
+            preview_images_urls.append(os.path.join(settings.MEDIA_URL, 'temp', f'{file_id}_page_{page_num}.jpg'))
+
     # Process Jupyter notebook (.ipynb) files for display
     notebook_content = ""
     if is_notebook:
@@ -216,6 +235,7 @@ def preview_file(request, file_id):
         'is_notebook': is_notebook,
         'notebook_content': notebook_content,
         'formatted_text': formatted_text,
+        'preview_images_urls': preview_images_urls,  # Pass the list of image URLs
     }
     return render(request, 'preview_file.html', context)
 
@@ -441,8 +461,8 @@ def delete_folder(request, folder_id):
     return redirect('main')
 
 def file_drive_stats(request):
-    # Get user files not in a folder
-    user_files = UploadedFile.objects.filter(user=request.user)
+    # Get all files instead of filtering by the current user
+    all_files = UploadedFile.objects.all()
 
     # Define file type categories
     file_categories = {
@@ -458,7 +478,7 @@ def file_drive_stats(request):
     categorized_counts = Counter()
     uncategorized_count = 0
 
-    for file in user_files:
+    for file in all_files:
         extension = file.file.name.split('.')[-1].lower()
         categorized = False
 
@@ -485,7 +505,6 @@ def file_drive_stats(request):
 
     for month in range(1, 13):
         month_files = UploadedFile.objects.filter(
-            user=request.user,
             uploaded_at__year=current_year,
             uploaded_at__month=month
         )
@@ -496,7 +515,6 @@ def file_drive_stats(request):
 
     # Pass all necessary data to the template context
     context = {
-        'user_files': user_files,
         'category_labels': category_labels,
         'category_counts': category_counts,
         'month_labels': month_labels,

@@ -2,58 +2,168 @@
 {% load file_extras %}
 
 {% block title %}
-Cloud Drive
+    Cloud Drive
 {% endblock %}
 
 {% block content %}
-<header>
-    <h1>Welcome {{ user.username }} to your Cloud Drive</h1>
-</header>
+<style>
+    /* Page Styling */
+    body {
+        background: linear-gradient(135deg, #e0f7fa, #e1f5fe); /* Soft gradient background */
+        background-attachment: fixed; /* Keeps the gradient fixed as you scroll */
+    }
 
-<main>
-    <p>This is your main content area.</p>
+    header {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
 
-    <!-- Uploaded Files and Folders Section -->
-    <h3>Your Uploaded Folders</h3>
-    <ul>
-        {% for folder in main_folders %}
-        <li>
-            <a href="{% url 'view_folder' folder.id %}">{{ folder.name }}</a>
-            <a href="{% url 'rename_folder' folder.id %}">Rename</a>
-            <a href="{% url 'delete_folder' folder.id %}" onclick="return confirm('Are you sure you want to delete this folder?')">Delete</a>
-        </li>
-        {% empty %}
-        <li>No folders created yet.</li>
-        {% endfor %}
-    </ul>
+    header h1 {
+        font-size: 2.5rem;
+        color: #343a40;
+    }
 
-    <h2>Create a new folder</h2>
-    <a href="{% url 'create_folder' %}">New Folder</a>
-    
-    <ul>
-        {% for file in user_files %}
-        <li>
-            <a href="{{ file.file.url }}">{{ file.file.name }}</a>
-            Uploaded on: {{ file.uploaded_at }}, Size: {{ file.file.size|filesizeformat }}
-            <a href="{% url 'preview_file' file.id %}">Preview</a>
-            <a href="{% url 'move_file' file.id %}">Move</a>
-            <a href="{% url 'delete_file' file.id %}" onclick="return confirm('Are you sure you want to delete this file?')">Delete</a>
-            <a href="{% url 'copy_file' file.id %}" class="btn btn-secondary">Copy File</a>
-        </li>
-        {% empty %}
-        <li>No file uploaded yet.</li>
-        {% endfor %}
-    </ul>
+    /* Main Content Wrapper with Subtle Background Pattern */
+    .content-wrapper {
+        background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+    }
 
-    <!-- Logout and Upload Buttons -->
-    <form action="{% url 'upload_file' %}" method="get">
-        <button type="submit">Upload</button>
-    </form>
-</main>
+    .content-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(circle, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        background-size: 15px 15px;
+        opacity: 0.3;
+        pointer-events: none; /* Allows clicks to pass through */
+    }
 
-<footer>
-    <p>&copy; 2024 Cloud Drive. All rights reserved.</p>
-</footer>
+    .section-heading {
+        font-size: 1.5rem;
+        color: #007bff;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
 
+    .folder-list, .file-list {
+        list-style-type: none;
+        padding: 0;
+    }
 
+    .folder-item, .file-item {
+        padding: 15px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .folder-item:hover, .file-item:hover {
+        background-color: #f1f1f1;
+    }
+
+    .file-info, .folder-info {
+        flex-grow: 1;
+    }
+
+    .file-actions, .folder-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-primary, .btn-secondary, .btn-danger, .btn-warning {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+
+    .new-folder-section, .upload-button-section {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+</style>
+
+<div class="content-wrapper">
+    <header>
+        <h1>Welcome {{ user.username }} to your Cloud Drive</h1>
+        <p class="text-muted">Easily manage your files and folders from one place.</p>
+    </header>
+
+    <main>
+        <!-- Uploaded Folders Section -->
+        <h3 class="section-heading">Your Uploaded Folders</h3>
+        <ul class="folder-list">
+            {% for folder in main_folders %}
+            <li class="folder-item">
+                <div class="folder-info">
+                    <a href="{% url 'view_folder' folder.id %}" class="text-primary font-weight-bold">{{ folder.name }}</a>
+                </div>
+                <div class="folder-actions">
+                    <a href="{% url 'rename_folder' folder.id %}" class="btn btn-warning btn-sm">Rename</a>
+                    <a href="{% url 'copy_folder' folder.id %}" class="btn btn-info btn-sm">Copy</a>
+                    <a href="{% url 'move_to_folder' folder.id %}" class="btn btn-secondary btn-sm">Move</a> <!-- Move button added -->
+                    <a href="{% url 'delete_folder' folder.id %}" onclick="return confirm('Are you sure you want to delete this folder?')" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </li>
+            {% empty %}
+            <li class="text-center text-muted">No folders created yet.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Create Folder Section -->
+        <div class="new-folder-section">
+            <h4>Create a New Folder</h4>
+            <a href="{% url 'create_folder' %}" class="btn btn-primary">New Folder</a>
+        </div>
+
+        <!-- Uploaded Files Section -->
+        <h3 class="section-heading">Your Uploaded Files</h3>
+        <ul class="file-list">
+            {% for file in user_files %}
+            <li class="file-item">
+                <div class="file-info">
+                    <a href="{{ file.file.url }}" class="text-primary font-weight-bold">{{ file.file.name }}</a><br>
+                    <small class="text-muted">Uploaded on: {{ file.uploaded_at }}, Size: {{ file.file.size|filesizeformat }}</small>
+                </div>
+                <div class="file-actions">
+                    <a href="{% url 'preview_file' file.id %}" class="btn btn-info btn-sm">Preview</a>
+                    <a href="{% url 'move_file' file.id %}" class="btn btn-secondary btn-sm">Move</a>
+                    <a href="{% url 'copy_file' file.id %}" class="btn btn-secondary btn-sm">Copy</a>
+                    <a href="{% url 'delete_file' file.id %}" onclick="return confirm('Are you sure you want to delete this file?')" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </li>
+            {% empty %}
+            <li class="text-center text-muted">No files uploaded yet.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Upload Button Section -->
+        <div class="upload-button-section">
+            <form action="{% url 'upload_file' %}" method="get">
+                <button type="submit" class="btn btn-success">Upload New File</button>
+            </form>
+        </div>
+    </main>
+</div>
 {% endblock %}

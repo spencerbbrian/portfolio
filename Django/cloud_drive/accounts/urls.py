@@ -29,4 +29,5 @@ urlpatterns = [
     path('copy-folder/<int:folder_id>/', views.copy_folder, name='copy_folder'),
     path('home/', views.home, name='home'),
     path('file-drive-stats/', views.file_drive_stats, name='file_drive_stats'),
+    path('profile/', views.profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

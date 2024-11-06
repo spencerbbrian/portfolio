@@ -2,26 +2,65 @@
 {% load file_extras %}
 
 {% block title %}
-Cloud Drive
+    Cloud Drive
 {% endblock %}
 
 {% block content %}
+<style>
+    /* Flexbox container to display charts side by side */
+    .chart-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 30px;
+        margin: 40px auto;
+        max-width: 90%;
+    }
+
+    /* Individual chart styling */
+    .chart-box {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 45%;
+    }
+
+    .chart-title {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #343a40;
+        margin-bottom: 20px;
+    }
+
+    /* Footer styling */
+    footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+</style>
+
 <main>
-    <!-- File Type Distribution Chart -->
-    <h2>File Category Distribution</h2>
-    <div style="width: 50%; margin: auto;">
-        <canvas id="fileCategoryChart"></canvas>
+    <div class="chart-container">
+        <!-- File Category Distribution Chart -->
+        <div class="chart-box">
+            <h2 class="chart-title">File Category Distribution</h2>
+            <canvas id="fileCategoryChart"></canvas>
+        </div>
+
+        <!-- Storage Usage Over Time Chart -->
+        <div class="chart-box">
+            <h2 class="chart-title">Storage Usage Over Time (MB)</h2>
+            <canvas id="storageUsageChart"></canvas>
+        </div>
     </div>
 
-    <!-- Storage Usage Over Time Chart -->
-    <h2>Storage Usage Over Time (MB)</h2>
-    <div style="width: 50%; margin: auto;">
-        <canvas id="storageUsageChart"></canvas>
-    </div>
-
-<footer>
-    <p>&copy; 2024 Cloud Drive. All rights reserved.</p>
-</footer>
+    <footer>
+        <p>&copy; 2024 Cloud Drive. All rights reserved.</p>
+    </footer>
+</main>
 
 <!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -38,22 +77,34 @@ Cloud Drive
     // File Category Distribution Chart
     const fileCategoryCtx = document.getElementById('fileCategoryChart').getContext('2d');
     new Chart(fileCategoryCtx, {
-        type: 'bar',
+        type: 'pie', // Changed to 'pie' for better visualization of categories
         data: {
             labels: categoryLabels,
             datasets: [{
                 label: 'File Count',
                 data: categoryCounts,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
                 borderWidth: 1
             }]
         },
         options: {
             responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+            plugins: {
+                legend: {
+                    position: 'bottom'
                 }
             }
         }
@@ -68,17 +119,35 @@ Cloud Drive
             datasets: [{
                 label: 'Usage (MB)',
                 data: monthlyUsage,
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                borderColor: 'rgba(153, 102, 255, 1)',
-                borderWidth: 1,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                tension: 0.4, // Adds smooth curves to the line
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
                 fill: true
             }]
         },
         options: {
             responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                }
+            },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Usage (MB)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
                 }
             }
         }

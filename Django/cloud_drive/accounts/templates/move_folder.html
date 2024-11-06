@@ -1,19 +1,105 @@
 {% extends "master.html" %}
 
+{% block title %}
+    Move Folder
+{% endblock %}
+
 {% block content %}
-<h1>Move Folder: {{ folder.name }}</h1>
+<div class="move-folder-wrapper d-flex justify-content-center align-items-center">
+    <div class="move-folder-container">
+        <h2 class="move-folder-heading text-center">Move Folder</h2>
+        <p class="text-center mb-4 text-muted">Current Folder: <strong>{{ folder.name }}</strong></p>
+        <form method="post" action="{% url 'move_to_folder' folder.id %}" class="move-folder-form">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="target_folder_id" class="form-label">Select Target Folder:</label>
+                <select name="target_folder_id" id="target_folder_id" class="form-control" required>
+                    <option value="">-- Select Folder --</option>
+                    {% for target_folder in possible_folders %}
+                    <option value="{{ target_folder.id }}">{{ target_folder.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Move</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'view_folder' folder.id %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </div>
+</div>
 
-<form method="post" action="{% url 'move_to_folder' folder.id %}">
-    {% csrf_token %}
-    <label for="target_folder_id">Select Target Folder:</label>
-    <select name="target_folder_id" id="target_folder_id" required>
-        <option value="">-- Select Folder --</option>
-        {% for target_folder in possible_folders %}
-        <option value="{{ target_folder.id }}">{{ target_folder.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Move</button>
-</form>
+<style>
+    /* Full-screen wrapper for centering */
+    .move-folder-wrapper {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #4CAF50, #00C853); /* Green gradient */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-<a href="{% url 'view_folder' folder.id %}">Cancel</a>
+    /* Centered container with card styling */
+    .move-folder-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 2.5rem;
+        background-color: rgba(255, 255, 255, 0.9); /* Light, semi-transparent background */
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Heading styling */
+    .move-folder-heading {
+        font-size: 1.8rem;
+        color: #343a40;
+        margin-bottom: 1rem;
+    }
+
+    /* Form input styling */
+    .move-folder-form .form-group label {
+        font-weight: bold;
+        color: #343a40;
+    }
+    .move-folder-form .form-group select {
+        background-color: #f4f4f9;
+        color: #343a40;
+        border: 1px solid #ddd;
+        padding: 0.75rem;
+        border-radius: 5px;
+        width: 100%;
+    }
+    .move-folder-form .form-group select:focus {
+        border-color: #495057;
+        outline: none;
+    }
+
+    /* Button styling */
+    .btn-primary {
+        font-size: 1rem;
+        padding: 0.75rem;
+        color: #ffffff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .btn-primary:hover {
+        background-color: #388E3C;
+    }
+
+    /* Cancel button styling */
+    .btn-secondary {
+        font-size: 0.9rem;
+        color: #ffffff;
+        background-color: #6c757d;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        text-decoration: none;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>
 {% endblock %}

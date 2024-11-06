@@ -2,15 +2,21 @@ from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout as auth_logout
 from django.core.files import File
-from django.core.serializers.json import DjangoJSONEncoder
 import mimetypes
 from django.contrib.auth.models import User
 from collections import Counter
 from django.utils import timezone
 import uuid
+import mimetypes
+import nbformat
+from pygments import highlight
+from pygments.lexers import PythonLexer, HtmlLexer, CssLexer, TextLexer
+from pygments.formatters import HtmlFormatter
+from django.shortcuts import render, get_object_or_404
+from .models import UploadedFile
 import os, json, calendar
-from django.db.models import Count, Sum
-from django.db import transaction
+from django.conf import settings
+from django.db.models import Sum
 from .models import UploadedFile, Folder
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -24,7 +30,8 @@ def home(request):
     users = User.objects.exclude(username=request.user.username)
 
     for user in User.objects.all():
-        folders = Folder.objects.filter(user=user)
+        # Get only top-level folders (folders that do not have a parent)
+        folders = Folder.objects.filter(user=user, parent_folder__isnull=True)
         files = UploadedFile.objects.filter(user=user)
 
         users_data[user.username] = {
@@ -139,7 +146,7 @@ def rename_folder(request, folder_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Folder renamed successfully!')
-            return redirect('main')
+            return redirect('view_folder', folder_id=folder.id)
         else:
             messages.error(request, 'Error renaming folder. Please try again.')
     else:
@@ -165,21 +172,50 @@ def move_folder(request, folder_id, target_folder_id=None):
 def preview_file(request, file_id):
     uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
     mime_type = mimetypes.guess_type(uploaded_file.file.url)[0]
-    
-    # Debug output
-    print(f"Detected MIME type: {mime_type}")
-
     absolute_url = request.build_absolute_uri(uploaded_file.file.url)
+
+    # Identify file types
+    is_image = mime_type and mime_type.startswith('image')
+    is_video = mime_type and mime_type.startswith('video')
+    is_audio = mime_type and mime_type.startswith('audio')
+    is_pdf = uploaded_file.file.name.lower().endswith('.pdf')
+    is_doc = uploaded_file.file.name.lower().endswith(('.doc', '.docx'))
+    is_text = mime_type and mime_type.startswith('text')
+    is_notebook = uploaded_file.file.name.lower().endswith('.ipynb')
+
+    # Process Jupyter notebook (.ipynb) files for display
+    notebook_content = ""
+    if is_notebook:
+        with open(uploaded_file.file.path) as f:
+            nb = nbformat.read(f, as_version=4)
+        notebook_content = nbformat.writes(nb)  # Convert notebook to HTML-like format
+
+    # Syntax-highlighted content for code files (e.g., .py, .html, .css)
+    formatted_text = ""
+    if is_text:
+        with open(uploaded_file.file.path, 'r') as f:
+            content = f.read()
+            lexer = {
+                'html': HtmlLexer(),
+                'css': CssLexer(),
+                'py': PythonLexer()
+            }.get(uploaded_file.file.name.split('.')[-1], TextLexer())
+            formatter = HtmlFormatter(style='colorful')
+            formatted_text = highlight(content, lexer, formatter)
+
     context = {
         'uploaded_file': uploaded_file,
         'mime_type': mime_type,
-        'is_image': mime_type and mime_type.startswith('image'),
-        'is_video': mime_type and mime_type.startswith('video'),
-        'is_audio': mime_type and mime_type.startswith('audio'),
-        'is_pdf': uploaded_file.file.name.lower().endswith('.pdf'),
-        'is_doc': uploaded_file.file.name.lower().endswith(('.doc', '.docx')),
-        'is_text': mime_type and mime_type.startswith('text'),
         'absolute_url': absolute_url,
+        'is_image': is_image,
+        'is_video': is_video,
+        'is_audio': is_audio,
+        'is_pdf': is_pdf,
+        'is_doc': is_doc,
+        'is_text': is_text,
+        'is_notebook': is_notebook,
+        'notebook_content': notebook_content,
+        'formatted_text': formatted_text,
     }
     return render(request, 'preview_file.html', context)
 
@@ -347,37 +383,37 @@ def move_to_folder(request, folder_id):
         'possible_folders': possible_folders
     })
 
+
 def copy_folder(request, folder_id):
     original_folder = get_object_or_404(Folder, id=folder_id, user=request.user)
 
-    # Recursive function to copy folders and files
     def duplicate_folder(folder, parent=None):
-        # Create the new folder
         new_folder = Folder.objects.create(
             name=f"{folder.name} (Copy)",
             user=folder.user,
             parent_folder=parent
         )
-        
-        # Copy files in this folder
-        for file in folder.uploadedfile_set.all():
-            UploadedFile.objects.create(
-                file=file.file,
-                folder=new_folder,
-                file_size=file.file_size,
-                uploaded_at=file.uploaded_at,
-                user=file.user
-            )
 
-        # Recursively copy subfolders
+        for file in folder.files.all():
+            file_path = os.path.join(settings.MEDIA_ROOT, file.file.name)
+            if os.path.exists(file_path):  # Check if the file exists
+                UploadedFile.objects.create(
+                    file=file.file,
+                    folder=new_folder,
+                    file_size=file.file_size,
+                    uploaded_at=file.uploaded_at,
+                    user=file.user
+                )
+            else:
+                print(f"File not found: {file.file.name}")  # Log missing file info
+
         for subfolder in folder.subfolders.all():
             duplicate_folder(subfolder, new_folder)
 
-    # Start copying from the root folder
     duplicate_folder(original_folder)
 
     messages.success(request, f"Folder '{original_folder.name}' and its contents have been copied successfully.")
-    return redirect('view_folder', folder_id=original_folder.parent_folder.id if original_folder.parent_folder else None)
+    return redirect('main')
 
 @login_required
 def delete_subfolder(subfolder):
@@ -468,3 +504,14 @@ def file_drive_stats(request):
     }
     
     return render(request, 'file_drive_stats.html', context)
+
+@login_required
+def profile(request):
+    folder_count = Folder.objects.filter(user=request.user).count()
+    file_count = UploadedFile.objects.filter(user=request.user).count()
+    context = {
+        'user': request.user,
+        'folder_count': folder_count,
+        'file_count': file_count,
+    }
+    return render(request, 'profile.html', context)

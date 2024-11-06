@@ -1,15 +1,86 @@
 {% extends "master.html" %}
 
 {% block title %}
-Move file
+Move File
 {% endblock %}
 
 {% block content %}
-<h2>Move File Back to Main Page</h2>
-<p>Are you sure you want to move "{{ file.file.name }}" back to the main page?</p>
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Move to Main Page</button>
-    <a href="{% url 'view_folder' file.folder.id %}">Cancel</a>
-</form>
+<style>
+    /* Background Pattern */
+    body {
+        background-color: #f3f4f6;
+        background-image: url('https://www.transparenttextures.com/patterns/white-dots.png'); /* Subtle dotted pattern */
+    }
+
+    /* Centered Container */
+    .move-file-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 60px auto;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+    }
+
+    /* Title Styling */
+    .move-file-container h2 {
+        font-size: 1.8rem;
+        color: #333333;
+        margin-bottom: 20px;
+    }
+
+    /* Description Text */
+    .move-file-container p {
+        color: #666666;
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+
+    /* Button Styles */
+    .move-file-container .btn-move, .move-file-container .btn-cancel {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+        border: none;
+        color: #ffffff;
+    }
+
+    /* Move Button */
+    .btn-move {
+        background-color: #007bff;
+        margin-right: 10px;
+    }
+    .btn-move:hover {
+        background-color: #0056b3;
+    }
+
+    /* Cancel Button */
+    .btn-cancel {
+        background-color: #6c757d;
+    }
+    .btn-cancel:hover {
+        background-color: #5a6268;
+    }
+
+    /* Cancel Link */
+    .move-file-container a.btn-cancel {
+        color: #ffffff;
+    }
+</style>
+
+<div class="move-file-container">
+    <h2>Move File Back to Main Page</h2>
+    <p>Are you sure you want to move "{{ file.file.name }}" back to the main page?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn-move">Move to Main Page</button>
+        <a href="{% url 'view_folder' file.folder.id %}" class="btn-cancel">Cancel</a>
+    </form>
+</div>
 {% endblock %}

@@ -1,15 +1,80 @@
 {% extends "master.html" %}
 
 {% block title %}
-Rename Folder
+    Rename Folder
 {% endblock %}
 
-
 {% block content %}
-<h1>Rename Folder: {{ folder.name }}</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Rename Folder</button>
-</form>
+<div class="rename-folder-wrapper d-flex justify-content-center align-items-center">
+    <div class="rename-folder-container">
+        <h2 class="rename-folder-heading text-center">Rename Folder</h2>
+        <p class="text-center mb-4 text-muted">Current Folder Name: <strong>{{ folder.name }}</strong></p>
+        <form method="post" class="rename-folder-form">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Rename Folder</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Full-screen wrapper for centering */
+    .rename-folder-wrapper {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #007bff, #6a0dad);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Centered container with card styling */
+    .rename-folder-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 2.5rem;
+        background-color: rgba(255, 255, 255, 0.9); /* Light, semi-transparent background */
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Heading styling */
+    .rename-folder-heading {
+        font-size: 1.8rem;
+        color: #343a40;
+        margin-bottom: 1rem;
+    }
+
+    /* Form input styling */
+    .rename-folder-form .form-group label {
+        font-weight: bold;
+        color: #343a40;
+    }
+    .rename-folder-form .form-group input {
+        background-color: #f4f4f9;
+        color: #343a40;
+        border: 1px solid #ddd;
+        padding: 0.75rem;
+        border-radius: 5px;
+    }
+    .rename-folder-form .form-group input:focus {
+        border-color: #495057;
+        outline: none;
+    }
+
+    /* Submit button styling */
+    .btn-primary {
+        font-size: 1rem;
+        padding: 0.75rem;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
 {% endblock %}

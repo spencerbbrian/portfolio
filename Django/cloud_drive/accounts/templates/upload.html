@@ -1,23 +1,125 @@
 {% extends "master.html" %}
 
-
 {% block title %}
 File Upload
 {% endblock %}
 
 {% block content %}
+<style>
+    /* Subtle Gradient Background */
+    body {
+        background: linear-gradient(to right, #c9d6ff, #e2e2e2); /* Soft, subtle gradient */
+        background-attachment: fixed;
+        color: #333;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Centered Upload Container */
+    .upload-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 100px auto;
+        padding: 30px 40px;
+        text-align: center;
+        position: relative;
+    }
+
+    /* Upload Icon with Title */
+    .upload-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 1.8rem;
+        color: #4a4a4a;
+        margin-bottom: 20px;
+    }
+
+    .upload-header i {
+        font-size: 2.2rem;
+        color: #4a90e2; /* Matches upload button for color consistency */
+    }
+
+    /* Form Styling */
+    .upload-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* File Input Styling */
+    .upload-container form input[type="file"] {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: #333; /* Dark text color for visibility */
+        background-color: #f9f9f9; /* Light background to ensure contrast */
+    }
+
+    /* Gradient Button Styling */
+    .btn-upload {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border-radius: 8px;
+        border: none;
+        color: #ffffff;
+        background: linear-gradient(135deg, #4a90e2, #007bff);
+        transition: background 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .btn-upload:hover {
+        background: linear-gradient(135deg, #007bff, #4a90e2);
+    }
+
+    /* Back Link Styling */
+    .back-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: #4a90e2;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+    .back-link:hover {
+        color: #007bff;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="upload-container">
+    <!-- Title with Upload Icon -->
+    <div class="upload-header">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <span>Upload File</span>
+    </div>
+
     {% if messages %}
-        <ul>
+        <ul class="messages">
             {% for message in messages %}
                 <li>{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}
-    <h2>Upload File</h2>
+    
+    <!-- File Upload Form -->
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Upload</button>
+        <button type="submit" class="btn-upload">
+            <i class="fas fa-upload"></i> Upload
+        </button>
     </form>
-    <p><a href="{% url 'main' %}">Back to Main</a></p>
+    
+    <a href="{% url 'main' %}" class="back-link">Back to Main</a>
+</div>
+
+<!-- FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 {% endblock %}

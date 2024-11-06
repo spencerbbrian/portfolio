@@ -5,11 +5,117 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Signup</h2>
+<style>
+    /* Full-page gradient background */
+    body {
+        background: linear-gradient(135deg, #6a11cb, #2575fc); /* Matching gradient for login */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    /* Signup form card styling */
+    .signup-card {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Header Styling */
+    .signup-card h2 {
+        font-size: 1.8rem;
+        color: #343a40;
+        margin-bottom: 1rem;
+    }
+
+    /* Input field styling */
+    .signup-card form .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .signup-card input[type="text"],
+    .signup-card input[type="email"],
+    .signup-card input[type="password"] {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+    .signup-card input[type="text"]:focus,
+    .signup-card input[type="email"]:focus,
+    .signup-card input[type="password"]:focus {
+        outline: none;
+        border-color: #6a11cb;
+        box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+    }
+
+    /* Text Styling for Labels and Helper Text */
+    .signup-card label,
+    .signup-card .helptext {
+        color: #555555; /* Darker shade for better visibility */
+        font-size: 0.9rem;
+    }
+
+    /* Error message styling */
+    .signup-card .errorlist li {
+        color: #d9534f; /* Red color for error messages */
+        font-size: 0.9rem;
+        list-style: none;
+        margin: 0.5rem 0;
+    }
+
+    /* Signup button styling */
+    .signup-card button {
+        width: 100%;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc); /* Matching gradient for button */
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .signup-card button:hover {
+        background: linear-gradient(90deg, #2575fc, #6a11cb);
+    }
+
+    /* Link styling */
+    .signup-card p {
+        margin-top: 1.2rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .signup-card a {
+        color: #6a11cb;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .signup-card a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="signup-card">
+    <h2>Create an Account</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Signup</button>
     </form>
     <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+</div>
 {% endblock %}

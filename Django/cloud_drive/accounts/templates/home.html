@@ -2,116 +2,148 @@
 {% load file_extras %}
 
 {% block title %}
-Home Page
+    Home Page
 {% endblock %}
 
 {% block content %}
-<h1>User Files and Folders</h1>
+<h1 class="page-title">User Files and Folders</h1>
 
 <style>
-    /* Styling for the list */
+    /* General Page Styling */
+    .page-title {
+        text-align: center;
+        font-size: 2rem;
+        color: #343a40;
+        margin-top: 20px;
+    }
+
+    /* User Section Styling */
+    .user-section {
+        max-width: 800px;
+        margin: 30px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-section h3 {
+        font-size: 1.5rem;
+        color: #007bff;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 10px;
+    }
+
+    /* List Styling */
     .user-data-list {
         list-style-type: none;
-        padding-left: 20px;
-    }
-
-    .username-link {
-        text-decoration: none;
-        color: #007bff;
-    }
-
-    .username-link:hover {
-        text-decoration: underline;
+        padding-left: 0;
     }
 
     .folder-item, .subfolder-item, .file-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
         margin-bottom: 8px;
-        padding: 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
     }
 
+    /* Folder Styling */
     .folder-item {
+        background-color: #f0f9ff;
+        color: #007bff;
         font-weight: bold;
-        color: #007bff; /* Blue for folders */
         cursor: pointer;
     }
+    .folder-item:hover {
+        background-color: #e7f3fe;
+    }
 
+    /* Subfolder Styling */
     .subfolder-item {
-        padding-left: 20px;
-        font-style: italic;
-        color: #6c757d; /* Light gray for subfolders */
+        padding-left: 40px;
+        color: #6c757d;
+        background-color: #f9f9f9;
+    }
+    .subfolder-item:hover {
+        background-color: #f0f0f0;
     }
 
+    /* File Styling */
     .file-item {
-        color: #28a745; /* Green for files */
+        padding-left: 30px;
+        color: #28a745;
+    }
+    .file-item:hover {
+        background-color: #f0f9f4;
     }
 
+    /* Icon Styling */
+    .folder-icon {
+        margin-right: 10px;
+        color: #007bff;
+    }
+
+    .subfolder-icon, .file-icon {
+        margin-right: 10px;
+        color: #6c757d;
+    }
+
+    /* File Size Styling */
     .file-size {
         font-size: 0.9em;
         color: #888;
+        margin-left: auto;
     }
-
-    /* Icon styling */
-    .fas {
-        margin-right: 8px;
-    }
-
-    /* Initially hide subfolders */
-    .subfolder-list {
-        display: none;
-        padding-left: 20px;
-    }
-
-    /* Class for toggled folders */
-    .folder-open .subfolder-list {
-        display: block;
-    }
-
 </style>
 
-{% for username, data in users_data.items %}
-    <h3>User: 
-        {% if username == request.user.username %}
-            <a href="{% url 'main' %}" class="username-link">{{ username }}</a>
-        {% else %}
-            {{ username }}
-        {% endif %}
-    </h3>
-    <ul class="user-data-list">
-        <!-- Display folders -->
-        {% for folder in data.folders %}
-            <li class="folder-item" onclick="toggleFolder(this)">
-                <i class="fas fa-folder"></i> <!-- Folder icon -->
-                <strong>{{ folder.name }}</strong>
-                <span class="file-size">({{ folder.size|filesizeformat }})</span>
-            </li>
-            <ul class="subfolder-list">
-                {% for subfolder in folder.subfolders.all %}
-                    <li class="subfolder-item" onclick="toggleFolder(this)">
-                        <i class="fas fa-folder-open"></i> <!-- Subfolder icon -->
-                        {{ subfolder.name }} <span class="file-size">({{ subfolder.size|filesizeformat }})</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
+<div class="user-section">
+    {% for username, data in users_data.items %}
+        <h3>User: 
+            {% if username == request.user.username %}
+                <a href="{% url 'main' %}" class="username-link">{{ username }}</a>
+            {% else %}
+                {{ username }}
+            {% endif %}
+        </h3>
+        <ul class="user-data-list">
+            <!-- Display folders -->
+            {% for folder in data.folders %}
+                <li class="folder-item" onclick="toggleFolder(this)">
+                    <i class="fas fa-folder folder-icon"></i> <!-- Folder icon -->
+                    {{ folder.name }}
+                    <span class="file-size">({{ folder.size|filesizeformat }})</span>
+                </li>
+                <ul class="subfolder-list">
+                    {% for subfolder in folder.subfolders.all %}
+                        <li class="subfolder-item" onclick="toggleFolder(this)">
+                            <i class="fas fa-folder-open subfolder-icon"></i> <!-- Subfolder icon -->
+                            {{ subfolder.name }}
+                            <span class="file-size">({{ subfolder.size|filesizeformat }})</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
 
-        <!-- Display files -->
-        {% for file in data.files %}
-            <li class="file-item">
-                <i class="fas fa-file"></i> <!-- File icon -->
-                {{ file.file.name }} <span class="file-size">({{ file.file_size|filesizeformat }})</span>
-            </li>
-        {% endfor %}
-    </ul>
-{% endfor %}
+            <!-- Display files -->
+            {% for file in data.files %}
+                <li class="file-item">
+                    <i class="fas fa-file file-icon"></i> <!-- File icon -->
+                    {{ file.file.name }}
+                    <span class="file-size">({{ file.file_size|filesizeformat }})</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
 
 <script>
     // Function to toggle folder visibility
     function toggleFolder(element) {
         // Toggle the 'folder-open' class for the clicked folder
         element.classList.toggle('folder-open');
-
-        // Prevent event propagation to subfolders, to avoid toggling subfolders
-        event.stopPropagation();
     }
 </script>
 

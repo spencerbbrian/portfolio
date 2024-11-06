@@ -1,34 +1,85 @@
 {% extends "master.html" %}
 
 {% block title %}
-Preview file
+Preview File
 {% endblock %}
 
 {% block content %}
+<style>
+    /* Centered Preview Container */
+    .preview-container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Embedded Preview */
+    .embed-preview {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    /* Styled Preformatted Text */
+    pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        text-align: left;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        overflow-x: auto;
+        max-height: 400px;
+    }
+
+    /* Jupyter Notebook Styling */
+    .notebook-content {
+        text-align: left;
+        font-family: monospace;
+        font-size: 0.9rem;
+        background-color: #f9f9f9;
+        padding: 20px;
+        overflow-x: auto;
+        border-radius: 5px;
+    }
+</style>
+
+<div class="preview-container">
     <h2>Preview: {{ uploaded_file.file.name }}</h2>
 
     {% if is_image %}
-        <img src="{{ uploaded_file.file.url }}" alt="Image Preview" style="max-width: 100%;">
+        <img src="{{ uploaded_file.file.url }}" alt="Image Preview" class="embed-preview">
     {% elif is_video %}
-        <video controls style="max-width: 100%;">
+        <video controls class="embed-preview">
             <source src="{{ uploaded_file.file.url }}" type="{{ mime_type }}">
             Your browser does not support the video tag.
         </video>
     {% elif is_audio %}
-        <audio controls style="max-width: 100%;">
+        <audio controls class="embed-preview">
             <source src="{{ uploaded_file.file.url }}" type="{{ mime_type }}">
             Your browser does not support the audio tag.
         </audio>
     {% elif is_pdf %}
-        <embed src="{{ uploaded_file.file.url }}" type="application/pdf" width="100%" height="600px">
+        <embed src="{{ uploaded_file.file.url }}" type="application/pdf" width="100%" height="500px" class="embed-preview">
     {% elif is_doc %}
-        <!-- Make sure the DOC file URL is publicly accessible -->
-        <iframe src="https://docs.google.com/viewer?url={{ uploaded_file.file.url|urlencode }}&embedded=true" width="100%" height="600px"></iframe>
+        <!-- Google Docs Viewer for DOC files -->
+        <iframe src="https://docs.google.com/viewer?url={{ absolute_url|urlencode }}&embedded=true" width="100%" height="500px" class="embed-preview"></iframe>
+    {% elif is_notebook %}
+        <!-- Display Jupyter notebook content -->
+        <div class="notebook-content">
+            {{ notebook_content|safe }}
+        </div>
     {% elif is_text %}
-        <pre><code>{{ uploaded_file.file.read|escape }}</code></pre>
+        <!-- Display formatted code with syntax highlighting -->
+        <pre>{{ formatted_text|safe }}</pre>
     {% else %}
         <p>Preview not supported for this file type.</p>
     {% endif %}
 
-    <a href="{% url 'main' %}">Back to Main Page</a>
+    <a href="{% url 'main' %}" class="btn btn-primary mt-4">Back to Main Page</a>
+</div>
+
 {% endblock %}

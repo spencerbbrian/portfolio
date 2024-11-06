@@ -1,0 +1,53 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Profile Overview
+{% endblock %}
+
+{% block content %}
+<style>
+    .profile-card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 40px auto;
+    }
+
+    .profile-card h2 {
+        font-size: 1.8rem;
+        color: #343a40;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .profile-info {
+        font-size: 1rem;
+        color: #495057; /* Darker color for readability */
+    }
+
+    .profile-info strong {
+        color: #007bff;
+    }
+
+    .btn-back {
+        display: block;
+        margin-top: 30px;
+        text-align: center;
+    }
+</style>
+
+<div class="profile-card">
+    <h2>Profile Overview</h2>
+    <div class="profile-info">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Total Files:</strong> {{ file_count }}</p>
+        <p><strong>Total Folders:</strong> {{ folder_count }}</p>
+    </div>
+    <div class="btn-back">
+        <a href="{% url 'main' %}" class="btn btn-outline-primary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

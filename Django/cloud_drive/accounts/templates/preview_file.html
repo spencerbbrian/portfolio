@@ -22,8 +22,8 @@ Preview file
     {% elif is_pdf %}
         <embed src="{{ uploaded_file.file.url }}" type="application/pdf" width="100%" height="600px">
     {% elif is_doc %}
-        <!-- Using Google Docs viewer for .doc/.docx -->
-        <iframe src="https://docs.google.com/viewer?url={{ absolute_url }}&embedded=true" width="100%" height="600px"></iframe>
+        <!-- Make sure the DOC file URL is publicly accessible -->
+        <iframe src="https://docs.google.com/viewer?url={{ uploaded_file.file.url|urlencode }}&embedded=true" width="100%" height="600px"></iframe>
     {% elif is_text %}
         <pre><code>{{ uploaded_file.file.read|escape }}</code></pre>
     {% else %}
@@ -31,7 +31,4 @@ Preview file
     {% endif %}
 
     <a href="{% url 'main' %}">Back to Main Page</a>
-    
-
 {% endblock %}
-

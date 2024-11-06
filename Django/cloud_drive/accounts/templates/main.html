@@ -12,18 +12,6 @@ Cloud Drive
 
 <main>
     <p>This is your main content area.</p>
-    
-    <!-- File Type Distribution Chart -->
-    <h2>File Type Distribution</h2>
-    <div style="width: 50%; margin: auto;">
-        <canvas id="fileTypeChart"></canvas>
-    </div>
-
-    <!-- Storage Usage Over Time Chart -->
-    <h2>Storage Usage Over Time (MB)</h2>
-    <div style="width: 50%; margin: auto;">
-        <canvas id="storageUsageChart"></canvas>
-    </div>
 
     <!-- Uploaded Files and Folders Section -->
     <h3>Your Uploaded Folders</h3>
@@ -58,10 +46,6 @@ Cloud Drive
     </ul>
 
     <!-- Logout and Upload Buttons -->
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
     <form action="{% url 'upload_file' %}" method="get">
         <button type="submit">Upload</button>
     </form>
@@ -71,68 +55,5 @@ Cloud Drive
     <p>&copy; 2024 Cloud Drive. All rights reserved.</p>
 </footer>
 
-<!-- Chart.js Script -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    // Data for the file type distribution chart
-    const fileTypeLabels = {{ file_type_labels|safe }};
-    const fileTypeCounts = {{ file_type_counts|safe }};
-    
-    // Data for the storage usage over time chart
-    const monthLabels = {{ month_labels|safe }};
-    const monthlyUsage = {{ monthly_usage|safe }};
-    
-    // File Type Distribution Chart
-    const fileTypeCtx = document.getElementById('fileTypeChart').getContext('2d');
-    new Chart(fileTypeCtx, {
-        type: 'bar',
-        data: {
-            labels: fileTypeLabels,
-            datasets: [{
-                label: 'File Count',
-                data: fileTypeCounts,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Storage Usage Over Time Chart
-    const storageUsageCtx = document.getElementById('storageUsageChart').getContext('2d');
-    new Chart(storageUsageCtx, {
-        type: 'line',
-        data: {
-            labels: monthLabels,
-            datasets: [{
-                label: 'Usage (MB)',
-                data: monthlyUsage,
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                borderColor: 'rgba(153, 102, 255, 1)',
-                borderWidth: 1,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
-
-<a href="{% url 'home' %}" class="btn btn-primary">Go to Home Page</a>
 
 {% endblock %}

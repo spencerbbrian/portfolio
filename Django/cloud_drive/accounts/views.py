@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout as auth_logout
 from django.core.files import File
 from django.core.serializers.json import DjangoJSONEncoder
 import mimetypes
@@ -97,14 +97,13 @@ def signup(request):
             user = form.save()
             login(request,user)
             messages.success(request,f'Welcome {user.username}! Your account has been created!')
-            return redirect('main')
+            return redirect('login')
         else:
             print(form.errors)
+            messages.error(request, 'Error in form submission. Please try again.')
     else:
         form = UserCreationForm()
-    return render(request,'signup.html',{'form':form})
-
-from django.contrib.auth import logout as auth_logout
+    return render(request, 'signup.html', {'form': form})
 
 def create_folder(request):
     if request.method == 'POST':
@@ -115,9 +114,11 @@ def create_folder(request):
             new_folder.save()
             messages.success(request, 'Folder created successfully!')
             return redirect('main')
+        else:
+            messages.error(request, 'Error creating folder. Please try again.')
     else:
         form = FolderForm()
-    return render(request, 'create_folder.html',{'form':form})
+    return render(request, 'create_folder.html', {'form': form})
 
 def get_folder_size(folder):
     total_size = 0
@@ -139,6 +140,8 @@ def rename_folder(request, folder_id):
             form.save()
             messages.success(request, 'Folder renamed successfully!')
             return redirect('main')
+        else:
+            messages.error(request, 'Error renaming folder. Please try again.')
     else:
         form = FolderForm(instance=folder)
     return render(request, 'rename_folder.html', {'form': form, 'folder': folder})
@@ -149,14 +152,14 @@ def view_folder(request, folder_id):
     subfolders = folder.subfolders.all()
     return render(request, 'folder_view.html', {'folder': folder, 'files': files_in_folder, 'subfolders': subfolders})
 
-
 def move_folder(request, folder_id, target_folder_id=None):
     folder = get_object_or_404(Folder, id=folder_id)
     target_folder = get_object_or_404(Folder, id=target_folder_id) if target_folder_id else None
     
     folder.parent_folder = target_folder  # `None` means it will move to the main menu
     folder.save()
-    return redirect('main')  # Adjust the redirect as necessary
+    messages.success(request, 'Folder moved successfully!')
+    return redirect('main')
 
 @login_required
 def preview_file(request, file_id):
@@ -225,23 +228,25 @@ def move_file(request, file_id):
 
             messages.success(request, 'File moved successfully!')
             return redirect('main')
+        else:
+            messages.error(request, 'Error moving file. Please try again.')
     else:
         form = MoveFileForm(user=request.user)
 
     return render(request, 'move_file.html', {'form': form, 'file': uploaded_file})
-
 
 @login_required
 def move_file_to_main(request, file_id):
     uploaded_file = get_object_or_404(UploadedFile, id=file_id, user=request.user)
     
     if request.method == 'POST':
-        # Move the file back to the main page
-        uploaded_file.folder = None  # Set folder to None
-        uploaded_file.save()  # Save changes
-        
-        messages.success(request, 'File moved back to the main page successfully!')
-        return redirect('main')  # Redirect to your main page
+        # Move the file back to the main page (no folder)
+        uploaded_file.folder = None
+        uploaded_file.save()
+
+        # Inform the user
+        messages.success(request, 'File moved to the main menu.')
+        return redirect('main')
     
     return render(request, 'move_file_to_main.html', {'file': uploaded_file})
 
@@ -283,7 +288,6 @@ def upload_file(request):
         form = UploadFileForm()
     
     return render(request, 'upload.html', {'form': form})
-
 
 @login_required
 def delete_file(request, file_id):
@@ -372,6 +376,7 @@ def copy_folder(request, folder_id):
     # Start copying from the root folder
     duplicate_folder(original_folder)
 
+    messages.success(request, f"Folder '{original_folder.name}' and its contents have been copied successfully.")
     return redirect('view_folder', folder_id=original_folder.parent_folder.id if original_folder.parent_folder else None)
 
 @login_required
@@ -400,33 +405,66 @@ def delete_folder(request, folder_id):
     return redirect('main')
 
 def file_drive_stats(request):
-    # Aggregate File Type Distribution
-    file_type_counts = (
-        UploadedFile.objects.filter(user=request.user)
-        .values('file_type')
-        .annotate(count=Count('id'))
-    )
+    # Get user files not in a folder
+    user_files = UploadedFile.objects.filter(user=request.user)
 
-    # Prepare data for file type chart
-    file_types = [entry['file_type'] for entry in file_type_counts]
-    file_counts = [entry['count'] for entry in file_type_counts]
+    # Define file type categories
+    file_categories = {
+        'images': ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'tiff'],
+        'videos': ['mp4', 'mov', 'avi', 'mkv', 'wmv', 'flv'],
+        'documents': ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'],
+        'audio': ['mp3', 'wav', 'aac', 'flac', 'ogg'],
+        'archives': ['zip', 'rar', 'tar', 'gz', '7z'],
+        # Add other categories as needed
+    }
 
-    # Aggregate Storage Usage Over Time (e.g., by month)
-    storage_usage = (
-        UploadedFile.objects.filter(user=request.user)
-        .extra({'month': "DATE_TRUNC('month', upload_date)"})
-        .values('month')
-        .annotate(usage=Sum('file_size'))
-    )
+    # Categorize files
+    categorized_counts = Counter()
+    uncategorized_count = 0
 
-    # Prepare data for storage usage chart
-    months = [entry['month'].strftime('%Y-%m') for entry in storage_usage]
-    usage = [entry['usage'] / (1024 ** 3) for entry in storage_usage]  # Convert bytes to GB
+    for file in user_files:
+        extension = file.file.name.split('.')[-1].lower()
+        categorized = False
 
-    # Pass data to the template
-    return render(request, 'file_drive_stats.html', {
-        'file_types': json.dumps(file_types, cls=DjangoJSONEncoder),
-        'file_counts': json.dumps(file_counts, cls=DjangoJSONEncoder),
-        'months': json.dumps(months, cls=DjangoJSONEncoder),
-        'usage': json.dumps(usage, cls=DjangoJSONEncoder),
-    })
+        for category, extensions in file_categories.items():
+            if extension in extensions:
+                categorized_counts[category] += 1
+                categorized = True
+                break
+        
+        if not categorized:
+            uncategorized_count += 1  # Count files with unknown extensions
+
+    # Convert to labels and counts for the chart
+    category_labels = list(categorized_counts.keys())
+    category_counts = list(categorized_counts.values())
+
+    if uncategorized_count > 0:
+        category_labels.append('Other')
+        category_counts.append(uncategorized_count)
+
+    # 2. Storage Usage Over Time
+    current_year = timezone.now().year
+    monthly_usage = []
+
+    for month in range(1, 13):
+        month_files = UploadedFile.objects.filter(
+            user=request.user,
+            uploaded_at__year=current_year,
+            uploaded_at__month=month
+        )
+        total_size = month_files.aggregate(total=Sum('file_size'))['total'] or 0
+        monthly_usage.append(total_size / (1024 * 1024))  # Convert to MB
+
+    month_labels = [calendar.month_abbr[m] for m in range(1, 13)]
+
+    # Pass all necessary data to the template context
+    context = {
+        'user_files': user_files,
+        'category_labels': category_labels,
+        'category_counts': category_counts,
+        'month_labels': month_labels,
+        'monthly_usage': monthly_usage,
+    }
+    
+    return render(request, 'file_drive_stats.html', context)

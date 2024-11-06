@@ -8,32 +8,111 @@ Home Page
 {% block content %}
 <h1>User Files and Folders</h1>
 
+<style>
+    /* Styling for the list */
+    .user-data-list {
+        list-style-type: none;
+        padding-left: 20px;
+    }
+
+    .username-link {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .username-link:hover {
+        text-decoration: underline;
+    }
+
+    .folder-item, .subfolder-item, .file-item {
+        margin-bottom: 8px;
+        padding: 5px;
+    }
+
+    .folder-item {
+        font-weight: bold;
+        color: #007bff; /* Blue for folders */
+        cursor: pointer;
+    }
+
+    .subfolder-item {
+        padding-left: 20px;
+        font-style: italic;
+        color: #6c757d; /* Light gray for subfolders */
+    }
+
+    .file-item {
+        color: #28a745; /* Green for files */
+    }
+
+    .file-size {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    /* Icon styling */
+    .fas {
+        margin-right: 8px;
+    }
+
+    /* Initially hide subfolders */
+    .subfolder-list {
+        display: none;
+        padding-left: 20px;
+    }
+
+    /* Class for toggled folders */
+    .folder-open .subfolder-list {
+        display: block;
+    }
+
+</style>
+
 {% for username, data in users_data.items %}
     <h3>User: 
         {% if username == request.user.username %}
-            <a href="{% url 'main' %}">{{ username }}</a>
+            <a href="{% url 'main' %}" class="username-link">{{ username }}</a>
         {% else %}
             {{ username }}
         {% endif %}
     </h3>
-    <ul>
+    <ul class="user-data-list">
+        <!-- Display folders -->
         {% for folder in data.folders %}
-            <li>
-                {{ folder.name }} 
-                <span>({{ folder.size|filesizeformat }})</span>  <!-- Ensure using the size field -->
+            <li class="folder-item" onclick="toggleFolder(this)">
+                <i class="fas fa-folder"></i> <!-- Folder icon -->
+                <strong>{{ folder.name }}</strong>
+                <span class="file-size">({{ folder.size|filesizeformat }})</span>
             </li>
-            <ul>
+            <ul class="subfolder-list">
                 {% for subfolder in folder.subfolders.all %}
-                    <li>{{ subfolder.name }} <span>({{ subfolder.size|filesizeformat }})</span></li>
+                    <li class="subfolder-item" onclick="toggleFolder(this)">
+                        <i class="fas fa-folder-open"></i> <!-- Subfolder icon -->
+                        {{ subfolder.name }} <span class="file-size">({{ subfolder.size|filesizeformat }})</span>
+                    </li>
                 {% endfor %}
             </ul>
         {% endfor %}
+
+        <!-- Display files -->
         {% for file in data.files %}
-            <li>{{ file.file.name }} <span>({{ file.file_size|filesizeformat }})</span></li>
+            <li class="file-item">
+                <i class="fas fa-file"></i> <!-- File icon -->
+                {{ file.file.name }} <span class="file-size">({{ file.file_size|filesizeformat }})</span>
+            </li>
         {% endfor %}
     </ul>
 {% endfor %}
 
-<a href="{% url 'main' %}" class="btn btn-secondary">Back to Main Page</a>
+<script>
+    // Function to toggle folder visibility
+    function toggleFolder(element) {
+        // Toggle the 'folder-open' class for the clicked folder
+        element.classList.toggle('folder-open');
+
+        // Prevent event propagation to subfolders, to avoid toggling subfolders
+        event.stopPropagation();
+    }
+</script>
 
 {% endblock %}

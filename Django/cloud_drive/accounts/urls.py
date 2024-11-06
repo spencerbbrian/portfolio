@@ -25,5 +25,6 @@ urlpatterns = [
     path('folder/<int:folder_id>/move-to-main/', views.move_to_main_menu, name='move_to_main_menu'),
     path('folder/<int:folder_id>/move-to-folder/', views.move_to_folder, name='move_to_folder'),
     path('copy-folder/<int:folder_id>/', views.copy_folder, name='copy_folder'),
-    path('home/', views.home, name='home')
+    path('home/', views.home, name='home'),
+    path('file-drive-stats/', views.file_drive_stats, name='file_drive_stats'),
 ]

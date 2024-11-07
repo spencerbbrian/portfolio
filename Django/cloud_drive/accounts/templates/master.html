@@ -9,12 +9,12 @@
     <style>
         /* Root Variables for Consistent Styling */
         :root {
-            --primary-color: #343a40;
+            --primary-color: #495057; /* Soft dark gray for the navbar */
             --secondary-color: #6c757d;
-            --text-color: #f8f9fa;
-            --accent-color: #495057;
-            --background-light: #e0e0e0;
-            --toast-success: #28a745;
+            --text-color: #f1f3f5;
+            --accent-color: #adb5bd; /* Soft gray for link hovers */
+            --background-light: #dfe3e6; /* Neutral soft gray */
+            --toast-success: #198754;
             --toast-error: #dc3545;
         }
     
@@ -86,7 +86,7 @@
             border: none;
         }
         .btn-primary:hover {
-            background-color: var(--accent-color);
+            background-color: #343a40; /* Darker shade for hover */
         }
     
         /* Link Styling */
@@ -112,7 +112,7 @@
     {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" >Cloud_Drive</a>
+            <a class="navbar-brand" href="#">Cloud_Drive</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

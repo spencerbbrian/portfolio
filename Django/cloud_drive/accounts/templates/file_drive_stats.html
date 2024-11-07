@@ -77,25 +77,25 @@
     // File Category Distribution Chart
     const fileCategoryCtx = document.getElementById('fileCategoryChart').getContext('2d');
     new Chart(fileCategoryCtx, {
-        type: 'pie', // Changed to 'pie' for better visualization of categories
+        type: 'pie',
         data: {
             labels: categoryLabels,
             datasets: [{
                 label: 'File Count',
                 data: categoryCounts,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
+                    'rgba(255, 0, 0, 1)',      // Dark Red
+                    'rgba(23, 70, 238, 0.92)',     // Dark Blue
+                    'rgba(23, 238, 83, 0.92)',     // Dark Brown
+                    'rgba(0, 102, 51, 0.8)',     // Dark Green
+                    'rgba(51, 0, 102, 0.8)'      // Dark Purple
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)'
+                    'rgba(139, 0, 0, 1)',
+                    'rgba(0, 51, 102, 1)',
+                    'rgba(102, 51, 0, 1)',
+                    'rgba(0, 102, 51, 1)',
+                    'rgba(51, 0, 102, 1)'
                 ],
                 borderWidth: 1
             }]
@@ -109,6 +109,7 @@
             }
         }
     });
+
 
     // Storage Usage Over Time Chart
     const storageUsageCtx = document.getElementById('storageUsageChart').getContext('2d');

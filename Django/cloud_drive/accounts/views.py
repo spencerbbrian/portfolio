@@ -11,8 +11,8 @@ import mimetypes
 import nbformat
 from pdf2image import convert_from_path
 from pygments import highlight
-from pygments.lexers import PythonLexer, HtmlLexer, CssLexer, TextLexer
 from pygments.formatters import HtmlFormatter
+from pygments.lexers import HtmlLexer, CssLexer, PythonLexer, TextLexer
 from django.shortcuts import render, get_object_or_404
 from .models import UploadedFile
 import os, json, calendar
@@ -99,20 +99,29 @@ def main(request):
     return render(request, 'main.html', context)
 
 def signup(request):
+    # Define a custom form without help text
+    class CustomUserCreationForm(UserCreationForm):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # Remove help text for username, password1, and password2 fields
+            self.fields['username'].help_text = ''
+            self.fields['password1'].help_text = ''
+            self.fields['password2'].help_text = ''
+
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request,user)
-            messages.success(request,f'Welcome {user.username}! Your account has been created!')
+            login(request, user)
+            messages.success(request, f'Welcome {user.username}! Your account has been created!')
             return redirect('login')
         else:
             print(form.errors)
             messages.error(request, 'Error in form submission. Please try again.')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
+    
     return render(request, 'signup.html', {'form': form})
-
 def create_folder(request):
     if request.method == 'POST':
         form = FolderForm(request.POST)

@@ -3,9 +3,9 @@
         "bsonType": "object",
         "required": ["account_id","account_holder_name","account_type","current_balance","minimum_balance","bank_id","currency"],
         "properties": {
-            "account_id": {"bsonType": "int"},
+            "account_id": {"oneOf": [{"bsonType": "string"},{"bsonType": "int"}]},
             "account_holder_name": {"bsonType": "string"},
-            "account_type": {"bsonType":"string", "enum": ["savings", "checking", "credit"]},
+            "account_type": {"bsonType":"string", "enum": ["savings", "checking", "credit", "regular"]},
             "credit_limit": {"bsonType": "double"},
             "credit_balance": {"bsonType":"double", "minimum": 0.0},
             "current_balance": {"bsonType":"double", "minimum": 0.0},
@@ -15,3 +15,4 @@
         }
     }
 }
+

@@ -26,24 +26,23 @@ from .forms import UploadFileForm, FolderForm, MoveFileForm
 # Create your views here.
 @login_required
 def home(request):
-    # Retrieve all users and their folders/files
-    users_data = {}
-    users = User.objects.exclude(username=request.user.username)
+    # Retrieve only the logged-in user's folders and files
+    user = request.user
+    # Get only top-level folders (folders that do not have a parent)
+    folders = Folder.objects.filter(user=user, parent_folder__isnull=True)
+    files = UploadedFile.objects.filter(user=user)
 
-    for user in User.objects.all():
-        # Get only top-level folders (folders that do not have a parent)
-        folders = Folder.objects.filter(user=user, parent_folder__isnull=True)
-        files = UploadedFile.objects.filter(user=user)
-
-        users_data[user.username] = {
+    # Prepare data for the template
+    users_data = {
+        user.username: {
             'folders': folders,
             'files': files,
             'folder_sizes': {folder.id: get_folder_size(folder) for folder in folders}
         }
+    }
 
     context = {
-        'current_user': request.user,
-        'other_users': users,
+        'current_user': user,
         'users_data': users_data,
     }
 

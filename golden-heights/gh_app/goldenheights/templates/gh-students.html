@@ -1,0 +1,92 @@
+{% extends 'gh-base.html' %}
+{% block title %}
+Courses
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Filterable and Paginated Table</h2>
+    
+    <!-- Filter Dropdowns -->
+    <div class="d-flex justify-content-start gap-2 mb-3">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="collegeFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by College
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="collegeFilter">
+                <li><a class="dropdown-item filter-option" data-column="college" data-value="CBAS">CBAS</a></li>
+                <li><a class="dropdown-item filter-option" data-column="college" data-value="CHSP">CHSP</a></li>
+                <li><a class="dropdown-item filter-option" data-column="college" data-value="CBE">CBE</a></li>
+                <li><a class="dropdown-item filter-option" data-column="college" data-value="CHSS">CHSS</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="yearFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by Enrollment Year
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="yearFilter">
+                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2020">2020</a></li>
+                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2021">2021</a></li>
+                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2022">2022</a></li>
+                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2023">2023</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>College</th>
+            <th>Department</th>
+            <th>Enrollment Year</th>
+        </tr>
+        </thead>
+        <tbody id="tableBody">
+            {% for student in students %}
+            <tr>
+                <td>{{ student.first_name }}</td>
+                <td>{{ student.last_name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.college }}</td>
+                <td>{{ student.department }}</td>
+                <td>{{ student.enrollment_year }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" id="paginationControls"></ul>
+    </nav>
+</div>
+
+<script>
+    document.querySelectorAll('.filter-option').forEach(option => {
+        option.addEventListener('click', function () {
+            const column = this.dataset.column.toLowerCase();
+            const value = this.dataset.value.toLowerCase();
+            
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(row => {
+                // Map column names to their respective index
+                const columnIndex = column === 'college' ? 4 : column === 'enrollment year' ? 6 : -1;
+                
+                if (columnIndex > 0) {
+                    const cellValue = row.querySelector(`td:nth-child(${columnIndex})`).textContent.toLowerCase();
+                    if (cellValue.includes(value)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

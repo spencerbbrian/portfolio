@@ -24,6 +24,11 @@ def home_page():
     return render_template('gh-home.html', total_courses=total_courses,
                            total_students=total_students, As1=As1, Bs1=Bs1, Cs1=Cs1,  Ds1=Ds1)
 
+@app.route('/students')
+def students_page():
+    all_students_names = students.find({})
+    return render_template('gh-students.html', students=all_students_names)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():

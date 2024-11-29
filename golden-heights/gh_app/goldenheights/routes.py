@@ -1,6 +1,7 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from goldenheights import app, students, courses, departments, transcripts
+from pymongo import ASCENDING, DESCENDING
 from goldenheights.models import User  # Ensure your User model is defined correctly
 from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
 
@@ -26,9 +27,25 @@ def home_page():
 
 @app.route('/students')
 def students_page():
-    all_students_names = students.find({})
-    return render_template('gh-students.html', students=all_students_names)
+    page = int(request.args.get('page', 1))
+    per_page = 50
+    skip = (page - 1) * per_page
 
+    students_collection = students
+    sorted_students = students_collection.find().sort('last_name', ASCENDING)
+    total_students = students_collection.count_documents({})
+    paginated_students = sorted_students.skip(skip).limit(per_page)
+
+    total_pages = (total_students + per_page - 1) // per_page
+
+    return render_template(
+        'gh-students.html',
+        students=paginated_students,
+        current_page=page,
+        total_pages=total_pages,
+        max=max,  # Pass max function
+        min=min   # Pass min function
+    )
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():

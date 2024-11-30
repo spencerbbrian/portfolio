@@ -27,24 +27,41 @@ def home_page():
 
 @app.route('/students')
 def students_page():
+    college_filter = request.args.get('college')
+    year_filter = request.args.get('enrollment_year')
     page = int(request.args.get('page', 1))
-    per_page = 50
-    skip = (page - 1) * per_page
+    per_page = 10
 
-    students_collection = students
-    sorted_students = students_collection.find().sort('last_name', ASCENDING)
-    total_students = students_collection.count_documents({})
-    paginated_students = sorted_students.skip(skip).limit(per_page)
+    # Build query and fetch results
+    query = {}
+    if college_filter:
+        query['college'] = college_filter
+    if year_filter:
+        query['enrollment_year'] = int(year_filter)
 
+    # Fetch and sort students by last_name, then first_name
+    filtered_students_cursor = students.find(query).sort([('last_name', 1), ('first_name', 1)])
+    filtered_students = list(filtered_students_cursor)
+
+    total_students = len(filtered_students)
     total_pages = (total_students + per_page - 1) // per_page
+    start_idx = (page - 1) * per_page
+    end_idx = start_idx + per_page
+    paginated_students = filtered_students[start_idx:end_idx]
+
+    # Generate query string for "Clear All Filters"
+    clear_filters_url = url_for('students_page')
 
     return render_template(
         'gh-students.html',
         students=paginated_students,
         current_page=page,
         total_pages=total_pages,
-        max=max,  # Pass max function
-        min=min   # Pass min function
+        college_filter=college_filter,
+        year_filter=year_filter,
+        clear_filters_url=clear_filters_url,
+        max=max,
+        min=min
     )
 
 @app.route('/register', methods=['GET', 'POST'])

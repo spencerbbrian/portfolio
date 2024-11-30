@@ -5,8 +5,40 @@ Students
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center">Filterable and Paginated Table</h2>
-    
+    {% if college_filter is none and year_filter is none %}
+    <h2 class="text-center">Current Students List</h2>
+    {% elif college_filter is none and year_filter is not none %}
+        <h2 class="text-center">Students List for Enrollment Year {{ year_filter }}</h2>
+    {% elif college_filter is not none and year_filter is none %}
+        <h2 class="text-center">Students List for {{ college_filter }}</h2>
+    {% elif college_filter is not none and year_filter is not none %}
+        <h2 class="text-center">Students List for {{ college_filter }} in {{ year_filter }}</h2>
+    {% endif %}
+
+
+    <!-- Applied Filters -->
+    <div class="filters-section mb-3">
+        <h5>Filters Applied:</h5>
+        <ul class="list-inline">
+            {% if college_filter %}
+            <li class="list-inline-item">
+                <strong>College:</strong> {{ college_filter }}
+                <a href="?page={{ current_page }}{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}" class="btn btn-sm btn-outline-danger">Remove</a>
+            </li>
+            {% endif %}
+            {% if year_filter %}
+            <li class="list-inline-item">
+                <strong>Enrollment Year:</strong> {{ year_filter }}
+                <a href="?page={{ current_page }}{% if college_filter %}&college={{ college_filter }}{% endif %}" class="btn btn-sm btn-outline-danger">Remove</a>
+            </li>
+            {% endif %}
+            {% if not college_filter and not year_filter %}
+            <li>No filters applied.</li>
+            {% endif %}
+        </ul>
+        <a href="?page=1" class="btn btn-secondary">Clear All Filters</a>
+    </div>
+
     <!-- Filter Dropdowns -->
     <div class="d-flex justify-content-start gap-2 mb-3">
         <div class="dropdown">
@@ -14,10 +46,10 @@ Students
                 Filter by College
             </button>
             <ul class="dropdown-menu" aria-labelledby="collegeFilter">
-                <li><a class="dropdown-item filter-option" data-column="college" data-value="CBAS">CBAS</a></li>
-                <li><a class="dropdown-item filter-option" data-column="college" data-value="CHSP">CHSP</a></li>
-                <li><a class="dropdown-item filter-option" data-column="college" data-value="CBE">CBE</a></li>
-                <li><a class="dropdown-item filter-option" data-column="college" data-value="CHSS">CHSS</a></li>
+                <li><a class="dropdown-item" href="?college=CBAS{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}">CBAS</a></li>
+                <li><a class="dropdown-item" href="?college=CHSP{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}">CHSP</a></li>
+                <li><a class="dropdown-item" href="?college=CBE{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}">CBE</a></li>
+                <li><a class="dropdown-item" href="?college=CHSS{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}">CHSS</a></li>
             </ul>
         </div>
 
@@ -26,10 +58,10 @@ Students
                 Filter by Enrollment Year
             </button>
             <ul class="dropdown-menu" aria-labelledby="yearFilter">
-                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2020">2020</a></li>
-                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2021">2021</a></li>
-                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2022">2022</a></li>
-                <li><a class="dropdown-item filter-option" data-column="enrollment_year" data-value="2023">2023</a></li>
+                <li><a class="dropdown-item" href="?enrollment_year=2020{% if college_filter %}&college={{ college_filter }}{% endif %}">2020</a></li>
+                <li><a class="dropdown-item" href="?enrollment_year=2021{% if college_filter %}&college={{ college_filter }}{% endif %}">2021</a></li>
+                <li><a class="dropdown-item" href="?enrollment_year=2022{% if college_filter %}&college={{ college_filter }}{% endif %}">2022</a></li>
+                <li><a class="dropdown-item" href="?enrollment_year=2023{% if college_filter %}&college={{ college_filter }}{% endif %}">2023</a></li>
             </ul>
         </div>
     </div>
@@ -65,7 +97,7 @@ Students
         <ul class="pagination justify-content-center">
             <!-- Previous Button -->
             <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                <a class="page-link" href="?page={{ current_page - 1 }}" aria-label="Previous">
+                <a class="page-link" href="?page={{ current_page - 1 }}{% if college_filter %}&college={{ college_filter }}{% endif %}{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -76,7 +108,7 @@ Students
             
             {% if start_page > 1 %}
             <li class="page-item">
-                <a class="page-link" href="?page=1">1</a>
+                <a class="page-link" href="?page=1{% if college_filter %}&college={{ college_filter }}{% endif %}{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}">1</a>
             </li>
             <li class="page-item disabled">
                 <span class="page-link">...</span>
@@ -85,7 +117,7 @@ Students
             
             {% for page in range(start_page, end_page + 1) %}
             <li class="page-item {% if page == current_page %}active{% endif %}">
-                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                <a class="page-link" href="?page={{ page }}{% if college_filter %}&college={{ college_filter }}{% endif %}{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}">{{ page }}</a>
             </li>
             {% endfor %}
             
@@ -94,45 +126,17 @@ Students
                 <span class="page-link">...</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ total_pages }}">{{ total_pages }}</a>
+                <a class="page-link" href="?page={{ total_pages }}{% if college_filter %}&college={{ college_filter }}{% endif %}{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}">{{ total_pages }}</a>
             </li>
             {% endif %}
             
             <!-- Next Button -->
             <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                <a class="page-link" href="?page={{ current_page + 1 }}" aria-label="Next">
+                <a class="page-link" href="?page={{ current_page + 1 }}{% if college_filter %}&college={{ college_filter }}{% endif %}{% if year_filter %}&enrollment_year={{ year_filter }}{% endif %}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
 </div>
-
-<script>
-    document.querySelectorAll('.filter-option').forEach(option => {
-        option.addEventListener('click', function () {
-            const column = this.dataset.column.toLowerCase();
-            const value = this.dataset.value.toLowerCase();
-
-            const rows = document.querySelectorAll('#tableBody tr');
-            rows.forEach(row => {
-                let columnIndex;
-                if (column === 'college') {
-                    columnIndex = 4;  // Adjust column index for college
-                } else if (column === 'enrollment_year') {
-                    columnIndex = 6;  // Adjust column index for enrollment_year
-                }
-
-                if (columnIndex) {
-                    const cellValue = row.querySelector(`td:nth-child(${columnIndex})`).textContent.toLowerCase();
-                    if (cellValue.includes(value)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                }
-            });
-        });
-    });
-</script>
 {% endblock %}

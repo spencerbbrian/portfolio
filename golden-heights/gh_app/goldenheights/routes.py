@@ -64,6 +64,11 @@ def students_page():
         min=min
     )
 
+@app.route('/departments')
+def departments_page():
+    departments_list = departments.find({}).sort('department', ASCENDING)
+    return render_template('gh-departments.html', departments_list=departments_list)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()

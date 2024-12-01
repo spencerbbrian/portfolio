@@ -1,0 +1,31 @@
+{% extends 'gh-base.html' %}
+{% block title %}
+Students
+{% endblock %}
+
+{% block content %}
+<h2>Departments</h2>
+
+<div class="department-cards row g-3 px-5"> <!-- px-3 adds horizontal padding on both sides -->
+    {% for department in departments_list %}
+        <div class="col-md-3"> <!-- 3 columns per card -->
+            <div class="card border-info" style="max-width: 18rem;">
+                <div class="card-header">{{ department.department }}</div>
+                <div class="card-body">
+                    <h5 class="card-title">Info card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p><strong>Head of Department:</strong> {{ department.Head_of_Department }}</p>
+                    <p><strong>College:</strong> {{ department.college }}</p>
+                    <p><strong>Course Cost:</strong> ${{ department.course_cost }}</p>
+                    <p><strong>Elective Cost:</strong> ${{ department.elective_cost }}</p>
+                    <p><strong>Number of Students:</strong> {{ department.students }}</p>
+                </div>
+                <div class="card-footer bg-transparent border-info">Footer</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

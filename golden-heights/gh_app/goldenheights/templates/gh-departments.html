@@ -4,7 +4,9 @@ Students
 {% endblock %}
 
 {% block content %}
-<h2>Departments</h2>
+<div style="text-align: center;">
+    <h2>Departments</h2>
+</div></div>
 
 <div class="department-cards row g-3 px-5"> <!-- px-3 adds horizontal padding on both sides -->
     {% for department in departments_list %}
@@ -12,8 +14,8 @@ Students
             <div class="card border-info" style="max-width: 18rem;">
                 <div class="card-header">{{ department.department }}</div>
                 <div class="card-body">
-                    <h5 class="card-title">Info card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">{{ department.description }}</p>
                     <p><strong>Dean:</strong> {{ department.head_of_department }}</p>
                     <p><strong>College:</strong> {{ department.college }}</p>
                     <p><strong>Course Cost:</strong> ${{ department.course_cost }}</p>

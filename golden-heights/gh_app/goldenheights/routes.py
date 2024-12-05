@@ -76,7 +76,6 @@ def departments_page():
             head_of_department = employees.find_one({'employee_id': department['head_of_department']})
             department['head_of_department'] = f"{head_of_department['first_name']} {head_of_department['last_name']}"
         departments_with_heads.append(department)
-    print(departments_with_heads)
 
     return render_template('gh-departments.html', departments_list=departments_with_heads)
 

@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
-from goldenheights import app, students, courses, departments, transcripts, employees
+from goldenheights import app, students, courses, departments, transcripts, employees, housing
+import pymongo
 from pymongo import ASCENDING, DESCENDING
 from goldenheights.models import User  # Ensure your User model is defined correctly
 from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
@@ -78,6 +79,48 @@ def departments_page():
         departments_with_heads.append(department)
 
     return render_template('gh-departments.html', departments_list=departments_with_heads)
+
+app.jinja_env.globals.update(max=max, min=min)
+
+@app.route('/housing')
+def housing_page():
+    # Existing code
+    status_filter = request.args.get('status', None)
+    type_filter = request.args.get('type', None)
+    campus_filter = request.args.get('campus', None)
+    page = int(request.args.get('page', 1))
+
+    items_per_page = 20
+    skip = (page - 1) * items_per_page
+
+    query = {}
+    if status_filter:
+        query['status'] = status_filter
+    if type_filter:
+        query['type'] = type_filter
+    if campus_filter:
+        query['campus'] = campus_filter
+
+    housing_list = list(
+        housing.find(query)
+        .sort("rent", pymongo.ASCENDING)
+        .skip(skip)
+        .limit(items_per_page)
+    )
+
+    total_items = housing.count_documents(query)
+    total_pages = (total_items + items_per_page - 1) // items_per_page
+
+    return render_template(
+        'gh-housing.html',
+        housing_list=housing_list,
+        current_page=page,
+        total_pages=total_pages,
+        status_filter=status_filter,
+        type_filter=type_filter,
+        campus_filter=campus_filter,
+    )
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():

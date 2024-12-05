@@ -1,0 +1,152 @@
+{% extends 'gh-base.html' %}
+{% block title %}
+Housing Options
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Student Housing Options</h2>
+
+    <!-- Applied Filters -->
+    <div class="filters-section mb-3">
+        <h5>Filters Applied:</h5>
+        <ul class="list-inline">
+            {% if status_filter %}
+            <li class="list-inline-item">
+                <strong>Status:</strong> {{ status_filter }}
+                <a href="?page={{ current_page }}{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}" class="btn btn-sm btn-outline-danger">Remove</a>
+            </li>
+            {% endif %}
+            {% if type_filter %}
+            <li class="list-inline-item">
+                <strong>Type:</strong> {{ type_filter }}
+                <a href="?page={{ current_page }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}" class="btn btn-sm btn-outline-danger">Remove</a>
+            </li>
+            {% endif %}
+            {% if campus_filter %}
+            <li class="list-inline-item">
+                <strong>Campus:</strong> {{ campus_filter }}
+                <a href="?page={{ current_page }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}" class="btn btn-sm btn-outline-danger">Remove</a>
+            </li>
+            {% endif %}
+            {% if not status_filter and not type_filter and not campus_filter %}
+            <li>No filters applied.</li>
+            {% endif %}
+        </ul>
+        <a href="?page=1" class="btn btn-secondary">Clear All Filters</a>
+    </div>
+
+    <!-- Filter Dropdowns -->
+    <div class="d-flex justify-content-start gap-2 mb-3">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="statusFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by Status
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="statusFilter">
+                <li><a class="dropdown-item" href="?status=Available{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">Available</a></li>
+                <li><a class="dropdown-item" href="?status=Fully Occupied{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">Fully Occupied</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="typeFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by Type
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="typeFilter">
+                <li><a class="dropdown-item" href="?type=Dormitory Single{% if status_filter %}&status={{ status_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">Dormitory Single</a></li>
+                <li><a class="dropdown-item" href="?type=Dormitory Double{% if status_filter %}&status={{ status_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">Dormitory Double</a></li>
+                <li><a class="dropdown-item" href="?type=Dormitory Triple{% if status_filter %}&status={{ status_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">Dormitory Triple</a></li>
+                <li><a class="dropdown-item" href="?type=Dormitory Quad{% if status_filter %}&status={{ status_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">Dormitory Quad</a></li>
+                <li><a class="dropdown-item" href="?type=Studio Single{% if status_filter %}&status={{ status_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">Studio Single</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="campusFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by Campus
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="campusFilter">
+                <li><a class="dropdown-item" href="?campus=Evergreen Heights Campus{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">Evergreen Heights Campus</a></li>
+                <li><a class="dropdown-item" href="?campus=Summit Valley Campus{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">Summit Valley Campus</a></li>
+                <li><a class="dropdown-item" href="?campus=Lakeside Vista Campus{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">Lakeside Vista Campus</a></li>
+                <li><a class="dropdown-item" href="?campus=Golden Grove Campus{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">Golden Grove Campus</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Room Name</th>
+                <th>Type</th>
+                <th>Campus</th>
+                <th>Rent</th>
+                <th>Status</th>
+                <th>Capacity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for housing in housing_list %}
+            <tr>
+                <td>{{ housing.room_name }}</td>
+                <td>{{ housing.type }}</td>
+                <td>{{ housing.campus }}</td>
+                <td>${{ housing.rent }}</td>
+                <td>{{ housing.status }}</td>
+                <td>{{ housing.capacity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+    
+            <!-- Previous Button -->
+            <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+                <a class="page-link" href="?page={{ current_page - 1 }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+    
+            <!-- Dynamic Page Numbers -->
+            {% set start_page = max(1, current_page - 2) %}
+            {% set end_page = min(total_pages, current_page + 2) %}
+            
+            {% if start_page > 1 %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">1</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            {% endif %}
+    
+            {% for page in range(start_page, end_page + 1) %}
+            <li class="page-item {% if page == current_page %}active{% endif %}">
+                <a class="page-link" href="?page={{ page }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">{{ page }}</a>
+            </li>
+            {% endfor %}
+    
+            {% if end_page < total_pages %}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ total_pages }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}">{{ total_pages }}</a>
+            </li>
+            {% endif %}
+    
+            <!-- Next Button -->
+            <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
+                <a class="page-link" href="?page={{ current_page + 1 }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}{% if campus_filter %}&campus={{ campus_filter }}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+    
+        </ul>
+    </nav>
+</div>
+{% endblock %}

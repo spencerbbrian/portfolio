@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
-from goldenheights import app, students, courses, departments, transcripts
+from goldenheights import app, students, courses, departments, transcripts, employees
 from pymongo import ASCENDING, DESCENDING
 from goldenheights.models import User  # Ensure your User model is defined correctly
 from goldenheights.forms import RegisterForm, LoginForm  # Import both forms
@@ -64,10 +64,21 @@ def students_page():
         min=min
     )
 
+
 @app.route('/departments')
 def departments_page():
-    departments_list = departments.find({}).sort('department', ASCENDING)
-    return render_template('gh-departments.html', departments_list=departments_list)
+    departments_list = list(departments.find({}).sort('department', ASCENDING))
+    departments_with_heads = []
+
+    for department in departments_list:
+        head_of_department = None
+        if 'head_of_department' in department:
+            head_of_department = employees.find_one({'employee_id': department['head_of_department']})
+            department['head_of_department'] = f"{head_of_department['first_name']} {head_of_department['last_name']}"
+        departments_with_heads.append(department)
+    print(departments_with_heads)
+
+    return render_template('gh-departments.html', departments_list=departments_with_heads)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():

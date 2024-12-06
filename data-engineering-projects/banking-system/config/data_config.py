@@ -40,3 +40,30 @@ TRANSACTION_TYPES = [
     "payment",    # General payments to vendors or services
     "transfer"    # Moving money from one account to another
 ]
+
+# List of possible POS payments based on merchant types
+POS_PAYMENTS = {
+    "restaurant": [
+        "dine-in",       # Dining at the restaurant
+        "takeaway",      # Taking food away from the restaurant
+        "delivery"       # Food delivery service
+    ],
+    "retail": [
+        "in-store",      # Shopping in a physical store
+        "online",        # Shopping online
+        "curbside"       # Curbside pickup
+    ],
+    "service": [
+        "appointment",   # Scheduled service appointments
+        "walk-in",       # Walk-in services
+        "subscription"   # Subscription-based services
+    ],
+    "grocery": [
+        "in-store",      # Shopping in a physical grocery store
+        "online",        # Online grocery shopping
+        "delivery"       # Grocery delivery service
+    ],
+    "other": [
+        "miscellaneous"  # Miscellaneous POS payments
+    ]
+}

@@ -7,7 +7,7 @@
             "sender_account_id": { "bsonType": "int" },
             "receiver_account_id": { "bsonType": "int" },
             "amount": { "bsonType": "double", "minimum": 0.0 },
-            "transaction_type": { "bsonType": "string", "enum": ["deposit", "withdrawal", "purchase", "cheque", "charge", "POS", "payment", "transfer"] },
+            "transaction_type": { "bsonType": "string", "enum": ["deposit", "withdrawal", "purchase", "cheque deposit", "cheque withdrawal", "charge", "POS", "payment", "transfer"] },
             "timestamp": { "bsonType": "date" },
             "status": { "bsonType": "string", "enum": ["success", "failed"] },
             "fee": { "bsonType": "double", "minimum": 0.0 },

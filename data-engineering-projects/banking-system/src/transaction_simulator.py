@@ -12,7 +12,7 @@ import random
 
 fake = faker.Faker()
 
-
+def convert_currency()
 
 def get_next_transaction_id(db):
     latest_transaction = db.transactions.find_one(

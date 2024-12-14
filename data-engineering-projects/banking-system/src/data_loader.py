@@ -2,7 +2,7 @@ from src.db_connection import get_db_connection
 import random, sys
 from random import choice
 from faker import Faker
-from config.data_config import COUNTRIES, MERCHANT_TYPES, ACCOUNT_TYPES, CURRENCIES
+from data_config import COUNTRIES, MERCHANT_TYPES, ACCOUNT_TYPES, CURRENCIES
 import uuid
 
 fake = Faker()

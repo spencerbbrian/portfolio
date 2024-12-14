@@ -12,7 +12,10 @@ import random
 
 fake = faker.Faker()
 
-def convert_currency()
+def convert_currency(db,currency_pair,amount):
+    rate = db.exchange.find_one({"currency_pair": currency_pair})['exchange_rate']
+    return amount * rate  
+
 
 def get_next_transaction_id(db):
     latest_transaction = db.transactions.find_one(
@@ -39,8 +42,7 @@ def generate_transactions(db):
         primary_account = random.choice(list(db.accounts.find({"account_category": "Customer"})))
         secondary_account = random.choice(list(db.accounts.find({
         "account_category": "Customer", 
-        "_id": {"$ne": primary_account["_id"]},
-        "currency": primary_account["currency"]
+        "_id": {"$ne": primary_account["_id"]}
         })))
     
 
@@ -49,8 +51,10 @@ def generate_transactions(db):
         minimum_balance = primary_account["minimum_balance"]
         primary_account_balance = primary_account["current_balance"]
         secondary_account_balance = secondary_account["current_balance"]
-        
 
+        primary_account_currency = primary_account["currency"]
+        secondary_account_currency = secondary_account["currency"]
+    
         if transaction_type == "deposit":
             new_balance = primary_account["current_balance"] + deposit_withdrawal_amount
             print(f"Depositing {deposit_withdrawal_amount} into account {primary_account['account_id']}.")
@@ -102,8 +106,13 @@ def generate_transactions(db):
         elif transaction_type == "purchase" or transaction_type == "POS" or transaction_type == "payment":
             category = random.choice(list(POS_PAYMENTS.keys()))
             random_pos_item = random.choice(POS_PAYMENTS[category])
-            merchant = random.choice(list(db.merchants.find({"merchant_type": category, "currency": primary_account["currency"]})))
+            merchant = random.choice(list(db.merchants.find({"merchant_type": category})))
             amount = round(random.uniform(1.0, 1000.0), 2)
+            initial_amount = amount
+
+            if merchant['currency'] != primary_account['currency']:
+                amount = convert_currency(db,f"{primary_account_currency}/{merchant['currency']}",amount)
+
             temp_balance = primary_account["current_balance"] - amount - bank_charge
             if temp_balance > primary_account["minimum_balance"]:
                 print(f"Making a purchase of {amount} for {random_pos_item} at a(n) {category} merchant.")
@@ -112,6 +121,7 @@ def generate_transactions(db):
                 transaction = {
                     "transaction_id": get_next_transaction_id(db),
                     "transaction_type": transaction_type,
+                    "intitial_amount": initial_amount,
                     "amount": amount,
                     "charge": bank_charge,
                     "currency": primary_account["currency"],
@@ -128,7 +138,12 @@ def generate_transactions(db):
             
         elif transaction_type == "cheque deposit":
             cheque_amount = round(random.uniform(1001.0, 10000.0), 2)
+            initial_amount = cheque_amount
             if secondary_account_balance > cheque_amount:
+
+                if primary_account['currency'] != secondary_account['currency']:
+                    cheque_amount = convert_currency(db,f"{secondary_account_currency}/{primary_account_currency}",amount)
+
                 print(f"Depositing a cheque of {cheque_amount} into account {primary_account['account_id']} from account {secondary_account['account_id']} .")
                 new_balance = primary_account["current_balance"] + cheque_amount
                 secondary_account_balance -= (cheque_amount + bank_charge)
@@ -137,6 +152,7 @@ def generate_transactions(db):
                 transaction = {
                     "transaction_id": get_next_transaction_id(db),
                     "transaction_type": transaction_type,
+                    "intitial_amount": initial_amount,
                     "amount": cheque_amount,
                     "charge": bank_charge,
                     "currency": primary_account["currency"],
@@ -192,8 +208,13 @@ def generate_transactions(db):
         
         elif transaction_type == "transfer":
             transfer_amount = round(random.uniform(1.0, 1250.0), 2)
+            initial_amount = transfer_amount
             temp_balance = primary_account_balance - transfer_amount - bank_charge
             if temp_balance > primary_account["minimum_balance"]:
+
+                if primary_account['currency'] != secondary_account['currency']:
+                    transfer_amount = convert_currency(db,f"{primary_account_currency}/{secondary_account_currency}",amount)
+
                 print(f"Transferring {transfer_amount} from account {primary_account['account_id']} to account {secondary_account['account_id']}.")
                 db.accounts.update_one({"_id": primary_account['_id']},{"$set": {"current_balance": temp_balance}})
                 secondary_account_balance += transfer_amount
@@ -201,6 +222,7 @@ def generate_transactions(db):
                 transaction = {
                     "transaction_id": get_next_transaction_id(db),
                     "transaction_type": transaction_type,
+                    "intitial_amount": initial_amount,
                     "amount": transfer_amount,
                     "charge": bank_charge,
                     "currency": primary_account["currency"],

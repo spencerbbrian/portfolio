@@ -17,6 +17,18 @@ def convert_currency(db,currency_pair,amount):
     return amount * rate  
 
 
+def check_funds_available(db, account_id, amount, charge):
+    account = db.accounts.find_one({"account_id": account_id})
+    if not account:
+        raise ValueError("Account not found")
+    current_balance = account["current_balance"]
+    minimum_balance = account["minimum_balance"]
+
+    if current_balance - amount - charge < minimum_balance:
+        return False
+    return True
+
+
 def get_next_transaction_id(db):
     latest_transaction = db.transactions.find_one(
         sort=[("transaction_id", DESCENDING)]
@@ -76,27 +88,43 @@ def generate_transactions(db):
         
         elif transaction_type == "withdrawal":
             print(f"{primary_account_balance}")
-            primary_account_balance -= (deposit_withdrawal_amount + bank_charge)
-            print(f"Withdrawing {deposit_withdrawal_amount} from account {primary_account['account_id']}.")
-            print(f"New balance: {primary_account_balance}")
+            if not check_funds_available(db, primary_account["account_id"], deposit_withdrawal_amount, bank_charge):
+                print(f"Insufficient funds in account {primary_account['account_id']}.")
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": deposit_withdrawal_amount,
+                    "charge": bank_charge,
+                    "currency": primary_account_currency,
+                    "sender_account_id": primary_account["account_id"],
+                    "receiver_account_id": "NA",
+                    "timestamp": datetime.now(),
+                    "status": "failed",
+                    "reason": "Insufficient funds"
+                }
+                db.transactions.insert_one(transaction)
+            else:
+                primary_account_balance -= (deposit_withdrawal_amount + bank_charge)
+                print(f"Withdrawing {deposit_withdrawal_amount} from account {primary_account['account_id']}.")
+                print(f"New balance: {primary_account_balance}")
 
-            db.accounts.update_one(
-                {"_id": primary_account['_id']},
-                {"$set": {"current_balance": primary_account_balance}}
+                db.accounts.update_one(
+                    {"_id": primary_account['_id']},
+                    {"$set": {"current_balance": primary_account_balance}}
                 )
-            
-            transaction = {
-            "transaction_id": get_next_transaction_id(db),
-            "transaction_type": transaction_type,
-            "amount": deposit_withdrawal_amount,
-            "charge": bank_charge,
-            "currency": primary_account_currency,
-            "sender_account_id": "NA",
-            "receiver_account_id": primary_account["account_id"],
-            "timestamp": datetime.now(),
-            "status": "success"
-            }
-            db.transactions.insert_one(transaction)
+                
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": deposit_withdrawal_amount,
+                    "charge": bank_charge,
+                    "currency": primary_account_currency,
+                    "sender_account_id": primary_account["account_id"],
+                    "receiver_account_id": "NA",
+                    "timestamp": datetime.now(),
+                    "status": "success"
+                }
+                db.transactions.insert_one(transaction)
             return  
 
     except Exception as e:

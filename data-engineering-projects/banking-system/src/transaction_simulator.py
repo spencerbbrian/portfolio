@@ -126,10 +126,80 @@ def generate_transactions(db):
                 }
                 db.transactions.insert_one(transaction)
             return  
+        
+        elif transaction_type == "purchase" or transaction_type == "POS" or transaction_type == "payment":
+
+            merchant_account = random.choice(list(db.accounts.find({"account_category": "Merchant"})))
+
+            if transaction_type == "purchase":
+                amount = round(random.uniform(10.0, 1000.0), 2)
+                print(amount)
+            else:
+                amount = round(random.uniform(1.0, 250.0), 2)
+                print(amount)
+
+            print(f"{primary_account_balance}")
+            if primary_account_currency != merchant_account["currency"]:
+                merchant_amount = amount
+                amount = convert_currency(db, f"{merchant_account['currency']}/{primary_account_currency}", amount)
+            else:
+                amount = amount
+                merchant_amount = amount
+
+            if not check_funds_available(db, primary_account["account_id"], amount, bank_charge):
+                print(f"Insufficient funds in account {primary_account['account_id']}.")
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": amount,
+                    "charge": bank_charge,
+                    "currency": primary_account_currency,
+                    "sender_account_id": primary_account["account_id"],
+                    "receiver_account_id": merchant_account["account_id"],
+                    "timestamp": datetime.now(),
+                    "status": "failed",
+                    "reason": "Insufficient funds"
+                }
+                db.transactions.insert_one(transaction)
+            else:
+                primary_account_balance -= (amount + bank_charge)
+                print(f"Making a payment of {merchant_amount} to merchant account {merchant_account['account_id']}.")
+                print(f"New balance: {primary_account_balance}")
+
+                merchant_account_balance = merchant_account["current_balance"]
+                merchant_account_balance += merchant_amount
+
+                db.accounts.update_one(
+                    {"_id": primary_account['_id']},
+                    {"$set": {"current_balance": primary_account_balance}}
+                )
+
+                db.accounts.update_one(
+                    {"_id": merchant_account['_id']},
+                    {"$set": {"current_balance": merchant_account_balance}}
+                )
+
+                
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": amount,
+                    "charge": bank_charge,
+                    "currency": primary_account_currency,
+                    "sender_account_id": primary_account["account_id"],
+                    "receiver_account_id": merchant_account["account_id"],
+                    "timestamp": datetime.now(),
+                    "status": "success"
+                }
+                db.transactions.insert_one(transaction)
+
 
     except Exception as e:
         print(f"An error occurred: Transaction could not be completed. {e}")
         return
+    
+
+
     
 # def log_failed_transaction(db, transaction_type, amount, charge, currency, account_id):
 #     transaction = {

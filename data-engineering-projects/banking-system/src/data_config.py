@@ -32,13 +32,13 @@ ACCOUNT_TYPES = [
 # List of possible transaction types based on the enum
 TRANSACTION_TYPES = [
     # "deposit",    # Adding money to an account
-    "withdrawal", # Taking money out of an account
-    # "purchase",   # Buying goods or services
+    # "withdrawal", # Taking money out of an account
+     "purchase",   # Buying goods or services
     # "cheque deposit", 
     # "cheque withdrawal",    # Payment made via cheque
     # "charge",     # Charging an amount to an account
-    # "POS",        # Point of Sale transactions
-    # "payment",    # General payments to vendors or services
+     "POS",        # Point of Sale transactions
+     "payment",    # General payments to vendors or services
     # "transfer"    # Moving money from one account to another
 ]
 

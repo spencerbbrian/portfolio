@@ -1,25 +1,35 @@
 # Data Analytics & Engineering Portfolio 
-These are small-scale projects that I have worked on as part of my portfolio. Portfolio projects on my [wesbite](https://sites.google.com/view/spencerbbrian/about) are taken from here and expanded. 
+These are small-scale and large projects that I have worked on as part of my portfolio. For a better illustration of some these project check my static [wesbite](https://sites.google.com/view/spencerbbrian/about). 
 
-#### -- Current Project: Documentation and setting up my website.
-#### -- Status: 55% complete.
+#### -- Current Project(s): 
+1. Banking system for to handle backend transaction of funds using MongoDB.
+2. Golden Heights University Database system using flask.
 
-## Methods Used
-Varying methods are required for different projects. Hence, every project will have its personal ReadMes to address the methods used.
+
+## Project Types
+* Data Engineering Projects
+* Dashboarding
+* Beginner friendly flask and Django apps to enhance DE projects.
+* SQL projects
+* Miniature python projects
+
 
 ## Technologies Used
 * Python
 * Postgres
 * Jupyter 
-* These may be consistent through most projects, however the different technologies for every project can be found in its README.
+* Tableau
+* SQL
+* PowerBi
+* MongoDB
 
-## Getting Started
-To reproduce any project,
-1. Go through technologies used and assess understanding before approaching project.
-2. Look for comments.(I love commenting the tiniest code if I have documented that project :D)
+These will vary from project to project
+
+### Tableau
+Find my tableau profile [here](https://public.tableau.com/app/profile/spencer.baiden/vizzes).
 
 ### Contributors
-Yeah, there is no one here.
+Yeah, there is no one else here.
 
 ## Contact
 * Feel free to contact me on any of my socials on my profile.

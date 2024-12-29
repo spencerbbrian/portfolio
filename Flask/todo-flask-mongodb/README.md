@@ -67,10 +67,8 @@ project/
 Refer to the `requirements.txt` file for the Python dependencies.
 
 ## Screenshots
-- Add Task Page:
-  ![Add Task Page](./screenshots/add_task.png)
-- View Tasks:
-  ![View Tasks](./screenshots/created_tasks.png)
+- Add Task Page: ![Add Task Page](./screenshots/add_task.png)
+- View Tasks: ![View Tasks](./screenshots/created_tasks.png)
 
 ## License
 This project is open source and available under the MIT License.

@@ -192,7 +192,60 @@ def generate_transactions(db):
                     "status": "success"
                 }
                 db.transactions.insert_one(transaction)
+            return
+            
+        elif transaction_type == "cheque deposit":
+            print(f"{primary_account_balance}")
+            cheque_amount = round(random.uniform(2500.0, 100000.0), 2)
 
+            if not check_funds_available(db, secondary_account["account_id"], cheque_amount, bank_charge):
+                print(f"Insufficient funds in account {secondary_account['account_id']}.")
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": cheque_amount,
+                    "charge": bank_charge,
+                    "currency": secondary_account_currency,
+                    "sender_account_id": secondary_account["account_id"],
+                    "receiver_account_id": primary_account["account_id"],
+                    "timestamp": datetime.now(),
+                    "status": "failed",
+                    "reason": "Insufficient funds"
+                }
+                db.transactions.insert_one(transaction)
+            else:
+                if primary_account_currency != secondary_account_currency:
+                    cheque_amount = convert_currency(db, f"{secondary_account_currency}/{primary_account_currency}", cheque_amount)
+                else:
+                    cheque_amount = cheque_amount
+
+                primary_account_balance += cheque_amount
+                secondary_account_balance -= (cheque_amount + bank_charge)
+                print(f"Depositing {cheque_amount} into account {primary_account['account_id']} from account {secondary_account['account_id']}.")
+                print(f"New balance: {primary_account_balance}")
+
+                db.accounts.update_one(
+                    {"_id": primary_account['_id']},
+                    {"$set": {"current_balance": primary_account_balance}}
+                )
+                db.accounts.update_one(
+                    {"_id": secondary_account['_id']},
+                    {"$set": {"current_balance": secondary_account_balance}}
+                )
+
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": cheque_amount,
+                    "charge": bank_charge,
+                    "currency": secondary_account_currency,
+                    "sender_account_id": secondary_account["account_id"],
+                    "receiver_account_id": primary_account["account_id"],
+                    "timestamp": datetime.now(),
+                    "status": "success"
+                }
+                db.transactions.insert_one(transaction)
+            return
 
     except Exception as e:
         print(f"An error occurred: Transaction could not be completed. {e}")

@@ -1,4 +1,4 @@
-# ETL Pipeline with AWS RDS and Python
+# ETL Pipeline with AWS RDS, S3 and Python
 
 ## Project Overview
 This project demonstrates how to create an ETL pipeline that interacts with a PostgreSQL database hosted on AWS RDS. The pipeline connects to the database, creates a table, and stores sample data. This is a basic example meant to help you understand how to work with AWS services, PostgreSQL, and Python.
@@ -51,13 +51,13 @@ Before starting with this project, ensure you have the following installed and s
 1. **Clone the Repository**:
    Clone the repository to your local machine using Git:
    ```bash
-   git clone https://github.com/yourusername/aws-etl-pipeline.git
+   git clone https://github.com/spencerbbrian/portfolio/tree/main/AWS/etl-pipeline
    ```
 
 2. **Create the PostgreSQL Table**:
    - Open a terminal and navigate to the project folder:
      ```bash
-     cd aws-etl-pipeline
+     cd etl-pipeline
      ```
    - Ensure you have configured the database connection details correctly in the Python script `create_table.py`.
 
@@ -123,18 +123,17 @@ You can use several methods to view the data inside your PostgreSQL table:
 2. Navigate to your database `etldb123`.
 3. Right-click on `sales_data` and choose "View Data" to see all the records.
 
+### Screenshots
+![transformed_table](./screenshots/table_after_transformation.png)
+
+![PgAdmin_final_table](./screenshots/pgadmin_connected.png)
+
+![cloudwatch_monitor](./screenshots/cloudwatch1.png)
+
 ---
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ### Notes
 - This project is designed as a learning tool for understanding how to interact with AWS RDS and use Python to automate database operations.
 - The database and table creation part is simple, but you can extend this by adding more functionality like data extraction, transformation, and loading (ETL).
 - You can also integrate AWS Lambda, AWS S3, and other AWS services to build a more complex ETL pipeline.
-
----
-
-This README will help guide you through the setup and usage of your ETL pipeline project. You can update the sections and include more details as your project evolves!

@@ -246,6 +246,49 @@ def generate_transactions(db):
                 }
                 db.transactions.insert_one(transaction)
             return
+        
+        elif transaction_type == "cheque withdrawal":
+            print(f"{secondary_account_balance}")
+            cheque_amount = round(random.uniform(2500.0, 100000.0), 2)
+
+            if not check_funds_available(db, secondary_account["account_id"], cheque_amount, bank_charge):
+                print(f"Insufficient funds in account {secondary_account['account_id']}.")
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": cheque_amount,
+                    "charge": bank_charge,
+                    "currency": secondary_account_currency,
+                    "sender_account_id": secondary_account["account_id"],
+                    "receiver_account_id": "external",
+                    "timestamp": datetime.now(),
+                    "status": "failed",
+                    "reason": "Insufficient funds"
+                }
+                db.transactions.insert_one(transaction)
+            else:
+                secondary_account_balance -= (cheque_amount + bank_charge)
+                print(f"Withdrawing {cheque_amount} from account {secondary_account['account_id']} via cheque.")
+                print(f"New balance: {secondary_account_balance}")
+
+                db.accounts.update_one(
+                    {"_id": secondary_account['_id']},
+                    {"$set": {"current_balance": secondary_account_balance}}
+                )
+
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": cheque_amount,
+                    "charge": bank_charge,
+                    "currency": secondary_account_currency,
+                    "sender_account_id": secondary_account["account_id"],
+                    "receiver_account_id": "external",
+                    "timestamp": datetime.now(),
+                    "status": "success"
+                }
+                db.transactions.insert_one(transaction)
+            return
 
     except Exception as e:
         print(f"An error occurred: Transaction could not be completed. {e}")

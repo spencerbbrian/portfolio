@@ -1,51 +1,51 @@
-country
-United Kingdom
-United States
-South Africa
-West Germany
-Canada
-Australia
-Italy
-South Korea
-Sweden
-Spain
-Hong Kong
-Mexico
-Switzerland
-France
-New Zealand
-Japan
-Yugoslavia
-Ireland
-Germany
-Austria
-Portugal
-China
-Taiwan
-Republic of Macedonia
-Russia
-Federal Republic of Yugoslavia
-Iran
-Czech Republic
-Denmark
-Jamaica
-Brazil
-Aruba
-Argentina
-India
-Netherlands
-Colombia
-Norway
-Israel
-Belgium
-United Arab Emirates
-Indonesia
-Hungary
-Kenya
-Iceland
-Chile
-Finland
-Panama
-Malta
-Lebanon
-Thailand
+country,country_id
+United Kingdom,1
+United States,2
+South Africa,3
+West Germany,4
+Canada,5
+Australia,6
+Italy,7
+South Korea,8
+Sweden,9
+Spain,10
+Hong Kong,11
+Mexico,12
+Switzerland,13
+France,14
+New Zealand,15
+Japan,16
+Yugoslavia,17
+Ireland,18
+Germany,19
+Austria,20
+Portugal,21
+China,22
+Taiwan,23
+Republic of Macedonia,24
+Russia,25
+Federal Republic of Yugoslavia,26
+Iran,27
+Czech Republic,28
+Denmark,29
+Jamaica,30
+Brazil,31
+Aruba,32
+Argentina,33
+India,34
+Netherlands,35
+Colombia,36
+Norway,37
+Israel,38
+Belgium,39
+United Arab Emirates,40
+Indonesia,41
+Hungary,42
+Kenya,43
+Iceland,44
+Chile,45
+Finland,46
+Panama,47
+Malta,48
+Lebanon,49
+Thailand,50

@@ -35,11 +35,10 @@ TRANSACTION_TYPES = [
     # "withdrawal", # Taking money out of an account
     # "purchase",   # Buying goods or services
     # "cheque deposit", 
-     "cheque withdrawal",    # Payment made via cheque
-    # "charge",     # Charging an amount to an account
+    # "cheque withdrawal",    # Payment made via cheque
     # "POS",        # Point of Sale transactions
     # "payment",    # General payments to vendors or services
-    # "transfer"    # Moving money from one account to another
+     "transfer"    # Moving money from one account to another
 ]
 
 # List of possible POS payments based on merchant types

@@ -215,13 +215,13 @@ def generate_transactions(db):
                 db.transactions.insert_one(transaction)
             else:
                 if primary_account_currency != secondary_account_currency:
-                    cheque_amount = convert_currency(db, f"{secondary_account_currency}/{primary_account_currency}", cheque_amount)
+                    cheque_amount_converted = convert_currency(db, f"{secondary_account_currency}/{primary_account_currency}", cheque_amount)
                 else:
-                    cheque_amount = cheque_amount
+                    cheque_amount_converted = cheque_amount
 
-                primary_account_balance += cheque_amount
+                primary_account_balance += cheque_amount_converted
                 secondary_account_balance -= (cheque_amount + bank_charge)
-                print(f"Depositing {cheque_amount} into account {primary_account['account_id']} from account {secondary_account['account_id']}.")
+                print(f"Depositing {cheque_amount_converted} into account {primary_account['account_id']} from account {secondary_account['account_id']}.")
                 print(f"New balance: {primary_account_balance}")
 
                 db.accounts.update_one(
@@ -289,6 +289,66 @@ def generate_transactions(db):
                 }
                 db.transactions.insert_one(transaction)
             return
+
+        elif transaction_type == "transfer":
+            print(f"{primary_account_balance}")
+            transfer_amount = round(random.uniform(10.0, 10000.0), 2)
+            transfer_amount_init = transfer_amount
+
+            if not check_funds_available(db, primary_account["account_id"], transfer_amount, bank_charge):
+                print(f"Insufficient funds in account {primary_account['account_id']}.")
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": transfer_amount,
+                    "charge": bank_charge,
+                    "currency": primary_account_currency,
+                    "sender_account_id": primary_account["account_id"],
+                    "receiver_account_id": secondary_account["account_id"],
+                    "timestamp": datetime.now(),
+                    "status": "failed",
+                    "reason": "Insufficient funds"
+                }
+                db.transactions.insert_one(transaction)
+            else:
+                if primary_account_currency != secondary_account_currency:
+                    transfer_amount = convert_currency(db, f"{primary_account_currency}/{secondary_account_currency}", transfer_amount)
+                    primary_account_balance -= (transfer_amount_init + bank_charge)
+                    print(f"Transferring {transfer_amount_init}{primary_account_currency} from account {primary_account['account_id']} to account {secondary_account['account_id']}.")
+                else:
+                    transfer_amount = transfer_amount
+                    primary_account_balance -= (transfer_amount + bank_charge)
+                    print(f"Transferring {transfer_amount}{primary_account_currency} from account {primary_account['account_id']} to account {secondary_account['account_id']}.")
+
+                secondary_account_balance += transfer_amount
+                print(f"New balance: {primary_account_balance}")
+
+                db.accounts.update_one(
+                    {"_id": primary_account['_id']},
+                    {"$set": {"current_balance": primary_account_balance}}
+                )
+                db.accounts.update_one(
+                    {"_id": secondary_account['_id']},
+                    {"$set": {"current_balance": secondary_account_balance}}
+                )
+
+                transaction = {
+                    "transaction_id": get_next_transaction_id(db),
+                    "transaction_type": transaction_type,
+                    "amount": transfer_amount,
+                    "charge": bank_charge,
+                    "currency": secondary_account_currency,
+                    "sender_account_id": primary_account["account_id"],
+                    "receiver_account_id": secondary_account["account_id"],
+                    "timestamp": datetime.now(),
+                    "status": "success"
+                }
+                db.transactions.insert_one(transaction)
+            return
+
+
+                
+
 
     except Exception as e:
         print(f"An error occurred: Transaction could not be completed. {e}")

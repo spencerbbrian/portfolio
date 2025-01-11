@@ -1,51 +1,51 @@
-country,country_id
-United Kingdom,1
-United States,2
-South Africa,3
-West Germany,4
-Canada,5
-Australia,6
-Italy,7
-South Korea,8
-Sweden,9
-Spain,10
-Hong Kong,11
-Mexico,12
-Switzerland,13
-France,14
-New Zealand,15
-Japan,16
-Yugoslavia,17
-Ireland,18
-Germany,19
-Austria,20
-Portugal,21
-China,22
-Taiwan,23
-Republic of Macedonia,24
-Russia,25
-Federal Republic of Yugoslavia,26
-Iran,27
-Czech Republic,28
-Denmark,29
-Jamaica,30
-Brazil,31
-Aruba,32
-Argentina,33
-India,34
-Netherlands,35
-Colombia,36
-Norway,37
-Israel,38
-Belgium,39
-United Arab Emirates,40
-Indonesia,41
-Hungary,42
-Kenya,43
-Iceland,44
-Chile,45
-Finland,46
-Panama,47
-Malta,48
-Lebanon,49
-Thailand,50
+country_id,country
+1,United Kingdom
+2,United States
+3,South Africa
+4,West Germany
+5,Canada
+6,Australia
+7,Italy
+8,South Korea
+9,Sweden
+10,Spain
+11,Hong Kong
+12,Mexico
+13,Switzerland
+14,France
+15,New Zealand
+16,Japan
+17,Yugoslavia
+18,Ireland
+19,Germany
+20,Austria
+21,Portugal
+22,China
+23,Taiwan
+24,Republic of Macedonia
+25,Russia
+26,Federal Republic of Yugoslavia
+27,Iran
+28,Czech Republic
+29,Denmark
+30,Jamaica
+31,Brazil
+32,Aruba
+33,Argentina
+34,India
+35,Netherlands
+36,Colombia
+37,Norway
+38,Israel
+39,Belgium
+40,United Arab Emirates
+41,Indonesia
+42,Hungary
+43,Kenya
+44,Iceland
+45,Chile
+46,Finland
+47,Panama
+48,Malta
+49,Lebanon
+50,Thailand

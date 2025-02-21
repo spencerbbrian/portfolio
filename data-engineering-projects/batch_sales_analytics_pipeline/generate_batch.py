@@ -3,6 +3,9 @@ import json
 import time
 import random
 
+with open("keys.json","r") as file:
+    config = json.load(file)
+
 '''
 Every batch should have between 1 and 100 sales and must include
 - Customer id
@@ -13,7 +16,9 @@ Every batch should have between 1 and 100 sales and must include
 - Timestamp
 '''
 
-topic = 'sales'
+topic = config['kafka_topic']
+
+print(topic)
 
 producer = KafkaProducer(
     bootstrap_servers = 'localhost:9092',

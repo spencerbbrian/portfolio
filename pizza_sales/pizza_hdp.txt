@@ -1,0 +1,92 @@
+﻿pizza_num,pizza_abr,unit_price,pizza_size,pizza_name
+piz_01,hawaiian_m,13.25,M,The Hawaiian Pizza
+piz_02,classic_dlx_m,16,M,The Classic Deluxe Pizza
+piz_03,five_cheese_l,18.5,L,The Five Cheese Pizza
+piz_04,ital_supr_l,20.75,L,The Italian Supreme Pizza
+piz_05,mexicana_m,16,M,The Mexicana Pizza
+piz_06,thai_ckn_l,20.75,L,The Thai Chicken Pizza
+piz_07,ital_supr_m,16.5,M,The Italian Supreme Pizza
+piz_08,prsc_argla_l,20.75,L,The Prosciutto and Arugula Pizza
+piz_09,bbq_ckn_s,12.75,S,The Barbecue Chicken Pizza
+piz_10,the_greek_s,12,S,The Greek Pizza
+piz_11,spinach_supr_s,12.5,S,The Spinach Supreme Pizza
+piz_12,classic_dlx_s,12,S,The Classic Deluxe Pizza
+piz_13,green_garden_s,12,S,The Green Garden Pizza
+piz_14,ital_cpcllo_l,20.5,L,The Italian Capocollo Pizza
+piz_15,ital_supr_s,12.5,S,The Italian Supreme Pizza
+piz_16,mexicana_s,12,S,The Mexicana Pizza
+piz_17,spicy_ital_l,20.75,L,The Spicy Italian Pizza
+piz_18,spin_pesto_l,20.75,L,The Spinach Pesto Pizza
+piz_19,veggie_veg_s,12,S,The Vegetables + Vegetables Pizza
+piz_20,mexicana_l,20.25,L,The Mexicana Pizza
+piz_21,southw_ckn_l,20.75,L,The Southwest Chicken Pizza
+piz_22,bbq_ckn_l,20.75,L,The Barbecue Chicken Pizza
+piz_23,cali_ckn_l,20.75,L,The California Chicken Pizza
+piz_24,cali_ckn_m,16.75,M,The California Chicken Pizza
+piz_25,pepperoni_l,15.25,L,The Pepperoni Pizza
+piz_26,cali_ckn_s,12.75,S,The California Chicken Pizza
+piz_27,ckn_pesto_l,20.75,L,The Chicken Pesto Pizza
+piz_28,big_meat_s,12,S,The Big Meat Pizza
+piz_29,soppressata_l,20.75,L,The Soppressata Pizza
+piz_30,four_cheese_l,17.95,L,The Four Cheese Pizza
+piz_31,napolitana_s,12,S,The Napolitana Pizza
+piz_32,calabrese_m,16.25,M,The Calabrese Pizza
+piz_33,four_cheese_m,14.75,M,The Four Cheese Pizza
+piz_34,ital_veggie_s,12.75,S,The Italian Vegetables Pizza
+piz_35,mediterraneo_m,16,M,The Mediterranean Pizza
+piz_36,peppr_salami_s,12.5,S,The Pepper Salami Pizza
+piz_37,spinach_fet_l,20.25,L,The Spinach and Feta Pizza
+piz_38,napolitana_l,20.5,L,The Napolitana Pizza
+piz_39,sicilian_l,20.25,L,The Sicilian Pizza
+piz_40,ital_cpcllo_m,16,M,The Italian Capocollo Pizza
+piz_41,southw_ckn_s,12.75,S,The Southwest Chicken Pizza
+piz_42,bbq_ckn_m,16.75,M,The Barbecue Chicken Pizza
+piz_43,pepperoni_m,12.5,M,The Pepperoni Pizza
+piz_44,prsc_argla_s,12.5,S,The Prosciutto and Arugula Pizza
+piz_45,sicilian_m,16.25,M,The Sicilian Pizza
+piz_46,veggie_veg_l,20.25,L,The Vegetables + Vegetables Pizza
+piz_47,ckn_alfredo_s,12.75,S,The Chicken Alfredo Pizza
+piz_48,pepperoni_s,9.75,S,The Pepperoni Pizza
+piz_49,green_garden_l,20.25,L,The Green Garden Pizza
+piz_50,green_garden_m,16,M,The Green Garden Pizza
+piz_51,pep_msh_pep_l,17.5,L,"The Pepperoni, Mushroom, and Peppers Pizza"
+piz_52,hawaiian_s,10.5,S,The Hawaiian Pizza
+piz_53,peppr_salami_m,16.5,M,The Pepper Salami Pizza
+piz_54,ckn_alfredo_m,16.75,M,The Chicken Alfredo Pizza
+piz_55,peppr_salami_l,20.75,L,The Pepper Salami Pizza
+piz_56,spin_pesto_s,12.5,S,The Spinach Pesto Pizza
+piz_57,thai_ckn_m,16.75,M,The Thai Chicken Pizza
+piz_58,classic_dlx_l,20.5,L,The Classic Deluxe Pizza
+piz_59,ckn_pesto_m,16.75,M,The Chicken Pesto Pizza
+piz_60,the_greek_xl,25.5,XL,The Greek Pizza
+piz_61,hawaiian_l,16.5,L,The Hawaiian Pizza
+piz_62,pep_msh_pep_s,11,S,"The Pepperoni, Mushroom, and Peppers Pizza"
+piz_63,spinach_supr_m,16.5,M,The Spinach Supreme Pizza
+piz_64,prsc_argla_m,16.5,M,The Prosciutto and Arugula Pizza
+piz_65,mediterraneo_l,20.25,L,The Mediterranean Pizza
+piz_66,southw_ckn_m,16.75,M,The Southwest Chicken Pizza
+piz_67,pep_msh_pep_m,14.5,M,"The Pepperoni, Mushroom, and Peppers Pizza"
+piz_68,sicilian_s,12.25,S,The Sicilian Pizza
+piz_69,spicy_ital_s,12.5,S,The Spicy Italian Pizza
+piz_70,thai_ckn_s,12.75,S,The Thai Chicken Pizza
+piz_71,spinach_supr_l,20.75,L,The Spinach Supreme Pizza
+piz_72,ital_veggie_l,21,L,The Italian Vegetables Pizza
+piz_73,veggie_veg_m,16,M,The Vegetables + Vegetables Pizza
+piz_74,the_greek_m,16,M,The Greek Pizza
+piz_75,ckn_pesto_s,12.75,S,The Chicken Pesto Pizza
+piz_76,spinach_fet_s,12,S,The Spinach and Feta Pizza
+piz_77,spicy_ital_m,16.5,M,The Spicy Italian Pizza
+piz_78,ital_veggie_m,16.75,M,The Italian Vegetables Pizza
+piz_79,ital_cpcllo_s,12,S,The Italian Capocollo Pizza
+piz_80,mediterraneo_s,12,S,The Mediterranean Pizza
+piz_81,spinach_fet_m,16,M,The Spinach and Feta Pizza
+piz_82,napolitana_m,16,M,The Napolitana Pizza
+piz_83,spin_pesto_m,16.5,M,The Spinach Pesto Pizza
+piz_84,brie_carre_s,23.65,S,The Brie Carre Pizza
+piz_85,ckn_alfredo_l,20.75,L,The Chicken Alfredo Pizza
+piz_86,calabrese_s,12.25,S,The Calabrese Pizza
+piz_87,the_greek_l,20.5,L,The Greek Pizza
+piz_88,soppressata_m,16.5,M,The Soppressata Pizza
+piz_89,soppressata_s,12.5,S,The Soppressata Pizza
+piz_90,calabrese_l,20.25,L,The Calabrese Pizza
+piz_91,the_greek_xxl,35.95,XXL,The Greek Pizza

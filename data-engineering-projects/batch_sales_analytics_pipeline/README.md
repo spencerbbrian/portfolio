@@ -121,6 +121,30 @@ This project implements a batch processing pipeline to collect, store, process, 
 
 ---
 
+### 9. Esseantial  Kafka cli commands
+
+KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+
+bin/kafka-storage.sh format --standalone -t $KAFKA_CLUSTER_ID -c config/kraft/reconfig-server.properties
+
+bin/kafka-server-start.sh config/server.properties
+
+bin/kafka-topics.sh --create --topic `<topic name>` --bootstrap-server localhost:9092
+
+bin/kafka-topics.sh --describe --topic quickstart-events --bootstrap-server localhost:9092
+
+bin/kafka-console-producer.sh --topic `<topic>` --bootstrap-server localhost:9092
+
+bin/kafka-console-consumer.sh --topic `<topic>` --from-beginning --bootstrap-server localhost:9092
+
+
+
+
+
+
+
+---
+
 ## 📂 Folder Structure
 batch-sales-pipeline/  
 ├── data_generation/          # Python script for generating sales data    
@@ -145,3 +169,7 @@ batch-sales-pipeline/
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
+
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic sales --partitions 1 --replication-factor 1

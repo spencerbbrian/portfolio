@@ -46,7 +46,7 @@ def generate_data():
             print(f"Batch sent: {batch}")
 
             # Pause for 0.5 seconds before sending the next batch
-            time.sleep(0.5)
+            time.sleep(10)
 
     except KeyboardInterrupt:
         print("Process interrupted. Closing producer.")

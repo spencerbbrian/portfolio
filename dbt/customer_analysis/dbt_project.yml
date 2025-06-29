@@ -40,7 +40,6 @@ models:
 
 seeds:
   customer_analysis:
-  +schema: raw
-  +persist_docs:
-    columns: true
-    relation: true
+    +persist_docs:
+      columns: true
+      relation: true

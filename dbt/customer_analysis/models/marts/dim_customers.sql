@@ -15,4 +15,5 @@ SELECT
     co.total_orders,
     {{ currency_format('co.total_spend', '$') }} AS total_spend_formatted
 FROM {{ ref('stg_customers') }} c 
-LEFT JOIN customer_orders ON c.customer_id = co.customer_id
+LEFT JOIN customer_orders co 
+    ON c.customer_id = co.customer_id

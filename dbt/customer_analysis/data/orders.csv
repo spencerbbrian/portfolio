@@ -2049,3 +2049,4 @@ order_id,customer_id,order_date,amount,order_status
 2148,15,2025-07-02,78.90,returned
 2149,14,2025-07-27,196.85,completed
 2150,43,2025-07-22,91.24,shipped
+2151,2,2025-08-12,130.39,cancelled

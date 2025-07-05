@@ -37,9 +37,10 @@ def random_date(start, end):
 
 with open('orders.csv', mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['order_id', 'customer_id', 'order_date', 'amount'])
+    writer.writerow(['order_id', 'customer_id', 'order_date', 'amount', 'order_status'])
     for order_id in range(order_start_id, order_start_id + num_orders):
         customer_id = random.randint(1, num_users)
         order_date = random_date(order_dates_start, order_dates_end).strftime('%Y-%m-%d')
         amount = round(random.uniform(10.0, 200.0), 2)
-        writer.writerow([order_id, customer_id, order_date, f"{amount:.2f}"])
+        order_status = random.choice(['completed', 'pending', 'cancelled'])
+        writer.writerow([order_id, customer_id, order_date, f"{amount:.2f}", order_status])

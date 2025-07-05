@@ -2,7 +2,7 @@ WITH customer_orders AS (
     SELECT
         customer_id,
         COUNT(order_id) AS total_orders,
-        SUM(amount) AS total_spend,
+        SUM(order_amount) AS total_spend,
     FROM {{ ref('stg_orders') }}
     GROUP BY customer_id
 )

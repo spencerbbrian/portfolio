@@ -103,3 +103,5 @@ Futher develop this project into a game and an actual management system for high
 3. Student transcript ![Transcript](./gh_app/goldenheights/screenshots/transcript.png)
 4. Housing ![Housing](./gh_app/goldenheights/screenshots/housing.png)
 5. Departments ![Departments](./gh_app/goldenheights/screenshots/departments.png)
+
+.venv/bin/activate

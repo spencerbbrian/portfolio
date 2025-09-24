@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_login import LoginManager, UserMixin
 from pymongo import MongoClient
+import certifi
 import os
 
 # Initialize Flask application
@@ -11,7 +12,8 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key')  # Use 
 
 # Connect to MongoDB using MongoClient
 try:
-    client = MongoClient(f"mongodb+srv://sbb:{os.getenv('password')}@golden-heights-universi.k3mfjir.mongodb.net/")
+    MONGO_URI = f"mongodb+srv://sbb:{os.getenv('password')}@golden-heights-universi.k3mfjir.mongodb.net/?retryWrites=true&w=majority&appName=golden-heights-university"
+    client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
     # Send a ping to confirm a successful connection
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")

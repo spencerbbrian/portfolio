@@ -300,3 +300,35 @@ https://docs.getdbt.com/docs/configure-your-profile
 [0m21:57:09.640834 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000014AD787D220>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000014AD765D250>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000014AD7500D10>]}
 [0m21:57:09.641681 [debug] [MainThread]: Flushing usage events
 [0m21:57:10.086060 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:33:16.022089 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000142C3E616A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000142C1AF4CD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000142C5FB7B10>]}
+
+
+============================== 14:33:16.067757 | fef5c27e-2d4e-4d77-b608-4d1488851c5b ==============================
+[0m14:33:16.067757 [info ] [MainThread]: Running with dbt=1.10.15
+[0m14:33:16.069199 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'use_experimental_parser': 'False', 'cache_selected_only': 'False', 'warn_error': 'None', 'empty': 'None', 'debug': 'False', 'static_parser': 'True', 'log_cache_events': 'False', 'profiles_dir': 'C:\\Users\\brian\\.dbt', 'log_format': 'default', 'quiet': 'False', 'use_colors': 'True', 'partial_parse': 'True', 'version_check': 'True', 'log_path': 'logs', 'introspect': 'True', 'invocation_command': 'dbt init hotel_mgt', 'fail_fast': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'send_anonymous_usage_stats': 'True', 'indirect_selection': 'eager', 'target_path': 'None', 'write_json': 'True'}
+[0m14:33:16.149489 [debug] [MainThread]: Starter project path: C:\Users\brian\AppData\Roaming\Python\Python313\site-packages\dbt\include\starter_project
+[0m14:33:16.208847 [info ] [MainThread]: 
+Your new dbt project "hotel_mgt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m14:33:16.210005 [info ] [MainThread]: Setting up your profile.
+[0m14:33:44.228867 [debug] [MainThread]: Snowflake adapter: Setting snowflake.connector to ERROR (file logging only)
+[0m14:33:44.229954 [debug] [MainThread]: Snowflake adapter: Setting botocore to ERROR (file logging only)
+[0m14:33:44.230869 [debug] [MainThread]: Snowflake adapter: Setting boto3 to ERROR (file logging only)
+[0m14:38:00.761529 [info ] [MainThread]: Profile hotel_mgt written to C:\Users\brian\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m14:38:00.764354 [debug] [MainThread]: Command `dbt init` succeeded at 14:38:00.764047 after 285.04 seconds
+[0m14:38:00.765171 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000142DF6C4FC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000142DEA48170>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000142DF5E3DF0>]}
+[0m14:38:00.765975 [debug] [MainThread]: Flushing usage events
+[0m14:38:02.059357 [debug] [MainThread]: An error was encountered while trying to flush usage events

@@ -1,0 +1,1 @@
+{"_invocation_id": "e2ed3dcf-4d7c-4adf-bb70-634a69492d77", "linked": {"0": {"name": "source.hotel_mgt.hotel_raw_data.bookings", "type": "source", "succ": [1]}, "1": {"name": "model.hotel_mgt.stg_bookings", "type": "model"}}}

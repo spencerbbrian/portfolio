@@ -2,3 +2,8 @@
 **/config.py"
 **/config.py
 **/.venv
+**/logs
+**/output
+**/config
+**/__pycache__
+**/venv

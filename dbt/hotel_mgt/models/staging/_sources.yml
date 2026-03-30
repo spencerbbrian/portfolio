@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: hotel_raw_data
+    database: dbt-projects-447805
+    schema: dbt_projects
+    tables:
+      - name: bookings

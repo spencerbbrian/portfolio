@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: stg_bookings
+    description: Staging table for hotel booking data with customer and reservation details
+    columns:
+      - name: hotel
+        description: Hotel type (H1 = Resort Hotel or H2 = City Hotel)
+      - name: is_canceled
+        description: Booking cancellation indicator (1 = canceled, 0 = not canceled)
+      - name: lead_time
+        description: Number of days between booking entry and arrival date
+      - name: arrival_date_year
+        description: Year of arrival date
+      - name: arrival_date_month
+        description: Month of arrival date
+      - name: arrival_date_week_number
+        description: Week number of year for arrival date
+      - name: arrival_date_day_of_month
+        description: Day of arrival date
+      - name: stays_in_weekend_nights
+        description: Number of weekend nights (Saturday or Sunday) stayed or booked
+      - name: stays_in_week_nights
+        description: Number of week nights (Monday to Friday) stayed or booked
+      - name: adults
+        description: Number of adults
+      - name: children
+        description: Number of children
+      - name: babies
+        description: Number of babies
+      - name: meal
+        description: Meal package type (SC = no meal, BB = Bed & Breakfast, HB = Half board, FB = Full board)
+      - name: country
+        description: Country of origin in ISO 3155–3:2013 format
+      - name: market_segment
+        description: Market segment designation (TA = Travel Agents, TO = Tour Operators)
+      - name: distribution_channel
+        description: Booking distribution channel (TA = Travel Agents, TO = Tour Operators)
+      - name: is_repeated_guest
+        description: Repeated guest indicator (1 = repeated, 0 = not repeated)
+      - name: previous_cancellations
+        description: Number of previous canceled bookings by customer
+      - name: previous_bookings_not_canceled
+        description: Number of previous non-canceled bookings by customer
+      - name: reserved_room_type
+        description: Code of reserved room type
+      - name: assigned_room_type
+        description: Code of assigned room type
+      - name: booking_changes
+        description: Number of changes/amendments made to booking
+      - name: deposit_type
+        description: Deposit type (No Deposit, Non Refund, or Refundable)
+      - name: agent
+        description: ID of travel agency that made the booking
+      - name: company
+        description: ID of company/entity responsible for booking or payment
+      - name: days_in_waiting_list
+        description: Number of days booking was in waiting list
+      - name: customer_type
+        description: Booking type (Contract, Group, Transient, or Transient-party)
+      - name: adr
+        description: Average Daily Rate (total lodging transactions / total staying nights)
+      - name: required_car_parking_spaces
+        description: Number of car parking spaces required
+      - name: total_of_special_requests
+        description: Number of special requests made (e.g., twin bed, high floor)
+      - name: reservation_status
+        description: Last reservation status (Canceled, Check-Out, or No-Show)
+      - name: reservation_status_date
+        description: Date when last reservation status was set

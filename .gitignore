@@ -7,3 +7,12 @@
 **/config
 **/__pycache__
 **/venv
+**/target/
+**/target
+**/dbt_packages/
+**logs/
+**/dbt/hotel_mgt/target
+
+dbt/logs/dbt.log
+dbt/hotel_mgt/target/**
+dbt/hotel_mgt/target/run_results.json

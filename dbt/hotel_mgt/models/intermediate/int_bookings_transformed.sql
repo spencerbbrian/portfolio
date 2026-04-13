@@ -3,6 +3,7 @@
 
 with bookings as (
     SELECT
+        hotel_id,
         hotel,
         CASE WHEN is_canceled = 1
             THEN 'TRUE'
@@ -22,7 +23,6 @@ with bookings as (
             ELSE 'FALSE'
         END AS is_family_booking,
         meal AS meal_package,
-        country,
         market_segment,
         distribution_channel,
         CASE WHEN is_repeated_guest = 1

@@ -4,6 +4,9 @@
 with source_data as (
     SELECT
         hotel,
+        hotel_id,
+        hotel_name,
+        region,
         is_canceled,
         lead_time,
         arrival_date_year,
@@ -16,7 +19,6 @@ with source_data as (
         children,
         babies,
         meal,
-        country,
         market_segment,
         distribution_channel,
         is_repeated_guest,

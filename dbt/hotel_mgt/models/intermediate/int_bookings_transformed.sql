@@ -53,6 +53,8 @@ bookings_with_revenue AS (
         *,
         average_daily_rate * total_stay_nights AS estimated_revenue 
     FROM bookings
+    WHERE (average_daily_rate IS NOT NULL AND average_daily_rate > 0)
+    AND (total_stay_nights IS NOT NULL AND total_stay_nights > 0)
 )
 
 SELECT *

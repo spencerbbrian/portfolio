@@ -12,3 +12,4 @@
 **/dbt_packages/
 **logs/
 **/dbt/hotel_mgt/target
+**/Tableau/

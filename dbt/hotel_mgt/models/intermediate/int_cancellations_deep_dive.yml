@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: int_cancellations_deep_dive
+    description: >
+      Row-level cancellation enrichment built on top of int_bookings_transformed.
+      Calculates days to cancellation, days before arrival at cancellation, late
+      cancellation flags, deposit outcome labels, and revenue lost per booking.
+    columns:
+      - name: hotel_id
+        description: Unique identifier for the hotel property.
+
+      - name: hotel
+        description: Hotel name — either 'Resort Hotel' or 'City Hotel'.
+
+      - name: is_canceled
+        description: Whether the booking was canceled. Values are 'TRUE' or 'FALSE'.
+
+      - name: leadtime_days
+        description: Number of days between booking date and arrival date.
+
+      - name: arrival_date
+        description: Parsed arrival date.
+
+      - name: reservation_status
+        description: Final reservation status — Check-Out, Canceled, or No-Show.
+
+      - name: reservation_status_update_date
+        description: Date the reservation status was last updated.
+
+      - name: deposit_type
+        description: Deposit type at time of booking — No Deposit, Non Refund, or Refundable.
+
+      - name: average_daily_rate
+        description: Average daily rate (ADR) charged for the booking.
+
+      - name: total_stay_nights
+        description: Total nights stayed (weekend + week nights).
+
+      - name: estimated_revenue
+        description: Estimated revenue calculated as average_daily_rate * total_stay_nights.
+
+      - name: market_segment
+        description: Market segment the booking originated from (e.g. Online TA, Corporate).
+
+      - name: distribution_channel
+        description: Channel through which the booking was distributed (e.g. TA/TO, Direct).
+
+      - name: customer_type
+        description: Type of customer — Transient, Transient-Party, Contract, or Group.
+
+      - name: reserved_room_type
+        description: Room type code that was reserved at time of booking.
+
+      - name: assigned_room_type
+        description: Room type code that was actually assigned at check-in.
+
+      - name: previous_cancellations
+        description: Number of previous cancellations by the customer prior to this booking.
+
+      - name: booking_date
+        description: Derived booking date calculated as arrival_date minus leadtime_days.
+
+      - name: days_to_cancellation
+        description: >
+          Number of days between the booking date and the cancellation date.
+          Null for non-canceled bookings.
+
+      - name: days_before_arrival_at_cancellation
+        description: >
+          Number of days remaining before arrival at the point of cancellation.
+          Null for non-canceled bookings.
+
+      - name: is_late_cancellation
+        description: >
+          TRUE if the booking was canceled less than 7 days before arrival,
+          FALSE otherwise.
+
+      - name: deposit_cancellation_outcome
+        description: >
+          Concatenated label combining cancellation status and deposit type.
+          E.g. 'Canceled - No Deposit', 'Retained - Non Refund'.
+
+      - name: revenue_lost
+        description: >
+          Estimated revenue lost for canceled bookings (estimated_revenue).
+          Zero for non-canceled bookings.

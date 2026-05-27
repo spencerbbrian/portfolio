@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: fct_cancellation_analysis
+    description: >
+      Mart model aggregating cancellation KPIs by hotel, deposit type, market segment,
+      distribution channel, customer type, and room type. Covers revenue lost, ADR
+      comparison between canceled and retained bookings, late cancellation impact,
+      lead time profiles, and deposit type effectiveness.
+    columns:
+      - name: hotel
+        description: Hotel name — either 'Resort Hotel' or 'City Hotel'.
+
+      - name: deposit_type
+        description: Deposit type — No Deposit, Non Refund, or Refundable.
+
+      - name: market_segment
+        description: Market segment the booking originated from.
+
+      - name: distribution_channel
+        description: Channel through which the booking was distributed.
+
+      - name: customer_type
+        description: Type of customer — Transient, Transient-Party, Contract, or Group.
+
+      - name: reserved_room_type
+        description: Room type code reserved at time of booking.
+
+      - name: total_bookings
+        description: Total number of bookings in this group.
+
+      - name: total_cancellations
+        description: Total number of canceled bookings in this group.
+
+      - name: cancellation_rate_pct
+        description: Percentage of bookings in this group that were canceled.
+
+      - name: total_revenue_lost
+        description: Sum of estimated revenue lost from canceled bookings in this group.
+
+      - name: avg_adr_canceled
+        description: Average daily rate across canceled bookings in this group.
+
+      - name: avg_adr_retained
+        description: Average daily rate across non-canceled bookings in this group.
+
+      - name: late_cancellation_count
+        description: Number of bookings canceled less than 7 days before arrival.
+
+      - name: late_cancellation_revenue_lost
+        description: Revenue lost specifically from late cancellations in this group.
+
+      - name: avg_leadtime_canceled
+        description: Average lead time in days for canceled bookings in this group.
+
+      - name: min_leadtime_canceled
+        description: Minimum lead time in days for canceled bookings in this group.
+
+      - name: max_leadtime_canceled
+        description: Maximum lead time in days for canceled bookings in this group.
+
+      - name: booked_last_week
+        description: Count of canceled bookings with a lead time under 7 days.
+
+      - name: booked_1_to_4_weeks
+        description: Count of canceled bookings with a lead time between 7 and 30 days.
+
+      - name: booked_1_to_3_months
+        description: Count of canceled bookings with a lead time between 31 and 90 days.
+
+      - name: booked_3_to_6_months
+        description: Count of canceled bookings with a lead time between 91 and 180 days.
+
+      - name: booked_6_months_plus
+        description: Count of canceled bookings with a lead time over 180 days.
+
+      - name: deposit_cancellation_outcome
+        description: >
+          Concatenated label combining cancellation status and deposit type
+          for the deposit effectiveness breakdown.
+
+      - name: deposit_type_cancellation_rate_pct
+        description: >
+          Cancellation rate for the specific deposit type and outcome combination,
+          showing whether deposit type influences cancellation behaviour.

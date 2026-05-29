@@ -13,3 +13,4 @@
 **logs/
 **/dbt/hotel_mgt/target
 **/Tableau/
+**/.gitkeep

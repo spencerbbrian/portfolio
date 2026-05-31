@@ -32,5 +32,16 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   olist:
     # Config indicated by + and applies to all files under models/example/
-    example:
+    +materialized: view
+
+    # 2. Automatically materialize everything in the marts folder as tables
+    marts:
+      +materialized: table
+
+    # 3. Explicitly keep staging and intermediate as views
+    staging:
+      +materialized: view
+      +tags: ['staging']
+      
+    intermediate:
       +materialized: view

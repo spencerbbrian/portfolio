@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: int_closed_market_qualified_leads
+    description: "Intermediate model that bridges top-of-funnel marketing acquisition with bottom-of-funnel sales data by left-joining marketing qualified leads to closed-won deals. One row per marketing qualified lead."
+    columns:
+      - name: marketing_qualified_lead_id
+        description: "The unique identifier for the marketing qualified lead (MQL). Primary key for this model."
+        tests:
+          - unique
+          - not_null
+
+      - name: seller_id
+        description: "The unique identifier of the seller, populated only if the marketing lead successfully converted into a closed deal."
+
+      - name: sales_developer_id
+        description: "The unique identifier of the Sales Development Representative (SDR) who qualified the lead."
+
+      - name: sales_representative_id
+        description: "The unique identifier of the Sales Representative (SR) who closed the deal."
+
+      - name: first_contact_date
+        description: "The date of the first contact with the marketing qualified lead."
+
+      - name: landing_page_id
+        description: "The unique identifier of the landing page where the lead was captured."
+
+      - name: marketing_channel
+        description: "The acquisition channel where the lead originated (e.g., organic_search, paid_ads). Defaulted to 'unknown' if missing."
+        tests:
+          - not_null
+
+      - name: deal_close_date
+        description: "The date when the commercial deal was officially signed and won."
+
+      - name: business_segment
+        description: "The market or product segment the seller operates in (e.g., beauty, electronics, health)."
+
+      - name: lead_type
+        description: "The category or tier of the lead assigned during the sales process."
+
+      - name: lead_behaviour_profile
+        description: "The behavioral archetype of the lead determined by the sales team."
+
+      - name: business_type
+        description: "The type of business entity (e.g., reseller, manufacturer)."
+
+      - name: is_won_deal
+        description: "A boolean flag indicating whether the marketing lead successfully converted into a signed seller."
+        tests:
+          - not_null

@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: int_order_items_aggregated
+    description: "Intermediate model that aggregates individual line items from the order items table up to the unique order level. It calculates total monetary values, freight fees, and counts for products and sellers involved in each order."
+    columns:
+      - name: order_id
+        description: "The unique identifier of the order. Primary key for this model."
+        tests:
+          - unique
+          - not_null
+
+      - name: total_items_price
+        description: "The cumulative sum of the individual item prices belonging to this order."
+        tests:
+          - not_null
+
+      - name: total_freight_value
+        description: "The cumulative sum of the shipping/freight fees associated with all items in this order."
+        tests:
+          - not_null
+
+      - name: total_order_item_value
+        description: "The gross combined value of items and freight charges for the order (total_items_price + total_freight_value)."
+        tests:
+          - not_null
+
+      - name: unique_products_count
+        description: "The count of distinct product IDs contained within this single order."
+        tests:
+          - not_null
+
+      - name: unique_sellers_count
+        description: "The count of distinct seller IDs processing items within this single order."
+        tests:
+          - not_null
+
+      - name: total_items_count
+        description: "The total number of individual line items (including duplicate quantities of the same product) in this order."
+        tests:
+          - not_null

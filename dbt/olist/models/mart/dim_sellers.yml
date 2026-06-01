@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: dim_sellers
+    description: "Core dimension table for sellers. It combines baseline seller geographic profiles with inbound marketing funnel data, enabling acquisition channel and sales performance analytics. One row per unique seller."
+    columns:
+      - name: seller_id
+        description: "The unique identifier of the seller. Primary key for this dimension."
+        tests:
+          - unique
+          - not_null
+
+      - name: marketing_qualified_lead_id
+        description: "The tracking ID for the marketing qualified lead. Will be null if the seller onboarded organically without entering the marketing pipeline."
+
+      - name: sales_developer_id
+        description: "The unique identifier of the Sales Development Representative (SDR) who qualified this seller."
+
+      - name: sales_representative_id
+        description: "The unique identifier of the Sales Representative (SR) who closed the commercial contract."
+
+      - name: landing_page_id
+        description: "The unique ID of the digital landing page where the seller's lead was originally captured."
+
+      - name: zip_code_prefix
+        description: "The initial digits of the seller's registered postal code."
+
+      - name: city
+        description: "The city where the seller is operating or registered."
+
+      - name: state
+        description: "The state abbreviation where the seller is located."
+
+      - name: marketing_channel
+        description: "The definitive source channel of acquisition (e.g., paid_ads, search). Coalesced to 'organic_platform' if the seller skipped the inbound sales loop."
+        tests:
+          - not_null
+
+      - name: first_contact_date
+        description: "The date of the top-of-funnel touchpoint with the lead."
+
+      - name: deal_close_date
+        description: "The date the sales pipeline deal was successfully won."
+
+      - name: business_segment
+        description: "The vertical category stated by the seller during onboarding (e.g., watches, bags)."
+
+      - name: lead_type
+        description: "The categorization code of the incoming lead based on initial sales fit assessments."
+
+      - name: lead_behaviour_profile
+        description: "The behavioral tracking archetype classification assigned by sales."
+
+      - name: business_type
+        description: "The structural operation type (e.g., manufacturer, reseller)."
+
+      - name: is_funnel_acquired
+        description: "A boolean flag evaluating true if the seller was systematically won via the marketing and sales inbound loop."
+        tests:
+          - not_null

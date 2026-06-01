@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: fct_b2b2c_attribution
+    description: "Flagship B2B2C attribution fact table linking end-customer orders straight to the acquired sellers. This allows direct revenue, freight, and volume mapping back to marketing channels (organic, paid, social) and sales team members."
+    columns:
+      - name: order_id
+        description: "The unique identifier of the order. Part of the composite grain of this table."
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: "The unique identifier linking the order to the purchasing customer."
+        tests:
+          - not_null
+
+      - name: seller_id
+        description: "The unique identifier of the seller who fulfilled items within this order. Part of the composite grain of this table."
+        tests:
+          - not_null
+
+      - name: order_status
+        description: "The current operational status of the order (e.g., delivered, shipped, canceled)."
+        tests:
+          - not_null
+
+      - name: purchase_date
+        description: "The timestamp when the end-customer completed checkout."
+        tests:
+          - not_null
+
+      - name: marketing_channel
+        description: "The acquisition origin of the seller (e.g., paid_ads, social, organic_platform). Inherited from dim_sellers."
+        tests:
+          - not_null
+
+      - name: sales_developer_id
+        description: "The identifier of the Sales Development Representative (SDR) who qualified the seller."
+
+      - name: sales_representative_id
+        description: "The identifier of the Sales Representative (SR) who closed the contract with this seller."
+
+      - name: is_funnel_acquired
+        description: "Boolean flag showing if the seller was systematically won via the sales inbound pipeline or self-registered."
+        tests:
+          - not_null
+
+      - name: seller_city
+        description: "The registered city location of the merchant."
+
+      - name: seller_state
+        description: "The registered state abbreviation of the merchant."
+
+      - name: attributed_revenue
+        description: "Total product catalog revenue from the order attributed to this seller-order relationship."
+        tests:
+          - not_null
+
+      - name: attributed_freight
+        description: "Total shipping/freight fees from the order attributed to this seller-order relationship."
+        tests:
+          - not_null
+
+      - name: attributed_total_value
+        description: "Gross order financial worth combining attributed items price and freight fees."
+        tests:
+          - not_null
+
+      - name: total_items_count
+        description: "The count of item units fulfilled in the context of this order."
+        tests:
+          - not_null

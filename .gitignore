@@ -7,10 +7,11 @@
 **/config
 **/__pycache__
 **/venv
-**/target/
+**/target
 **/target
 **/dbt_packages/
 **logs/
 **/dbt/hotel_mgt/target
 **/Tableau/
 **/.gitkeep
+/.archive/

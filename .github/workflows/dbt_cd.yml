@@ -5,14 +5,14 @@ on:
     branches:
       - main
     paths:
-      - 'dbt/olist/**'
+      - 'analytics-engineering/dbt/olist/**'
 
 jobs:
   dbt-cd:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: dbt/olist
+        working-directory: analytics-engineering/dbt/olist
 
     steps:
       - name: Checkout code

@@ -1,0 +1,21 @@
+hotel_id,hotel_type,hotel_name,region,country,is_active
+RES01,Resort Hotel,Azure Sands Resort,AMER_US,USA,True
+CIT01,City Hotel,Metro Central Hotel,AMER_US,USA,True
+RES02,Resort Hotel,Alpine Peak Lodge,EMEA_AT,Austria,True
+CIT02,City Hotel,London Bridge Suites,EMEA_UK,UK,True
+RES03,Resort Hotel,Emerald Bay Retreat,APAC_TH,Thailand,True
+CIT03,City Hotel,Tokyo Sky Tower,APAC_JP,Japan,True
+RES04,Resort Hotel,Sahara Mirage Oasis,EMEA_MA,Morocco,True
+CIT04,City Hotel,Berlin Mitte Grand,EMEA_DE,Germany,True
+RES05,Resort Hotel,Cancun Sun Palace,AMER_MX,Mexico,True
+CIT05,City Hotel,Toronto Union Square,AMER_CA,Canada,True
+RES06,Resort Hotel,Sydney Harbour View,APAC_AU,Australia,True
+CIT06,City Hotel,Paris Eiffel Luxe,EMEA_FR,France,True
+RES07,Resort Hotel,Bali Zen Gardens,APAC_ID,Indonesia,True
+CIT07,City Hotel,Dubai Marina Heights,EMEA_AE,UAE,True
+RES08,Resort Hotel,Cape Town Coastal,EMEA_ZA,South Africa,True
+CIT08,City Hotel,Sao Paulo Business,AMER_BR,Brazil,True
+RES09,Resort Hotel,Maldives Blue Lagoon,APAC_MV,Maldives,True
+CIT09,City Hotel,Singapore Merlion Inn,APAC_SG,Singapore,True
+RES10,Resort Hotel,Santorini White Cliffs,EMEA_GR,Greece,True
+CIT10,City Hotel,New Delhi Heritage,APAC_IN,India,True

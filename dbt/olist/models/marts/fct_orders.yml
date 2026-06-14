@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Core fact table for e-commerce orders. Combines lifecycle timestamps, aggregated transactional values, fulfillment volumes, and delivery performance latency metrics. One row per unique order."
+    columns:
+      - name: order_id
+        description: "The unique identifier of the order. Primary key for this fact table."
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "The unique identifier linking the order to a specific customer profile."
+        tests:
+          - not_null
+
+      - name: order_status
+        description: "The operational state of the order (e.g., delivered, shipped, canceled)."
+        tests:
+          - not_null
+
+      - name: purchase_date
+        description: "The timestamp when the customer placed the order."
+        tests:
+          - not_null
+
+      - name: approved_date
+        description: "The timestamp confirming payment authorization."
+
+      - name: delivered_carrier_date
+        description: "The timestamp when the logistics partner took possession of the items from the seller."
+
+      - name: delivered_customer_date
+        description: "The official timestamp when the package was successfully delivered to the customer."
+
+      - name: estimated_delivery_date
+        description: "The expected commitment date promised to the customer at purchase check-out."
+        tests:
+          - not_null
+
+      - name: total_items_price
+        description: "The combined item catalog value. Defaults to 0.0 if unbilled/no items exist."
+        tests:
+          - not_null
+
+      - name: total_freight_value
+        description: "The cumulative cost of shipping fees. Defaults to 0.0 if missing."
+        tests:
+          - not_null
+
+      - name: total_order_item_value
+        description: "Gross order total pooling base cost and shipping (total_items_price + total_freight_value)."
+        tests:
+          - not_null
+
+      - name: unique_products_count
+        description: "Distinct line item products captured in this order aggregation."
+        tests:
+          - not_null
+
+      - name: unique_sellers_count
+        description: "Distinct seller fulfillments executing specific line items inside this single order."
+        tests:
+          - not_null
+
+      - name: total_items_count
+        description: "The total unit volume of all items packed into this order."
+        tests:
+          - not_null
+
+      - name: actual_delivery_duration_days
+        description: "The raw transit time elapsed from initial customer purchase to receipt at doorstep."
+
+      - name: estimated_delivery_duration_days
+        description: "The baseline target timeline projected from order approval down to estimated delivery."
+
+      - name: delivery_delta_vs_estimated_days
+        description: "The accuracy delta. Negative values denote early deliveries, positive values highlight days delayed."
+
+      - name: seller_handling_duration_days
+        description: "Operational latency tracking how many days the seller took to hand the items over to the carrier post-approval."
+
+      - name: delivery_performance_status
+        description: "Fulfillment classification tagging orders cleanly as 'In Progress / Unfulfilled', 'On Time / Early', or 'Delayed'."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['In Progress / Unfulfilled', 'On Time / Early', 'Delayed']

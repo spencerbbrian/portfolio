@@ -368,3 +368,16 @@ gcp-realtime-spend-analytics/
 - How windowing works in Beam and why you chose fixed/sliding windows for the aggregation branch.
 - How you controlled GCP cost on a personal project — running Pub/Sub, Beam, Airflow, and dbt entirely locally via OrbStack/Docker, and only spinning up real Pub/Sub + Dataflow for short, deliberate demo bursts. This is a strong, concrete answer to "how do you think about cost in cloud data engineering."
 - The deliberate choice to model **companies** rather than individual users — multi-entity spend modeling, department/vendor dimensions, and why that's a more business-relevant framing for B2B fintech than consumer-level fraud.
+
+## 11. Syntaxes to Document
+- curl http://localhost:4443/storage/v1/b/b2b-spend-models (check on created bucket with name b2b-spend-models)
+- python init_gcs.py (run the initiating file for the cloud container and bucket)
+- curl -X GET http://localhost:8085/
+v1/projects/local-dev-project/topics (check the topics created)
+- python init_emulator.py (create local topic and subscription)
+- mkdir -p airflow/dags airflow/logs (create the directories and do nothing if the folders already exist -p parent)
+- chmod -R 777 airflow   (grants read write and execute privileges) not recommended
+- docker compose exec airflow cat /opt/airflow/standalone_admin_password.txt (get airflow password)
+- docker compose exec airflow airflow users reset-password \
+  --username admin \
+  --password admin   (update password and username if option above doesn't work)

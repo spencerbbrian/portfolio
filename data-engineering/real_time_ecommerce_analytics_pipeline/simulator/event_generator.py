@@ -38,7 +38,7 @@ class ReferenceDataPool:
             if not product_ids:
                 raise ValueError("No product_ids loaded. Run mongo/seed.py")
             self.user_ids = user_ids
-            self.products_ids = product_ids
+            self.product_ids = product_ids
     
     def random_user_id(self) -> str:
         return random.choice(self.user_ids)
@@ -69,3 +69,49 @@ def load_reference_pool(mongo_uri: Optional[str] = None) -> ReferenceDataPool:
     client.close()
 
     return ReferenceDataPool(user_ids=user_ids, product_ids=products_ids)
+
+# Event Generation
+def pick_weighted_event_type() -> str:
+     return random.choices(EVENT_TYPES,weights=WEIGHTS, k=1)[0]
+
+def _build_metadata() -> dict:
+    """Fake metadat for kafka consumer"""
+    return {
+         "ip": fake.ipv4_public(),
+         "user_agent": fake.user_agent(),
+    }
+
+def generate_event(event_type: str, pool:ReferenceDataPool, session_id: Optional[str] = None) -> dict:
+    """Build a single event that matches schema of events document."""
+    if event_type not in ALLOWED_EVENT_TYPES:
+        raise ValueError(f"Unknown event_type '{event_type}'. Must be one of {ALLOWED_EVENT_TYPES}")
+    event = {
+        "type": event_type,
+        "user_id": pool.random_user_id(),
+        "session_id": session_id or f"sess_{uuid.uuid4().hex[:12]}",
+        "product_id": pool.random_product_id(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "metadata": _build_metadata(),
+    }
+    return event
+
+def generate_random_event(pool: ReferenceDataPool, session_id: Optional[str] = None) -> dict:
+    event_type = pick_weighted_event_type()
+    return generate_event(event_type,pool, session_id=session_id)
+
+# Manual Test
+if __name__ == "__main__":
+    pool = load_reference_pool()
+    print(f"Loaded {len(pool.user_ids)} users and {len(pool.product_ids)} products.\n")
+ 
+    print("Sample events:")
+    for _ in range(5):
+        event = generate_random_event(pool)
+        print(event)
+ 
+    print("\nWeighting check (1000 samples):")
+    from collections import Counter
+    sample = [pick_weighted_event_type() for _ in range(1000)]
+    counts = Counter(sample)
+    for event_type in EVENT_TYPES:
+        print(f"  {event_type}: {counts[event_type] / 10:.1f}%")

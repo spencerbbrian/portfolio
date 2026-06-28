@@ -381,3 +381,11 @@ v1/projects/local-dev-project/topics (check the topics created)
 - docker compose exec airflow airflow users reset-password \
   --username admin \
   --password admin   (update password and username if option above doesn't work)
+- brew install terraform
+- terraform -version
+- gcloud storage buckets create gs://[preffered bucket name] --project=[project id] --location=europe-west1     --uniform-bucket-level-access
+- gcloud auth application-default login
+- gcloud config set project YOUR_REAL_PROJECT_ID
+- terraform init
+- terraform plan
+- terraform apply

@@ -16,3 +16,8 @@
 **/.gitkeep
 .env
 **/local-gcs-data
+terraform/terraform.tfvars
+**/terraform/.terraform
+**/terraform/.tmp/
+**/terraform/*.tfstate*
+**/terraform/terraform.tvars

@@ -4,8 +4,8 @@ from google.cloud import pubsub_v1
 os.environ["PUBSUB_EMULATOR_HOST"] = "localhost:8085"
 
 project_id = "local-dev-project"
-topic_id = "test-topic"
-sub_id = "test-sub"
+topic_id = "b2b-transactions"
+sub_id = "b2b-transactions-sub"
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_id)

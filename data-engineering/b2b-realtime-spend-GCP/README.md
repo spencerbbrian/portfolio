@@ -389,3 +389,14 @@ v1/projects/local-dev-project/topics (check the topics created)
 - terraform init
 - terraform plan
 - terraform apply
+- export PUBSUB_EMULATOR_HOST=localhost:8085 (safety check for pubsub_emulator)
+- python producer.py (run to local pubsub for testing function)
+- gcloud pubsub subscriptions pull b2b-transactions-sub \
+  --project=local-dev-project \
+  --limit=5 \
+  --auto-ack    (pull the last 5 messages to verify)
+- python producer.py --use-real-pubsub (publish to pubsub gcloud)
+- gcloud pubsub subscriptions pull b2b-transactions-sub \
+  --project=portfolio-analytics-499108 \
+  --limit=5 \
+  --auto-ack (check for messages sent)

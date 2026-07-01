@@ -21,3 +21,5 @@ terraform/terraform.tfvars
 **/terraform/.tmp/
 **/terraform/*.tfstate*
 **/terraform/terraform.tvars
+**/companies.csv
+**/vendors.csv

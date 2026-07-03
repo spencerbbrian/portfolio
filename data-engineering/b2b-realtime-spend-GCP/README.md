@@ -400,3 +400,5 @@ v1/projects/local-dev-project/topics (check the topics created)
   --project=portfolio-analytics-499108 \
   --limit=5 \
   --auto-ack (check for messages sent)
+- run the generate_training_data & train_isolation_forest python files
+- curl -s http://localhost:4443/storage/v1/b/b2b-spend-models/o | jq  (verify the model exists)

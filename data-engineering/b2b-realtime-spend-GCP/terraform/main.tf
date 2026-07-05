@@ -69,11 +69,11 @@ resource "google_project_iam_member" "pipeline_sa_dataflow" {
 # BigQuery datasets
 # -----------------------------------------------------------------------------
 resource "google_bigquery_dataset" "raw" {
-  dataset_id  = var.bq_dataset_raw
-  project     = var.project_id
-  location    = var.region
-  description = "Raw + ML-scored B2B transactions written by the Beam/Dataflow pipeline"
-  delete_contents_on_destroy = true
+  dataset_id                 = var.bq_dataset_raw
+  project                    = var.project_id
+  location                   = var.region
+  description                = "Raw + ML-scored B2B transactions written by the Beam/Dataflow pipeline"
+  delete_contents_on_destroy = false
 
   labels = {
     environment = var.environment
@@ -83,11 +83,11 @@ resource "google_bigquery_dataset" "raw" {
 }
 
 resource "google_bigquery_dataset" "staging" {
-  dataset_id  = var.bq_dataset_staging
-  project     = var.project_id
-  location    = var.region
-  description = "dbt staging models"
-  delete_contents_on_destroy = true
+  dataset_id                 = var.bq_dataset_staging
+  project                    = var.project_id
+  location                   = var.region
+  description                = "dbt staging models"
+  delete_contents_on_destroy = false
 
   labels = {
     environment = var.environment
@@ -97,11 +97,11 @@ resource "google_bigquery_dataset" "staging" {
 }
 
 resource "google_bigquery_dataset" "marts" {
-  dataset_id  = var.bq_dataset_marts
-  project     = var.project_id
-  location    = var.region
-  description = "dbt mart models (fraud alerts, company spend summary, vendor risk)"
-  delete_contents_on_destroy = true
+  dataset_id                 = var.bq_dataset_marts
+  project                    = var.project_id
+  location                   = var.region
+  description                = "dbt mart models (fraud alerts, company spend summary, vendor risk)"
+  delete_contents_on_destroy = false
 
   labels = {
     environment = var.environment
@@ -204,7 +204,7 @@ resource "google_cloudfunctions2_function" "retrain_trigger" {
   service_config {
     max_instance_count    = 1
     available_memory      = "256M"
-    timeout_seconds        = 300
+    timeout_seconds       = 300
     service_account_email = google_service_account.pipeline_sa.email
   }
 

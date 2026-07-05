@@ -103,6 +103,7 @@ def generate_transaction(company: dict, vendors: list[dict]) -> dict:
         "payment_method": random.choice(PAYMENT_METHODS),
         "department": random.choice(DEPARTMENTS),
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "baseline_monthly_spend": float(company["baseline_monthly_spend"]),
         "is_anomaly": False,
         "anomaly_type": None,
     }

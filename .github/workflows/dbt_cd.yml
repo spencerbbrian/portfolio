@@ -45,3 +45,17 @@ jobs:
 
       - name: dbt run (prod)
         run: dbt run --target prod
+
+      - name: Install Great Expectations
+        run: pip install -r quality/requirements.txt
+
+      - name: Run data quality checks (Great Expectations)
+        working-directory: analytics-engineering/dbt/olist/quality
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_SCHEMA: PROD
+        run: python run_quality_checks.py

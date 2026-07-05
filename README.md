@@ -15,9 +15,9 @@ End-to-end streaming pipeline simulating B2B company-to-vendor transactions: ing
 **Status:** core pipeline built. *Next: adding a Looker Studio/Streamlit dashboard on top of the BigQuery marts to close the loop from raw event to visualized insight.*
 
 ### 2. [Olist E-Commerce Analytics](analytics-engineering/dbt/olist/)
-**Stack:** dbt, Snowflake, GitHub Actions
-Batch ELT + warehouse modeling project: staging → intermediate → mart layers (11 staging models, fact/dimension marts for orders, sellers, and B2B2C marketing attribution). CI/CD via GitHub Actions runs `dbt test`/`dbt build` on PR and merge.
-**Demonstrates:** production dbt project structure, testing, and CI/CD — not just a local build.
+**Stack:** dbt, Snowflake, GitHub Actions, Great Expectations
+Batch ELT + warehouse modeling project: staging → intermediate → mart layers (11 staging models, fact/dimension marts for orders, sellers, and B2B2C marketing attribution). CI runs `dbt test` on every PR; CD runs `dbt run --target prod` on merge, followed by a **Great Expectations** suite (`quality/`) that checks row-count/volume anomalies, cross-column temporal integrity, financial-value sanity, and distribution drift — the layer dbt's native tests don't cover.
+**Demonstrates:** production dbt project structure, CI/CD, and a data-quality layer independent of dbt's own test framework.
 
 ### 3. [Hotel Booking Management Analytics](analytics-engineering/dbt/hotel_mgt/)
 **Stack:** dbt, seeds
@@ -82,7 +82,7 @@ Kept for breadth — mostly single-notebook or single-script exercises, supersed
 
 ## Technologies
 
-Python · SQL · dbt · Snowflake · BigQuery · Apache Beam/Dataflow · Pub/Sub · Kafka · Airflow · Terraform · Docker · MongoDB · Postgres · Power BI · Tableau · Flask
+Python · SQL · dbt · Snowflake · BigQuery · Apache Beam/Dataflow · Pub/Sub · Kafka · Airflow · Terraform · Docker · Great Expectations · MongoDB · Postgres · Power BI · Tableau · Flask
 
 ## Contact
 

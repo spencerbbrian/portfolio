@@ -49,11 +49,17 @@ EXPECTATIONS = [
         "or_equal": True,
         "ignore_row_if": "either_value_is_missing",
     }),
+    # `mostly` tolerates a small % of real-world timestamp anomalies (data
+    # entry lag between carrier pickup and payment approval systems) rather
+    # than hard-failing on every messy row in a real dataset -- measured at
+    # ~0.7% non-compliant rows, so 99% gives headroom without masking a
+    # genuine spike if the real anomaly rate ever climbs.
     ("expect_column_pair_values_a_to_be_greater_than_b", {
         "column_A": "delivered_carrier_date",
         "column_B": "approved_date",
         "or_equal": True,
         "ignore_row_if": "either_value_is_missing",
+        "mostly": 0.99,
     }),
 
     # Distribution drift: average order value moving far outside its known

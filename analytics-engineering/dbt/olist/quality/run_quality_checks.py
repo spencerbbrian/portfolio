@@ -17,6 +17,29 @@ from suites import dim_sellers, fct_b2b2c_attribution, fct_orders
 SUITES = [fct_orders, dim_sellers, fct_b2b2c_attribution]
 
 
+def print_failures(result) -> None:
+    """Print each failing expectation's type, arguments, and observed value.
+
+    Without this, a FAILED line only tells you *that* something broke, not
+    *what* -- you'd have to open the Data Docs HTML report to find out.
+    """
+    for validation_result in result.list_validation_results():
+        for expectation_result in validation_result.results:
+            if expectation_result.success:
+                continue
+
+            config = expectation_result.expectation_config
+            column = config.kwargs.get("column") or config.kwargs.get("column_A", "")
+            observed = expectation_result.result.get("observed_value")
+            unexpected_count = expectation_result.result.get("unexpected_count")
+
+            print(f"  ✗ {config.expectation_type}  column={column!r}")
+            print(f"      expected kwargs : { {k: v for k, v in config.kwargs.items() if k != 'column'} }")
+            print(f"      observed_value  : {observed}")
+            if unexpected_count is not None:
+                print(f"      unexpected_count: {unexpected_count}")
+
+
 def run_suite(context, suite_module) -> bool:
     validator = build_validator(context, suite_module.TABLE_NAME, suite_module.SUITE_NAME)
 
@@ -30,6 +53,10 @@ def run_suite(context, suite_module) -> bool:
         validator=validator,
     )
     result = checkpoint.run()
+
+    if not result.success:
+        print_failures(result)
+
     return bool(result.success)
 
 

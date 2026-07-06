@@ -86,4 +86,5 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['In Progress / Unfulfilled', 'On Time / Early', 'Delayed']
+              arguments:
+                values: ['In Progress / Unfulfilled', 'On Time / Early', 'Delayed']

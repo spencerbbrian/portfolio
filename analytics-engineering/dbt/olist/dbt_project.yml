@@ -34,8 +34,8 @@ models:
     # Config indicated by + and applies to all files under models/example/
     +materialized: view
 
-    # 2. Automatically materialize everything in the marts folder as tables
-    marts:
+    # 2. Automatically materialize everything in the mart folder as tables
+    mart:
       +materialized: table
 
     # 3. Explicitly keep staging and intermediate as views

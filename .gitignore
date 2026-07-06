@@ -14,3 +14,12 @@
 **/dbt/hotel_mgt/target
 **/Tableau/
 **/.gitkeep
+.env
+**/local-gcs-data
+terraform/terraform.tfvars
+**/terraform/.terraform
+**/terraform/.tmp/
+**/terraform/*.tfstate*
+**/terraform/terraform.tvars
+**/companies.csv
+**/vendors.csv

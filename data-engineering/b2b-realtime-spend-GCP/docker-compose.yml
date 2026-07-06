@@ -1,0 +1,28 @@
+services:
+  pubsub-emulator:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    command: gcloud beta emulators pubsub start --host-port=0.0.0.0:8085 --project=local-dev-project
+    ports:
+      - "8085:8085"
+
+  fake-gcs-server:
+    image: fsouza/fake-gcs-server
+    command: -scheme http -port 4443 -backend filesystem -filesystem-root /data
+    ports:
+      - "4443:4443"
+    volumes:
+      - ./local-gcs-data:/data
+
+  airflow:
+    image: apache/airflow:2.9.3
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - _AIRFLOW_WWW_USER_USERNAME=admin
+      - _AIRFLOW_WWW_USER_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+    command: standalone

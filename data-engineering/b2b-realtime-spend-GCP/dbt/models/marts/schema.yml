@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: fct_transactions
+    description: >
+      Main transaction fact table. One row per transaction, fully enriched
+      with risk scores, rule flags, and derived time/ratio fields.
+      The primary table for ad-hoc analysis.
+    columns:
+      - name: transaction_id
+        description: Unique UUID per transaction.
+        tests:
+          - not_null
+          - unique
+      - name: company_id
+        tests:
+          - not_null
+      - name: vendor_id
+        tests:
+          - not_null
+      - name: transacted_at
+        tests:
+          - not_null
+      - name: amount_usd
+        tests:
+          - not_null
+      - name: risk_tier
+        description: Human-readable risk bucket derived from final_risk_score.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+      - name: final_risk_score
+        description: Combined ML + rule score, 0 to 1.
+        tests:
+          - not_null
+      - name: risk_flag
+        tests:
+          - not_null
+
+  - name: mart_fraud_alerts
+    description: >
+      Flagged transactions only (risk_flag = true), with a plain-English
+      alert_reason column. Powers the fraud alert dashboard view.
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+      - name: company_id
+        tests:
+          - not_null
+      - name: alert_reason
+        description: >
+          Human-readable explanation of why this transaction was flagged.
+          Concatenates all triggered rule names and notes ML-only flags.
+        tests:
+          - not_null
+      - name: final_risk_score
+        tests:
+          - not_null
+
+  - name: mart_company_spend_summary
+    description: >
+      Daily spend summary per company with 7-day rolling average and
+      unusual-spend-day flag. Powers the company spend trends dashboard.
+    columns:
+      - name: transaction_date
+        tests:
+          - not_null
+      - name: company_id
+        tests:
+          - not_null
+      - name: total_amount_usd
+        tests:
+          - not_null
+      - name: risk_flagged_count
+        description: Number of flagged transactions on this day for this company.
+        tests:
+          - not_null
+
+  - name: mart_vendor_risk
+    description: >
+      One row per vendor. Aggregates flag rates, ML anomaly scores,
+      and total spend to help risk teams identify high-risk vendors.
+    columns:
+      - name: vendor_id
+        tests:
+          - not_null
+          - unique
+      - name: flag_rate
+        description: >
+          Proportion of this vendor's transactions that were risk-flagged.
+          Values above 0.3 should trigger a manual review.
+      - name: observed_risk_label
+        description: >
+          Derived risk label combining the static vendor_risk_tier with
+          the observed flag rate from actual transactions.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['low', 'medium', 'high']

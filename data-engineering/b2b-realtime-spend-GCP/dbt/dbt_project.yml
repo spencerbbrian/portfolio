@@ -1,0 +1,39 @@
+name: 'b2b_spend_analytics'
+version: '1.0.0'
+config-version: 2
+
+profile: 'b2b_spend_analytics'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+analysis-paths: ["analyses"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  b2b_spend_analytics:
+    staging:
+      +schema: b2b_spend_staging
+      +dataset: b2b_spend_staging
+      +materialized: view
+
+    intermediate:
+      +schema: b2b_spend_staging
+      +dataset: b2b_spend_staging
+      +materialized: view
+      +prefix: int_
+
+    marts:
+      +schema: b2b_spend_marts
+      +dataset: b2b_spend_marts
+      +materialized: table
+
+seeds:
+  b2b_spend_analytics:
+    +schema: b2b_spend_staging

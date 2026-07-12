@@ -31,6 +31,7 @@ jobs:
                       faker==25.* \
                       google-cloud-pubsub==2.* \
                       python-dotenv==1.*
+                      pytest
 
       - name: Run parsing transform tests
         run: python -m pytest data-engineering/b2b-realtime-spend-GCP/pipeline/tests/test_parsing.py -v

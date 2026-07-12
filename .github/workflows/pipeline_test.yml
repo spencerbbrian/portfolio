@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'pipeline/**'
-      - 'ml/**'
+      - 'data-engineering/b2b-realtime-spend-GCP/pipeline/**'
+      - 'data-engineering/b2b-realtime-spend-GCP/ml/**'
 
 jobs:
   pipeline-tests:
@@ -33,13 +33,13 @@ jobs:
                       python-dotenv==1.*
 
       - name: Run parsing transform tests
-        run: python -m pytest pipeline/tests/test_parsing.py -v
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/pipeline/tests/test_parsing.py -v
 
       - name: Run rules transform tests
-        run: python -m pytest pipeline/tests/test_rules.py -v
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/pipeline/tests/test_rules.py -v
 
       - name: Run scoring transform tests
-        run: python -m pytest pipeline/tests/test_scoring.py -v
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/pipeline/tests/test_scoring.py -v
 
       - name: Run ML model sanity check
-        run: python -m pytest ml/tests/test_model_sanity.py -v
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/ml/tests/test_model_sanity.py -v

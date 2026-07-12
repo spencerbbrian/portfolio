@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/**'
+      - 'data-engineering/b2b-realtime-spend-GCP/terraform/**'
 
 jobs:
   terraform-ci:

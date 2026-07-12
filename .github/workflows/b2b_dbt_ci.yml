@@ -5,14 +5,14 @@ on:
     branches:
       - main
     paths:
-      - 'dbt/**'
+      - 'data-engineering/b2b-realtime-spend-GCP/dbt/**'
 
 jobs:
   dbt-ci:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: dbt
+        working-directory: data-engineering/b2b-realtime-spend-GCP/dbt
 
     steps:
       - name: Checkout code

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/**'
+      - 'data-engineering/b2b-realtime-spend-GCP/terraform/**'
 
   # Manual trigger — choose deploy or destroy
   workflow_dispatch:

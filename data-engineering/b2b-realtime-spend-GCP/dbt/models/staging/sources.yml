@@ -1,0 +1,60 @@
+version: 2
+
+sources:
+  - name: raw
+    database: portfolio-analytics-499108
+    schema: b2b_spend_raw
+    description: >
+      Raw tables written directly by the Beam streaming pipeline.
+      These are append-only — the pipeline streams scored transactions
+      and windowed aggregates here in near real-time.
+
+    tables:
+      - name: transactions_scored
+        description: >
+          One row per transaction, enriched with rule flags and an
+          Isolation Forest anomaly score. Written by the Beam pipeline
+          as each message is consumed from Pub/Sub.
+        columns:
+          - name: transaction_id
+            description: Unique UUID for each transaction.
+            tests:
+              - not_null
+              - unique
+          - name: company_id
+            description: The company that initiated the spend.
+            tests:
+              - not_null
+          - name: amount_usd
+            description: Transaction amount in USD.
+            tests:
+              - not_null
+          - name: final_risk_score
+            description: >
+              Combined ML + rule score between 0 and 1.
+              Scores above 0.5 trigger risk_flag = true.
+            tests:
+              - not_null
+          - name: risk_flag
+            description: True if final_risk_score >= 0.5.
+            tests:
+              - not_null
+
+      - name: company_spend_windows
+        description: >
+          Per-company spend aggregates over fixed 5-minute windows.
+          Written by the windowing branch of the Beam pipeline.
+          Multiple rows per company — one per window.
+        columns:
+          - name: company_id
+            tests:
+              - not_null
+          - name: window_start
+            tests:
+              - not_null
+          - name: window_end
+            tests:
+              - not_null
+          - name: transaction_count
+            tests:
+              - not_null

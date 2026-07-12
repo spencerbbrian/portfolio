@@ -1,0 +1,46 @@
+name: Pipeline Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'data-engineering/b2b-realtime-spend-GCP/pipeline/**'
+      - 'data-engineering/b2b-realtime-spend-GCP/ml/**'
+
+jobs:
+  pipeline-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install apache-beam[gcp]==2.56.* \
+                      scikit-learn==1.* \
+                      joblib==1.* \
+                      numpy==1.* \
+                      faker==25.* \
+                      google-cloud-pubsub==2.* \
+                      python-dotenv==1.* \
+                      pytest
+
+      - name: Run parsing transform tests
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/pipeline/tests/test_parsing.py -v
+
+      - name: Run rules transform tests
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/pipeline/tests/test_rules.py -v
+
+      - name: Run scoring transform tests
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/pipeline/tests/test_scoring.py -v
+
+      - name: Run ML model sanity check
+        run: python -m pytest data-engineering/b2b-realtime-spend-GCP/ml/tests/test_model_sanity.py -v

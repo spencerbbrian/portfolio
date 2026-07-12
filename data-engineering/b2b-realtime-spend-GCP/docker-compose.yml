@@ -5,6 +5,18 @@ services:
     ports:
       - "8085:8085"
 
+  pubsub-init:
+    image: python:3.12-slim
+    depends_on:
+      - pubsub-emulator
+    environment:
+      - PUBSUB_EMULATOR_HOST=pubsub-emulator:8085
+    volumes:
+      - .:/repo
+    working_dir: /repo
+    command: sh -c "pip install google-cloud-pubsub --quiet && python init_emulator.py"
+    restart: "no"
+
   fake-gcs-server:
     image: fsouza/fake-gcs-server
     command: -scheme http -port 4443 -backend filesystem -filesystem-root /data
@@ -15,7 +27,13 @@ services:
 
   airflow:
     image: apache/airflow:2.9.3
+    depends_on:
+      - pubsub-emulator
+      - pubsub-init
     environment:
+      - PUBSUB_EMULATOR_HOST=pubsub-emulator:8085
+      - GOOGLE_CLOUD_PROJECT=portfolio-analytics-499108
+      - REPO_ROOT=/opt/airflow/repo
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
       - _AIRFLOW_WWW_USER_USERNAME=admin
@@ -25,4 +43,5 @@ services:
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/logs:/opt/airflow/logs
-    command: standalone
+      - .:/opt/airflow/repo
+    command: bash /opt/airflow/repo/scripts/airflow_init.sh

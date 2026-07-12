@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: int_transactions_enriched
+    description: >
+      Transactions with derived fields added: risk_tier bucketing,
+      amount-to-baseline ratio, and time components. Used by all mart models.
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+      - name: risk_tier
+        description: Human-readable risk bucket (low / medium / high).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+      - name: amount_to_baseline_ratio
+        description: >
+          Transaction amount divided by company's monthly baseline spend.
+          Values above 0.5 are unusual for any company size tier.
+
+  - name: int_company_daily_spend
+    description: >
+      Daily spend rollup per company. Built from transaction grain
+      for accurate vendor/category counts. Used by mart_company_spend_summary.
+    columns:
+      - name: transaction_date
+        tests:
+          - not_null
+      - name: company_id
+        tests:
+          - not_null
+      - name: transaction_count
+        tests:
+          - not_null
+      - name: total_amount_usd
+        tests:
+          - not_null

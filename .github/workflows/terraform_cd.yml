@@ -1,0 +1,104 @@
+name: Terraform CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data-engineering/b2b-realtime-spend-GCP/terraform/**'
+
+  # Manual trigger — choose deploy or destroy
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+          - deploy
+          - destroy
+
+jobs:
+  terraform-cd:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+
+    # Require manual approval before apply/destroy
+    # Set up a GitHub environment named "production" with required reviewers
+    # in your repo Settings → Environments to enforce this gate
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ">= 1.5.0"
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Create backend config
+        run: |
+          cat > backend.hcl << EOF
+          bucket = "${{ secrets.TF_STATE_BUCKET }}"
+          prefix = "b2b-spend-analytics/state"
+          EOF
+
+      - name: Create tfvars
+        run: |
+          cat > terraform.tfvars << EOF
+          project_id                  = "${{ secrets.GCP_PROJECT_ID }}"
+          region                      = "${{ secrets.GCP_REGION }}"
+          environment                 = "dev"
+          model_artifact_bucket_name  = "${{ secrets.MODEL_ARTIFACT_BUCKET }}"
+          pubsub_topic_name           = "b2b-transactions"
+          pubsub_subscription_name    = "b2b-transactions-sub"
+          bq_dataset_raw              = "b2b_spend_raw"
+          bq_dataset_staging          = "b2b_spend_staging"
+          bq_dataset_marts            = "b2b_spend_marts"
+          retrain_function_name       = "retrain-trigger"
+          retrain_schedule_cron       = "0 6 * * *"
+          pipeline_service_account_id = "b2b-pipeline-sa"
+          EOF
+
+      - name: Terraform init
+        run: terraform init -backend-config=backend.hcl
+
+      - name: Terraform apply
+        if: github.event_name == 'push' || github.event.inputs.action == 'deploy'
+        run: terraform apply -var-file=terraform.tfvars -auto-approve
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Post apply summary
+        if: github.event_name == 'push' || github.event.inputs.action == 'deploy'
+        run: |
+          echo "## ✅ Terraform Apply Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Resources are live in GCP project \`${{ secrets.GCP_PROJECT_ID }}\`." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**💡 Cost reminder:** BigQuery datasets, Pub/Sub, and GCS cost almost nothing idle." >> $GITHUB_STEP_SUMMARY
+          echo "The only real cost driver is Dataflow jobs — remember to cancel those after demos." >> $GITHUB_STEP_SUMMARY
+          echo "When completely done, trigger this workflow with action = **destroy**." >> $GITHUB_STEP_SUMMARY
+
+      - name: Terraform destroy
+        if: github.event.inputs.action == 'destroy'
+        run: terraform destroy -var-file=terraform.tfvars -auto-approve
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Post destroy summary
+        if: github.event.inputs.action == 'destroy'
+        run: |
+          echo "## 🗑️ Terraform Destroy Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All Terraform-managed resources have been removed from GCP." >> $GITHUB_STEP_SUMMARY
+          echo "Note: the Terraform state bucket (\`${{ secrets.TF_STATE_BUCKET }}\`) is not managed by Terraform and was not deleted." >> $GITHUB_STEP_SUMMARY

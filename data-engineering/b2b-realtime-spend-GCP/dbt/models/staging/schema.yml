@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: >
+      Cleaned and type-cast transactions from the Beam pipeline.
+      One row per transaction. Foundation for all downstream models.
+    columns:
+      - name: transaction_id
+        description: Unique UUID per transaction.
+        tests:
+          - not_null
+          - unique
+      - name: company_id
+        description: The company that initiated the spend.
+        tests:
+          - not_null
+      - name: vendor_id
+        description: The vendor/merchant receiving the payment.
+        tests:
+          - not_null
+      - name: amount_usd
+        description: Transaction amount in USD.
+        tests:
+          - not_null
+      - name: vendor_risk_tier
+        description: Risk classification of the vendor.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+      - name: company_size_tier
+        description: Size classification of the spending company.
+        tests:
+          - accepted_values:
+              values: ['smb', 'mid_market', 'enterprise']
+      - name: final_risk_score
+        description: Combined ML + rule score between 0 and 1.
+        tests:
+          - not_null
+      - name: risk_flag
+        description: True if the transaction was flagged as anomalous.
+        tests:
+          - not_null
+
+  - name: stg_company_spend_windows
+    description: >
+      Cleaned windowed spend aggregates per company over 5-minute windows.
+      Written by the Beam pipeline's windowing branch.
+    columns:
+      - name: company_id
+        tests:
+          - not_null
+      - name: window_start
+        tests:
+          - not_null
+      - name: transaction_count
+        description: Number of transactions in this window for this company.
+        tests:
+          - not_null
+      - name: total_amount_usd
+        description: Total spend in USD for this company in this window.
+        tests:
+          - not_null

@@ -16,10 +16,13 @@
 **/.gitkeep
 .env
 **/local-gcs-data
-terraform/terraform.tfvars
+**/terraform/terraform.tfvars
+**/terraform/backend.hcl
 **/terraform/.terraform
 **/terraform/.tmp/
 **/terraform/*.tfstate*
 **/terraform/terraform.tvars
 **/companies.csv
 **/vendors.csv
+**/model_artifacts
+**/sa-key.json

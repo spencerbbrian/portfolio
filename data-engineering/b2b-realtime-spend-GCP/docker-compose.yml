@@ -44,4 +44,4 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/logs:/opt/airflow/logs
       - .:/opt/airflow/repo
-    command: standalone
+    command: bash /opt/airflow/repo/scripts/airflow_init.sh

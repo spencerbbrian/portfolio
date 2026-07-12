@@ -20,18 +20,14 @@ models:
   b2b_spend_analytics:
     staging:
       +schema: b2b_spend_staging
-      +dataset: b2b_spend_staging
       +materialized: view
 
     intermediate:
       +schema: b2b_spend_staging
-      +dataset: b2b_spend_staging
       +materialized: view
-      +prefix: int_
 
     marts:
       +schema: b2b_spend_marts
-      +dataset: b2b_spend_marts
       +materialized: table
 
 seeds:

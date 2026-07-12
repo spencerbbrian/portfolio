@@ -30,7 +30,7 @@ jobs:
                       numpy==1.* \
                       faker==25.* \
                       google-cloud-pubsub==2.* \
-                      python-dotenv==1.*
+                      python-dotenv==1.* \
                       pytest
 
       - name: Run parsing transform tests

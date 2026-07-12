@@ -250,7 +250,12 @@ def main(use_real_gcs: bool) -> None:
         tmp_path = tmp.name
 
     joblib.dump(model, tmp_path)
-    print(f"Model saved locally to temp file: {tmp_path}")
+
+    local_artifacts_dir = os.path.join(os.path.dirname(__file__), "model_artifacts")
+    os.makedirs(local_artifacts_dir, exist_ok=True)
+    local_path = os.path.join(local_artifacts_dir, MODEL_FILENAME)
+    joblib.dump(model, local_path)
+    print(f"📁 Local copy saved to {local_path}")
 
     # 5. Upload to GCS (local fake or real)
     upload_model(tmp_path, use_real_gcs=use_real_gcs)

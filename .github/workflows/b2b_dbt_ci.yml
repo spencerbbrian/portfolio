@@ -1,0 +1,89 @@
+name: B2B dbt CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'dbt/**'
+
+jobs:
+  dbt-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dbt
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dbt-bigquery
+        run: pip install dbt-bigquery
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Create dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << EOF
+          b2b_spend_analytics:
+            target: ci
+            outputs:
+              ci:
+                type: bigquery
+                method: service-account-json
+                project: ${{ secrets.GCP_PROJECT_ID }}
+                dataset: b2b_spend_ci_${{ github.event.pull_request.number }}
+                location: europe-west1
+                keyfile_json: ${{ secrets.GCP_SA_KEY }}
+                threads: 4
+                timeout_seconds: 300
+          EOF
+
+      - name: Install dbt packages
+        run: dbt deps
+
+      - name: dbt compile
+        run: dbt compile
+
+      - name: dbt build (CI dataset)
+        run: dbt build
+
+      - name: Generate training data and train model
+        run: |
+          cd producer && python generate_reference_data.py
+          cd ../ml && python generate_training_data.py
+          python train_isolation_forest.py
+
+      - name: Clean up CI dataset
+        if: always()
+        run: |
+          pip install google-cloud-bigquery --quiet
+          python - << EOF
+          from google.cloud import bigquery
+          import json, os
+
+          key = json.loads('${{ secrets.GCP_SA_KEY }}')
+          client = bigquery.Client.from_service_account_info(key)
+          dataset = "b2b_spend_ci_${{ github.event.pull_request.number }}"
+
+          try:
+              client.delete_dataset(
+                  f"${{ secrets.GCP_PROJECT_ID }}.{dataset}",
+                  delete_contents=True,
+                  not_found_ok=True
+              )
+              print(f"Cleaned up CI dataset: {dataset}")
+          except Exception as e:
+              print(f"Cleanup failed (non-fatal): {e}")
+          EOF

@@ -24,3 +24,5 @@
 **/terraform/terraform.tvars
 **/companies.csv
 **/vendors.csv
+**/model_artifacts
+**/sa-key.json

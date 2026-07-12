@@ -67,13 +67,16 @@ jobs:
 
       - name: Clean up CI dataset
         if: always()
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
         run: |
           pip install google-cloud-bigquery --quiet
-          python - << EOF
+          python - << 'EOF'
+          import os
+          import json
           from google.cloud import bigquery
-          import json, os
 
-          key = json.loads('${{ secrets.GCP_SA_KEY }}')
+          key = json.loads(os.environ["GCP_SA_KEY"])
           client = bigquery.Client.from_service_account_info(key)
           dataset = "b2b_spend_ci_${{ github.event.pull_request.number }}"
 

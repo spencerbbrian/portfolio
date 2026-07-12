@@ -43,7 +43,7 @@ jobs:
                 type: bigquery
                 method: service-account-json
                 project: ${{ secrets.GCP_PROJECT_ID }}
-                dataset: dbt_prod
+                dataset: b2b_spend_staging
                 location: europe-west1
                 keyfile_json: ${{ secrets.GCP_SA_KEY }}
                 threads: 4
@@ -54,7 +54,7 @@ jobs:
         run: dbt deps
 
       - name: dbt build
-        run: dbt build
+        run: dbt build --target prod
 
       - name: dbt docs generate
         run: dbt docs generate

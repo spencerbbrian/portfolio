@@ -142,6 +142,8 @@ def build_pipeline_options(args: argparse.Namespace) -> PipelineOptions:
     f"--project={project_id}",
     f"--region={os.getenv('GCP_REGION', 'europe-west1')}",
     "--streaming",
+    "--direct_num_workers=4",
+    "--direct_running_mode=multi_threading",
     "--temp_location=/tmp/beam_temp",
     ]
     options = PipelineOptions(pipeline_options_list)

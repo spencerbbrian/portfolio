@@ -30,8 +30,8 @@ enriched as (
         --   medium: elevated but not flagged (0.3–0.5, worth watching)
         --   low:    everything else
         case
-            when final_risk_score >= 0.5 then 'high'
-            when final_risk_score >= 0.3 then 'medium'
+            when final_risk_score >= 0.75 then 'high'
+            when final_risk_score >= 0.4 then 'medium'
             else 'low'
         end                                                 as risk_tier,
 

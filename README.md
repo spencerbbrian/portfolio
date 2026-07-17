@@ -8,7 +8,7 @@ For visual walkthroughs of select projects, see my static [portfolio site](https
 
 ### Real-Time B2B Spend & Anomaly Analytics — GCP + Beam + BigQuery + dbt + Terraform
 [`data-engineering/b2b-realtime-spend-GCP/`](data-engineering/b2b-realtime-spend-GCP/)
-Real-time streaming pipeline simulating B2B company-to-vendor transactions: ingests via Pub/Sub, scores each transaction with a hybrid rules + ML (Isolation Forest) anomaly detector in Apache Beam/Dataflow, lands raw/scored/aggregated data in BigQuery through dbt marts, with all infrastructure defined in Terraform. Built with a zero-cost local dev mode (OrbStack) and a real-GCP deploy path. *Next up: a Looker Studio/Streamlit dashboard on top of the BigQuery marts.*
+Real-time streaming pipeline simulating B2B company-to-vendor transactions: ingests via Pub/Sub, scores each transaction with a hybrid rules + ML (Isolation Forest) anomaly detector in Apache Beam/Dataflow, lands raw/scored/aggregated data in BigQuery through dbt marts, with all infrastructure defined in Terraform. Airflow orchestrates the dbt runs, and a **Looker Studio dashboard** sits on top, live-connected to the streaming data, the dbt marts, and the Airflow-driven refreshes — a full path from raw event to a dashboard a stakeholder could actually open. Built with a zero-cost local dev mode (OrbStack) and a real-GCP deploy path.
 
 ### Olist E-Commerce Analytics — dbt + Snowflake + GitHub Actions + Great Expectations
 [`analytics-engineering/dbt/olist/`](analytics-engineering/dbt/olist/)

@@ -28,7 +28,7 @@ import os
 import random
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from dotenv import load_dotenv
 from google.cloud import pubsub_v1
@@ -88,6 +88,12 @@ def generate_transaction(company: dict, vendors: list[dict]) -> dict:
     mean_amount = float(company["baseline_monthly_spend"]) * 0.01
     amount = round(abs(random.gauss(mean_amount, mean_amount * 0.4)), 2)
     amount = max(amount, 10.0)  # floor at $10 — avoids $0.002 transactions
+    july_start = datetime(2026, 7, 1, tzinfo=timezone.utc)
+    random_offset = timedelta(
+        days=random.randint(0, 12),      # July 1-13 (up to today)
+        hours=random.randint(0, 23),
+        minutes=random.randint(0, 59)
+    )
 
     return {
         "transaction_id": str(uuid.uuid4()),
@@ -102,7 +108,7 @@ def generate_transaction(company: dict, vendors: list[dict]) -> dict:
         "currency": "USD",
         "payment_method": random.choice(PAYMENT_METHODS),
         "department": random.choice(DEPARTMENTS),
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": (july_start + random_offset).isoformat(),
         "baseline_monthly_spend": float(company["baseline_monthly_spend"]),
         "is_anomaly": False,
         "anomaly_type": None,

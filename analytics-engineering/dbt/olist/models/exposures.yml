@@ -1,0 +1,61 @@
+version: 2
+
+# Exposures document what actually consumes these marts downstream, so
+# `dbt docs generate` shows a full lineage graph from raw source through to
+# the dashboard/report a stakeholder opens -- not just staging -> mart.
+#
+# These represent the intended consumers this project is modeled for (the
+# standard portfolio convention, same as dbt Labs' own jaffle_shop example
+# project) -- swap the `url` fields for the real dashboard links once they're
+# published.
+
+exposures:
+  - name: seller_acquisition_revenue_dashboard
+    label: "Seller Acquisition & Revenue Dashboard"
+    type: dashboard
+    maturity: medium
+    description: >
+      Tracks seller acquisition channel performance (organic vs. paid vs.
+      referral), sales funnel conversion, and revenue attributed back to the
+      seller who fulfilled each order. Built in Tableau on top of
+      dim_sellers and fct_b2b2c_attribution.
+    depends_on:
+      - ref('dim_sellers')
+      - ref('fct_b2b2c_attribution')
+    owner:
+      name: Spencer Baiden
+      email: brianbaiden@gmail.com
+
+  - name: order_operations_dashboard
+    label: "Order Operations & Delivery Performance"
+    type: dashboard
+    maturity: medium
+    description: >
+      Operational view of order volume, delivery performance status (on
+      time / delayed / in progress), and fulfillment latency -- used to
+      monitor day-to-day logistics health. Built on top of fct_orders.
+    depends_on:
+      - ref('fct_orders')
+    owner:
+      name: Spencer Baiden
+      email: brianbaiden@gmail.com
+
+  - name: executive_revenue_metrics
+    label: "Executive Revenue & Growth Metrics"
+    type: analysis
+    maturity: medium
+    description: >
+      Consumes the dbt Semantic Layer metrics defined in models/semantic/
+      (revenue, order_count, average_order_value, on_time_delivery_rate,
+      attributed_revenue_by_channel) rather than querying the marts
+      directly -- the intended pattern for any BI tool connected via the
+      dbt Semantic Layer / MetricFlow.
+    depends_on:
+      - metric('revenue')
+      - metric('order_count')
+      - metric('average_order_value')
+      - metric('on_time_delivery_rate')
+      - metric('attributed_revenue_by_channel')
+    owner:
+      name: Spencer Baiden
+      email: brianbaiden@gmail.com

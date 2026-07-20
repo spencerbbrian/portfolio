@@ -1,0 +1,49 @@
+version: 2
+
+# dbt Semantic Layer (MetricFlow) definitions over fct_b2b2c_attribution --
+# the channel/seller-attribution side of the metrics layer, separate from
+# orders_semantic.yml since this table's grain is order x seller, not order.
+
+semantic_models:
+  - name: b2b2c_attribution
+    description: "One row per order x seller pairing -- semantic layer wrapper over fct_b2b2c_attribution."
+    model: ref('fct_b2b2c_attribution')
+    defaults:
+      agg_time_dimension: purchase_date
+
+    entities:
+      - name: attribution
+        type: primary
+        expr: "order_id || '-' || seller_id"
+      - name: order
+        type: foreign
+        expr: order_id
+      - name: seller
+        type: foreign
+        expr: seller_id
+
+    dimensions:
+      - name: purchase_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: marketing_channel
+        type: categorical
+      - name: seller_state
+        type: categorical
+
+    measures:
+      - name: attributed_revenue
+        description: "Revenue attributed to the acquiring seller/channel, summed."
+        agg: sum
+      - name: attributed_freight
+        description: "Freight value attributed to the acquiring seller/channel, summed."
+        agg: sum
+
+metrics:
+  - name: attributed_revenue_by_channel
+    label: Attributed Revenue
+    description: "Revenue attributed back to the marketing channel that acquired the fulfilling seller. Query with --group-by marketing_channel."
+    type: simple
+    type_params:
+      measure: attributed_revenue

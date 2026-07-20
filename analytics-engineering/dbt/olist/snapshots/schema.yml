@@ -1,0 +1,27 @@
+version: 2
+
+snapshots:
+  - name: snap_sellers
+    description: >
+      SCD Type 2 history of seller location fields (zip_code_prefix, city,
+      state). A new row is inserted every time any of those columns change
+      for a given seller_id; dbt_valid_from/dbt_valid_to on each row give the
+      window that version was current. Answers "where was this seller
+      registered as of a given date" -- something the mart layer (which only
+      ever reflects the current state) can't answer on its own.
+    columns:
+      - name: seller_id
+        description: "The seller this snapshot row belongs to. Not unique on its own -- a seller can have multiple rows, one per historical version."
+        tests:
+          - not_null
+
+      - name: dbt_valid_from
+        description: "Timestamp this version of the row became current."
+        tests:
+          - not_null
+
+      - name: dbt_scd_id
+        description: "Unique identifier for this specific version of the row. Primary key of the snapshot table."
+        tests:
+          - unique
+          - not_null

@@ -23,6 +23,14 @@ sources (RAW schema)
 - **Marts** (`models/mart/`) — `fct_orders` (order grain, delivery performance),
   `dim_sellers` (seller grain, acquisition channel), `fct_b2b2c_attribution` (order ×
   seller grain, ties revenue back to marketing channel and sales rep).
+- **Snapshots** (`snapshots/`) — `snap_sellers`, an SCD Type 2 history of seller
+  location fields, snapshotted directly from the raw source.
+- **Semantic Layer** (`models/semantic/`) — MetricFlow semantic models and metrics
+  (`revenue`, `order_count`, `average_order_value`, `on_time_delivery_rate`,
+  `attributed_revenue_by_channel`) on top of the marts.
+- **Exposures** (`models/exposures.yml`) — documents the dashboards/consumers that sit
+  downstream of the marts and the semantic layer, so `dbt docs generate` shows a full
+  lineage graph from raw source to a dashboard someone actually opens.
 
 ## Testing & CI/CD
 
@@ -35,9 +43,10 @@ sources (RAW schema)
 - **GitHub Actions**:
   - `dbt_ci.yml` — `dbt compile` + `dbt test` against the `dev` target on every PR
     touching this project.
-  - `dbt_cd.yml` — on merge to `main`: `dbt run --target prod`, then the Great
-    Expectations suite against the freshly built `PROD` tables. Either a failed dbt
-    test or a failed expectation fails the job.
+  - `dbt_cd.yml` — on merge to `main`: `dbt run --target prod`, `dbt snapshot --target
+    prod`, then the Great Expectations suite against the freshly built `PROD` tables,
+    then `dbt docs generate` published to GitHub Pages. A failed dbt test or a failed
+    expectation fails the job.
 
 ## Running locally
 
@@ -45,10 +54,33 @@ sources (RAW schema)
 dbt deps
 dbt seed        # if using local seeds instead of the RAW Snowflake sources
 dbt run
+dbt snapshot    # captures the current SCD Type 2 state into snap_sellers
 dbt test
 ```
 
 See `quality/README.md` for running the Great Expectations checks locally.
+
+### Querying the semantic layer
+
+Querying metrics locally requires the separate MetricFlow query engine (not bundled
+with plain `dbt-core`):
+
+```bash
+pip install "dbt-metricflow[snowflake]"
+
+dbt sl validate                                             # sanity-check the semantic model/metric definitions
+dbt sl query --metrics revenue --group-by metric_time__day
+dbt sl query --metrics attributed_revenue_by_channel --group-by marketing_channel
+dbt sl query --metrics on_time_delivery_rate --group-by metric_time__month
+```
+
+### Hosted docs
+
+`dbt_cd.yml` runs `dbt docs generate` and publishes the result to GitHub Pages
+(`gh-pages` branch, `/olist-docs`) on every merge to `main`. One manual step is
+required the first time: after the first successful CD run creates the `gh-pages`
+branch, enable Pages in the repo's Settings → Pages, with source set to the
+`gh-pages` branch. After that it stays up to date automatically.
 
 ## Project history
 
@@ -57,4 +89,6 @@ See `quality/README.md` for running the Great Expectations checks locally.
 - **Stage 2** — incremental models for frequently updated data, materialized views for
   aggregates, source freshness tests, and singular tests (e.g. every customer has at
   least one order; completed-order counts reconcile between fact and summary tables).
-- **Current** — added the Great Expectations data-quality layer described above.
+- **Current** — added the Great Expectations data-quality layer, SCD Type 2 seller
+  history via snapshots, a dbt Semantic Layer (MetricFlow) on top of the marts,
+  exposures documenting downstream consumers, and hosted dbt docs on GitHub Pages.

@@ -26,3 +26,4 @@
 **/vendors.csv
 **/model_artifacts
 **/sa-key.json
+.env.airflow

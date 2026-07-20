@@ -18,9 +18,9 @@
 -- table has no reliable updated_at column to key off of.
 select
     seller_id,
-    zip_code_prefix,
-    city,
-    state
+    seller_zip_code_prefix as zip_code_prefix,
+    seller_city as city,
+    seller_state as state
 from {{ source('olist', 'sellers') }}
 
 {% endsnapshot %}

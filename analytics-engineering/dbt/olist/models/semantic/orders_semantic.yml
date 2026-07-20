@@ -65,7 +65,10 @@ metrics:
     description: "Revenue divided by order count."
     type: ratio
     type_params:
-      numerator: order_revenue
+      # Ratio numerator/denominator reference other *metrics* in this dbt
+      # version, not measures directly -- hence "revenue" (the metric above),
+      # not "order_revenue" (the underlying measure).
+      numerator: revenue
       denominator: order_count
 
   - name: on_time_orders
@@ -82,10 +85,10 @@ metrics:
     description: "Share of orders delivered on time or early, of all orders with a known delivery outcome."
     type: ratio
     type_params:
-      # Ratio numerators/denominators reference measures, not other metrics --
-      # the filter is applied inline here rather than reusing the
-      # `on_time_orders` metric above, which exists as a standalone metric
-      # for direct querying (e.g. `dbt sl query --metrics on_time_orders`).
+      # Same rule as above: numerator/denominator reference metric names.
+      # `order_count` (the metric, not the measure) already exists above, so
+      # this just re-references it with an additional filter applied,
+      # instead of pointing at the standalone `on_time_orders` metric.
       numerator:
         name: order_count
         filter: |

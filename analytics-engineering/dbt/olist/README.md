@@ -63,15 +63,18 @@ See `quality/README.md` for running the Great Expectations checks locally.
 ### Querying the semantic layer
 
 Querying metrics locally requires the separate MetricFlow query engine (not bundled
-with plain `dbt-core`):
+with plain `dbt-core`). Note: `dbt sl` is a dbt Cloud CLI feature only -- with plain
+open-source `dbt-core`, you install `dbt-metricflow` and query through its own
+standalone `mf` command instead:
 
 ```bash
-pip install "dbt-metricflow[snowflake]"
+pip install dbt-metricflow
 
-dbt sl validate                                             # sanity-check the semantic model/metric definitions
-dbt sl query --metrics revenue --group-by metric_time__day
-dbt sl query --metrics attributed_revenue_by_channel --group-by marketing_channel
-dbt sl query --metrics on_time_delivery_rate --group-by metric_time__month
+dbt parse                                                   # generates target/semantic_manifest.json, which `mf` reads
+mf validate-configs                                         # sanity-check the semantic model/metric definitions
+mf query --metrics revenue --group-by metric_time__day
+mf query --metrics attributed_revenue_by_channel --group-by marketing_channel
+mf query --metrics on_time_delivery_rate --group-by metric_time__month
 ```
 
 ### Hosted docs

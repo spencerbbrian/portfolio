@@ -104,5 +104,3 @@ Just me for now — always open to collaborating.
 ## Contact
 
 Feel free to reach out through any of the socials on my GitHub profile, especially if you'd like to collaborate on a project.
-
-Feel free to reach out through any of the socials on my GitHub profile, especially if you'd like to collaborate on a project.

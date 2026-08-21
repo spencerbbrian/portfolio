@@ -46,6 +46,9 @@ jobs:
       - name: dbt run (prod)
         run: dbt run --target prod
 
+      - name: dbt snapshot (prod)
+        run: dbt snapshot --target prod
+
       - name: Install Great Expectations
         run: pip install -r quality/requirements.txt
 
@@ -59,3 +62,14 @@ jobs:
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: PROD
         run: python run_quality_checks.py
+
+      - name: Generate dbt docs
+        run: dbt docs generate --target prod
+
+      - name: Deploy dbt docs to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: analytics-engineering/dbt/olist/target
+          destination_dir: olist-docs
+          keep_files: true

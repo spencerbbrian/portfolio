@@ -1,0 +1,96 @@
+version: 2
+
+# dbt Semantic Layer (MetricFlow) definitions over fct_orders. Metrics
+# defined here are queryable via `dbt sl query` (requires the
+# dbt-metricflow package -- see quality/README.md-style notes in the main
+# olist README) and are what a BI tool connected through the dbt Semantic
+# Layer would actually query, instead of hitting the mart tables directly.
+
+semantic_models:
+  - name: orders
+    description: "One row per order -- semantic layer wrapper over fct_orders."
+    model: ref('fct_orders')
+    defaults:
+      agg_time_dimension: purchase_date
+
+    entities:
+      - name: order
+        type: primary
+        expr: order_id
+      - name: customer
+        type: foreign
+        expr: customer_id
+
+    dimensions:
+      - name: purchase_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: order_status
+        type: categorical
+      - name: delivery_performance_status
+        type: categorical
+
+    measures:
+      - name: order_revenue
+        description: "total_items_price + total_freight_value, summed."
+        agg: sum
+        expr: total_order_item_value
+      - name: order_freight
+        description: "total_freight_value, summed."
+        agg: sum
+        expr: total_freight_value
+      - name: order_count
+        description: "Count of distinct orders."
+        agg: count
+        expr: order_id
+
+metrics:
+  - name: revenue
+    label: Revenue
+    description: "Total order value (items + freight) across all orders."
+    type: simple
+    type_params:
+      measure: order_revenue
+
+  - name: order_count
+    label: Order Count
+    description: "Number of orders placed."
+    type: simple
+    type_params:
+      measure: order_count
+
+  - name: average_order_value
+    label: Average Order Value
+    description: "Revenue divided by order count."
+    type: ratio
+    type_params:
+      # Ratio numerator/denominator reference other *metrics* in this dbt
+      # version, not measures directly -- hence "revenue" (the metric above),
+      # not "order_revenue" (the underlying measure).
+      numerator: revenue
+      denominator: order_count
+
+  - name: on_time_orders
+    label: On-Time Orders
+    description: "Orders delivered on time or early."
+    type: simple
+    type_params:
+      measure: order_count
+    filter: |
+      {{ Dimension('order__delivery_performance_status') }} = 'On Time / Early'
+
+  - name: on_time_delivery_rate
+    label: On-Time Delivery Rate
+    description: "Share of orders delivered on time or early, of all orders with a known delivery outcome."
+    type: ratio
+    type_params:
+      # Same rule as above: numerator/denominator reference metric names.
+      # `order_count` (the metric, not the measure) already exists above, so
+      # this just re-references it with an additional filter applied,
+      # instead of pointing at the standalone `on_time_orders` metric.
+      numerator:
+        name: order_count
+        filter: |
+          {{ Dimension('order__delivery_performance_status') }} = 'On Time / Early'
+      denominator: order_count

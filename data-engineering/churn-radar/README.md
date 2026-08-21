@@ -29,9 +29,9 @@ dagster/  orchestrates all of the above: schedule, a sensor that fires on new ra
 
 Building step by step, in this order:
 
-1. **`source_api/`** -- fake SaaS product + synthetic data generator. *In progress.*
-2. `dbt/` -- staging/intermediate/marts modeling the health score and churn risk.
-3. `airbyte/` -- config-as-code, source API -> BigQuery.
+1. **`source_api/`** -- fake SaaS product + synthetic data generator. *Done.*
+2. **`dbt/`** -- staging/intermediate/marts modeling the health score and churn risk. *Done -- not yet runnable, waiting on step 3 to land raw data.*
+3. `airbyte/` -- config-as-code, source API -> BigQuery. *In progress.*
 4. `dagster/` -- orchestration: asset graph, schedule, sensor, asset checks.
 5. `reverse_etl/` -- HubSpot + Slack sync.
 

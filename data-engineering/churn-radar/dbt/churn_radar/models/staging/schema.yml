@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "One row per customer, 1:1 with the raw source, renamed/cast only."
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['active', 'canceled']
+
+  - name: stg_billing_events
+    description: "One row per billing lifecycle event, 1:1 with the raw source."
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: event_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['subscription_started', 'plan_upgraded', 'plan_downgraded', 'payment_failed', 'subscription_canceled']
+
+  - name: stg_usage_events
+    description: "One row per product usage event, 1:1 with the raw source."
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: event_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['login', 'feature_used', 'support_ticket_opened', 'support_ticket_resolved']

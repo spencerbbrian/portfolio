@@ -44,3 +44,26 @@ drop-off in activity over their last 30-45 days, a higher support-ticket rate, a
 often a failed payment before canceling). That internal label is never written to the
 database or exposed through the API -- it exists only so the health-score model in
 dbt has genuine behavioral signal to detect, instead of scoring pure randomness.
+
+## Cleaning up Airbyte (reclaiming disk space)
+
+Airbyte's local install (via `abctl`) recommends ~50 GB free and runs a full Kubernetes
+cluster under the hood, so it's worth tearing down when not actively using it rather
+than leaving it running indefinitely.
+
+```bash
+abctl local uninstall --persisted   # stops Airbyte AND deletes all its data -- irreversible
+```
+
+Without `--persisted`, `abctl local uninstall` only stops Airbyte and keeps your source/
+destination configs around for a future reinstall -- data stays in `~/.airbyte/abctl`
+until you explicitly wipe it with the flag above.
+
+The underlying Kubernetes cluster's containers/images live inside OrbStack's own storage,
+not just `~/.airbyte/abctl` -- if space is still tight after uninstalling, check OrbStack's
+own disk usage (OrbStack app -> Settings) and prune unused images:
+
+```bash
+docker system prune -a
+```
+abctl local credentials 

@@ -27,3 +27,4 @@
 **/model_artifacts
 **/sa-key.json
 .env.airflow
+**/.tmp_dagster_home_m9gu_yrb

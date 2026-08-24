@@ -7,8 +7,11 @@ sources:
     description: "Raw tables landed by Airbyte from the Churn Radar source API."
     tables:
       - name: customers
+        identifier: Customers
         description: "Raw customer records -- one row per company, current state only (no history)."
       - name: billing_events
+        identifier: Billing_Events
         description: "Raw billing lifecycle events: subscription started/upgraded/downgraded/canceled, payment failures."
       - name: usage_events
+        identifier: Usage_Events
         description: "Raw product usage events: logins, feature usage, support tickets opened/resolved."

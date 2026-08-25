@@ -22,9 +22,18 @@ source_api/  (fake SaaS product, FastAPI + SQLite, deployed on Render)
             -> dbt/  (staging -> intermediate -> marts: health score, churn risk)
                 -> reverse_etl/  (HubSpot contact properties + Slack alerts)
 
-dagster/  orchestrates all of the above: schedule, a sensor that fires on new raw
-          data, and asset checks gating the churn-risk mart before reverse ETL runs.
+dagster/  orchestrates all of the above: a schedule triggers the Airbyte sync,
+          an asset sensor fires as soon as that sync finishes and cascades into
+          the dbt rebuild, and asset checks gate the churn-risk mart before
+          reverse ETL runs.
 ```
+
+Worth being precise about the sensor: it reacts to a Dagster event (the `airbyte_sync`
+asset materializing), not to the source data actually changing -- it doesn't compare
+row counts or check for new records before deciding to cascade. This is standard
+event-driven orchestration ("when step A finishes, run step B"), not change-data-capture.
+Real EL tools work the same way: they sync on a schedule and rely on incremental cursors
+to only pull what's new, rather than checking upfront whether anything changed.
 
 `source_api/` runs as a public Render web service so Airbyte Cloud can reach it
 directly -- no local process or tunnel required for a sync to succeed.
@@ -36,7 +45,7 @@ Building step by step, in this order:
 1. **`source_api/`** -- fake SaaS product + synthetic data generator. *Done -- deployed on Render.*
 2. **`dbt/`** -- staging/intermediate/marts modeling the health score and churn risk. *Done -- now runnable, raw data is landing in BigQuery.*
 3. **`airbyte/`** -- config-as-code custom connector, source API -> BigQuery. *Done -- built and published in Airbyte Cloud, manifest saved in this repo.*
-4. `dagster/` -- orchestration: asset graph, schedule, sensor, asset checks.
+4. **`dagster/`** -- orchestration: dbt-as-assets lineage graph, schedule, asset sensor, asset checks. *Done -- full chain proven end to end (schedule -> Airbyte sync -> sensor -> dbt rebuild -> checks).*
 5. `reverse_etl/` -- HubSpot + Slack sync.
 
 ## Why the synthetic data isn't random noise

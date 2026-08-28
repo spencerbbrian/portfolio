@@ -102,3 +102,72 @@ happens at ingestion, not in a dbt join. The correct fix is a `DefaultPaginator`
 manifest that reads the last row's cursor field from each page and requests the next one
 until a page comes back empty -- not built yet, noted here as a known gap rather than
 silently shipped as if the full dataset were flowing.
+
+## Pipeline in action
+
+Screenshots below since most of this pipeline runs on private services (Airbyte Cloud,
+Render, BigQuery, HubSpot) that nobody outside this account can browse -- unlike the
+Olist project's dbt docs, there's no public link to click into here.
+
+**1. Source API, live on Render**
+
+`source_api` deployed as a public web service, serving the synthetic SaaS dataset over
+HTTP so Airbyte Cloud can reach it directly -- no local process or tunnel involved.
+
+![Source API running on Render](docs/screenshots/source-api.png)
+
+**2. The Airbyte connector, tested against real data**
+
+Both screenshots below are from Airbyte's Connector Builder: the `Customers` stream
+pulling real records straight from the Render deployment, and the `Usage Events` stream
+returning 500 real event records in response to a live test call.
+
+![Airbyte Connector Builder testing the Customers stream](docs/screenshots/airbyte-customers.png)
+
+![Airbyte Connector Builder testing the Usage Events stream](docs/screenshots/airbyte-events-usage.png)
+
+**3. A real sync, end to end**
+
+The Airbyte Cloud connection dashboard after a successful sync -- all three streams
+synced, with load counts per stream (this is also where the pagination limitation above
+is visible directly: Customers caps at 200 loaded, matching the known gap).
+
+![Airbyte Cloud sync status showing all three streams synced](docs/screenshots/airbyte-succesful-sync.png)
+
+**4. Raw data landed in BigQuery**
+
+Querying all three raw tables in `churn_radar_raw` directly in the BigQuery console --
+confirms the data actually made it out of Airbyte and into the warehouse, not just that
+Airbyte reported success.
+
+![BigQuery console querying the three raw Churn Radar tables successfully](docs/screenshots/bigquery-3-tables-and-queried-with-success.png)
+
+**5. The full pipeline, orchestrated by Dagster**
+
+The complete asset lineage graph: `airbyte_sync` feeding the dbt staging layer, through
+the intermediate features, into `dim_customers` and `fct_churn_risk`, gated by passing
+asset checks, and finally fanning out into `hubspot_sync` and `slack_alert`. Every node
+green means the entire chain -- ingestion through reverse ETL -- ran successfully from
+one sensor firing.
+
+![Dagster asset lineage graph showing the full pipeline from Airbyte sync through reverse ETL](docs/screenshots/dagster-dbt-lineage.png)
+
+The same run from Dagster's asset catalog view, listing every asset with its description
+and materialization status:
+
+![Dagster asset catalog showing every asset materialized successfully](docs/screenshots/dagster-all-assets-fully-success-run.png)
+
+**6. Reverse ETL: HubSpot**
+
+A real HubSpot Company record, upserted by `customer_id`, with `churn_risk_tier` written
+directly onto it by the `hubspot_sync` asset -- pulled from BigQuery, not entered by hand.
+
+![A HubSpot company record with churn_risk_tier populated by the reverse ETL sync](docs/screenshots/company-example-hubspot.png)
+
+**7. Reverse ETL: Slack**
+
+The actual alert posted by `slack_alert` to a real Slack channel, listing customers
+currently in the Critical risk tier with their health scores -- sent automatically as
+part of the same run, no manual step involved.
+
+![A Slack alert listing customers at Critical churn risk](docs/screenshots/slack-risk-ping.png)

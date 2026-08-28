@@ -1,0 +1,28 @@
+name: 'churn_radar'
+version: '1.0.0'
+
+profile: 'churn_radar'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  churn_radar:
+    +materialized: view
+
+    staging:
+      +materialized: view
+      +tags: ['staging']
+
+    intermediate:
+      +materialized: view
+
+    marts:
+      +materialized: table

@@ -1,0 +1,182 @@
+version: 7.23.8
+
+type: DeclarativeSource
+
+check:
+  type: CheckStream
+  stream_names:
+    - Customers
+
+streams:
+  - type: DeclarativeStream
+    name: Customers
+    retriever:
+      type: SimpleRetriever
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path: []
+      requester:
+        type: HttpRequester
+        url: https://portfolio-pvfc.onrender.com/customers
+        http_method: GET
+    schema_loader:
+      type: InlineSchemaLoader
+      schema:
+        type: object
+        $schema: http://json-schema.org/schema#
+        properties:
+          customer_id:
+            type:
+              - string
+              - "null"
+          company_name:
+            type:
+              - string
+              - "null"
+          industry:
+            type:
+              - string
+              - "null"
+          plan_tier:
+            type:
+              - string
+              - "null"
+          employee_count_band:
+            type:
+              - string
+              - "null"
+          country:
+            type:
+              - string
+              - "null"
+          signup_date:
+            type:
+              - string
+              - "null"
+          mrr:
+            type:
+              - number
+              - "null"
+          status:
+            type:
+              - string
+              - "null"
+          updated_at:
+            type:
+              - string
+              - "null"
+        additionalProperties: true
+
+  - type: DeclarativeStream
+    name: Usage Events
+    retriever:
+      type: SimpleRetriever
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path: []
+      requester:
+        type: HttpRequester
+        url: https://portfolio-pvfc.onrender.com/events/usage
+        http_method: GET
+    schema_loader:
+      type: InlineSchemaLoader
+      schema:
+        type: object
+        $schema: http://json-schema.org/schema#
+        properties:
+          event_id:
+            type:
+              - string
+              - "null"
+          customer_id:
+            type:
+              - string
+              - "null"
+          event_timestamp:
+            type:
+              - string
+              - "null"
+          event_type:
+            type:
+              - string
+              - "null"
+          feature_name:
+            type:
+              - string
+              - "null"
+          session_duration_seconds:
+            type:
+              - number
+              - "null"
+          user_email:
+            type:
+              - string
+              - "null"
+          created_at:
+            type:
+              - string
+              - "null"
+        additionalProperties: true
+
+  - type: DeclarativeStream
+    name: Billing Events
+    retriever:
+      type: SimpleRetriever
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path: []
+      requester:
+        type: HttpRequester
+        url: https://portfolio-pvfc.onrender.com/events/billing
+        http_method: GET
+    schema_loader:
+      type: InlineSchemaLoader
+      schema:
+        type: object
+        $schema: http://json-schema.org/schema#
+        properties:
+          event_id:
+            type:
+              - string
+              - "null"
+          customer_id:
+            type:
+              - string
+              - "null"
+          event_timestamp:
+            type:
+              - string
+              - "null"
+          event_type:
+            type:
+              - string
+              - "null"
+          mrr_before:
+            type:
+              - number
+              - "null"
+          mrr_after:
+            type:
+              - number
+              - "null"
+          plan_tier:
+            type:
+              - string
+              - "null"
+          created_at:
+            type:
+              - string
+              - "null"
+        additionalProperties: true
+
+spec:
+  type: Spec
+  connection_specification:
+    type: object
+    properties: {}

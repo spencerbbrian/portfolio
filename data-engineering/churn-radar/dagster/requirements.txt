@@ -1,0 +1,5 @@
+dagster==1.13.19
+dagster-webserver==1.13.19
+dagster-dbt==0.29.19
+dbt-core==1.11.14
+dbt-bigquery==1.11.3

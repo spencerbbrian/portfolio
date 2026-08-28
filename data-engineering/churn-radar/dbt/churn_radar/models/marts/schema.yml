@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "One row per customer -- descriptive attributes plus lifetime billing-event counts."
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['active', 'canceled']
+
+  - name: fct_churn_risk
+    description: >
+      One row per customer: health_score (0-100, active customers only) and
+      churn_risk_tier (Low/Medium/High/Critical for active customers,
+      Churned for canceled ones). The mart the reverse-ETL sync reads from.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+      - name: health_score
+        description: "0-100 composite score. Null for canceled customers -- see churn_risk_tier instead."
+        tests:
+          - not_null:
+              config:
+                where: "status = 'active'"
+
+      - name: churn_risk_tier
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Low', 'Medium', 'High', 'Critical', 'Churned']

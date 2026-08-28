@@ -164,9 +164,47 @@ def hubspot_sync(context: dg.AssetExecutionContext) -> dg.MaterializeResult:
     return dg.MaterializeResult(metadata={"companies_synced": synced})
 
 
+@dg.asset(deps=[dg.AssetKey(["fct_churn_risk"])])
+def slack_alert(context: dg.AssetExecutionContext) -> dg.MaterializeResult:
+    """Posts a Slack alert listing customers currently in the Critical risk
+    tier. Only runs if the upstream health_score_in_range check passed."""
+    bq = bigquery.Client.from_service_account_json(GCP_KEYFILE, project=GCP_PROJECT)
+    rows = list(
+        bq.query(
+            f"""
+            SELECT company_name, health_score
+            FROM `{GCP_PROJECT}.churn_radar_dev.fct_churn_risk`
+            WHERE churn_risk_tier = 'Critical'
+            ORDER BY health_score ASC
+            """
+        ).result()
+    )
+
+    if not rows:
+        text = "Churn Radar: no customers in the Critical risk tier right now."
+    else:
+        lines = [f"*Churn Radar: {len(rows)} customer(s) at Critical risk*"]
+        for row in rows[:10]:
+            lines.append(f"- {row['company_name']} (health score: {row['health_score']})")
+        if len(rows) > 10:
+            lines.append(f"...and {len(rows) - 10} more.")
+        text = "\n".join(lines)
+
+    resp = requests.post(
+        os.environ["SLACK_WEBHOOK_URL"],
+        json={"text": text},
+        timeout=30,
+    )
+    if not resp.ok:
+        context.log.error(f"Slack error response: {resp.text}")
+    resp.raise_for_status()
+
+    return dg.MaterializeResult(metadata={"critical_customers": len(rows)})
+
+
 churn_radar_job = dg.define_asset_job(
     name="churn_radar_dbt_job",
-    selection=[churn_radar_dbt_assets, hubspot_sync],
+    selection=[churn_radar_dbt_assets, hubspot_sync, slack_alert],
 )
 
 airbyte_sync_job = dg.define_asset_job(
@@ -191,7 +229,7 @@ def run_dbt_after_sync_sensor(context: dg.SensorEvaluationContext, asset_event):
 
 
 defs = dg.Definitions(
-    assets=[churn_radar_dbt_assets, airbyte_sync, hubspot_sync],
+    assets=[churn_radar_dbt_assets, airbyte_sync, hubspot_sync, slack_alert],
     asset_checks=[health_score_in_range],
     jobs=[churn_radar_job, airbyte_sync_job],
     schedules=[airbyte_sync_schedule],

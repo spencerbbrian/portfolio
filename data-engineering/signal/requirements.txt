@@ -1,5 +1,6 @@
 dbt-core==1.12.4
 dbt-snowflake==1.12.0
+snowflake-connector-python[pandas]==4.7.3
 Faker==40.38.0
 pandas==2.3.3
 numpy==2.3.4

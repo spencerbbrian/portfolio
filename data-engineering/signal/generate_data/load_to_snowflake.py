@@ -92,6 +92,14 @@ def main():
             schema=SNOWFLAKE_SCHEMA,
             auto_create_table=True,
             overwrite=True,
+            # Without this, write_pandas quotes column names exactly as the
+            # DataFrame has them (lowercase) - Snowflake then treats them as
+            # case-sensitive quoted identifiers. dbt's SQL uses plain
+            # unquoted column names, which Snowflake auto-uppercases before
+            # matching - so quoted lowercase columns become invisible to it.
+            # quote_identifiers=False makes the table use normal unquoted
+            # (uppercased) column names instead, matching what dbt expects.
+            quote_identifiers=False,
         )
         status = "OK" if success else "FAILED"
         print(f"  [{status}] {num_rows} rows in {num_chunks} chunk(s)")

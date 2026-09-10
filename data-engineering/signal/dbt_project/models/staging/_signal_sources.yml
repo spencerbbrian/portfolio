@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: raw_signal
+    database: SIGNAL_DB
+    schema: RAW
+    tables:
+      - name: plans
+      - name: subscribers
+      - name: subscription_history
+      - name: devices
+      - name: usage_events
+      - name: support_tickets
+      - name: ticket_status_history

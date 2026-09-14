@@ -1,0 +1,81 @@
+version: 2
+
+models:
+  - name: link_subscription
+    description: "Links subscriber to plan. One row per plan-change segment - start_date is part of what makes a row unique, so a subscriber who switched plans twice has multiple rows here."
+    columns:
+      - name: subscription_link_key
+        description: "Hashed key from subscriber_id + plan_id + start_date."
+        tests: [unique, not_null]
+      - name: subscriber_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_subscriber')
+              field: subscriber_hub_key
+      - name: plan_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_plan')
+              field: plan_hub_key
+
+  - name: link_subscriber_device
+    description: "Links subscriber to device. One row per device a subscriber owns."
+    columns:
+      - name: subscriber_device_link_key
+        tests: [unique, not_null]
+      - name: subscriber_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_subscriber')
+              field: subscriber_hub_key
+      - name: device_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_device')
+              field: device_hub_key
+
+  - name: link_usage_event
+    description: "Three-way link tying a usage event to the subscriber, device, and plan active when it happened."
+    columns:
+      - name: usage_event_link_key
+        tests: [unique, not_null]
+      - name: subscriber_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_subscriber')
+              field: subscriber_hub_key
+      - name: device_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_device')
+              field: device_hub_key
+      - name: plan_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_plan')
+              field: plan_hub_key
+
+  - name: link_support_ticket
+    description: "Links a support ticket to the subscriber who filed it."
+    columns:
+      - name: support_ticket_link_key
+        tests: [unique, not_null]
+      - name: subscriber_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_subscriber')
+              field: subscriber_hub_key
+      - name: ticket_hub_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_ticket')
+              field: ticket_hub_key

@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: hub_subscriber
+    description: "Hub of subscribers. One row per unique subscriber_id - no descriptive attributes, just the identity."
+    columns:
+      - name: subscriber_hub_key
+        description: "Hashed surrogate key generated from subscriber_id. Used by every link/satellite that references this subscriber."
+        tests: [unique, not_null]
+      - name: subscriber_id
+        description: "The real-world business key for a subscriber, as it exists in the source system."
+        tests: [unique, not_null]
+
+  - name: hub_plan
+    description: "Hub of plans. One row per unique plan_id."
+    columns:
+      - name: plan_hub_key
+        tests: [unique, not_null]
+      - name: plan_id
+        tests: [unique, not_null]
+
+  - name: hub_device
+    description: "Hub of devices. One row per unique device_id."
+    columns:
+      - name: device_hub_key
+        tests: [unique, not_null]
+      - name: device_id
+        tests: [unique, not_null]
+
+  - name: hub_ticket
+    description: "Hub of support tickets. One row per unique ticket_id."
+    columns:
+      - name: ticket_hub_key
+        tests: [unique, not_null]
+      - name: ticket_id
+        tests: [unique, not_null]

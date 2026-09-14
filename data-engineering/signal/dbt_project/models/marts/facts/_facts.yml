@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: fct_usage
+    description: "One row per usage event, joined to the subscriber version (plan segment) active at the time of the event."
+    columns:
+      - name: usage_event_id
+        tests: [unique, not_null]
+      - name: subscriber_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_subscriber')
+              field: subscriber_key
+      - name: plan_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_plan')
+              field: plan_key
+      - name: device_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_device')
+              field: device_key
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+  - name: fct_support_tickets
+    description: "One row per support ticket, joined to the subscriber version active when the ticket was created."
+    columns:
+      - name: ticket_id
+        tests: [unique, not_null]
+      - name: subscriber_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_subscriber')
+              field: subscriber_key
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key

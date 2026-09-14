@@ -11,14 +11,16 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('hub_subscriber')
-              field: subscriber_hub_key
+              arguments:
+                to: ref('hub_subscriber')
+                field: subscriber_hub_key
       - name: plan_hub_key
         tests:
           - not_null
           - relationships:
-              to: ref('hub_plan')
-              field: plan_hub_key
+              arguments:
+                to: ref('hub_plan')
+                field: plan_hub_key
 
   - name: link_subscriber_device
     description: "Links subscriber to device. One row per device a subscriber owns."
@@ -29,14 +31,16 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('hub_subscriber')
-              field: subscriber_hub_key
+              arguments:
+                to: ref('hub_subscriber')
+                field: subscriber_hub_key
       - name: device_hub_key
         tests:
           - not_null
           - relationships:
-              to: ref('hub_device')
-              field: device_hub_key
+              arguments:
+                to: ref('hub_device')
+                field: device_hub_key
 
   - name: link_usage_event
     description: "Three-way link tying a usage event to the subscriber, device, and plan active when it happened."
@@ -47,20 +51,23 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('hub_subscriber')
-              field: subscriber_hub_key
+              arguments:
+                to: ref('hub_subscriber')
+                field: subscriber_hub_key
       - name: device_hub_key
         tests:
           - not_null
           - relationships:
-              to: ref('hub_device')
-              field: device_hub_key
+              arguments:
+                to: ref('hub_device')
+                field: device_hub_key
       - name: plan_hub_key
         tests:
           - not_null
           - relationships:
-              to: ref('hub_plan')
-              field: plan_hub_key
+              arguments:
+                to: ref('hub_plan')
+                field: plan_hub_key
 
   - name: link_support_ticket
     description: "Links a support ticket to the subscriber who filed it."
@@ -71,11 +78,13 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('hub_subscriber')
-              field: subscriber_hub_key
+              arguments:
+                to: ref('hub_subscriber')
+                field: subscriber_hub_key
       - name: ticket_hub_key
         tests:
           - not_null
           - relationships:
-              to: ref('hub_ticket')
-              field: ticket_hub_key
+              arguments:
+                to: ref('hub_ticket')
+                field: ticket_hub_key

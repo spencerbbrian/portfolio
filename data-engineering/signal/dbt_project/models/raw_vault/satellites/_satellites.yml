@@ -9,8 +9,9 @@ models:
           - unique
           - not_null
           - relationships:
-              to: ref('hub_subscriber')
-              field: subscriber_hub_key
+              arguments:
+                to: ref('hub_subscriber')
+                field: subscriber_hub_key
 
   - name: sat_plan_details
     description: "Descriptive attributes for a plan - name, type, allowances, price."
@@ -20,8 +21,9 @@ models:
           - unique
           - not_null
           - relationships:
-              to: ref('hub_plan')
-              field: plan_hub_key
+              arguments:
+                to: ref('hub_plan')
+                field: plan_hub_key
 
   - name: sat_device_details
     description: "Descriptive attributes for a device - brand, model, IMEI, type."
@@ -31,8 +33,9 @@ models:
           - unique
           - not_null
           - relationships:
-              to: ref('hub_device')
-              field: device_hub_key
+              arguments:
+                to: ref('hub_device')
+                field: device_hub_key
 
   - name: sat_usage_details
     description: "Descriptive attributes for one usage event - type, timestamp, data/call/sms amounts."
@@ -42,8 +45,9 @@ models:
           - unique
           - not_null
           - relationships:
-              to: ref('link_usage_event')
-              field: usage_event_link_key
+              arguments:
+                to: ref('link_usage_event')
+                field: usage_event_link_key
 
   - name: sat_ticket_status
     description: >
@@ -55,8 +59,9 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('link_support_ticket')
-              field: support_ticket_link_key
+              arguments:
+                to: ref('link_support_ticket')
+                field: support_ticket_link_key
 
   - name: sat_subscription_details
     description: "Start/end dates for a subscription segment - end_date is null while the segment is still active."
@@ -66,8 +71,9 @@ models:
           - unique
           - not_null
           - relationships:
-              to: ref('link_subscription')
-              field: subscription_link_key
+              arguments:
+                to: ref('link_subscription')
+                field: subscription_link_key
 
   - name: sat_ticket_details
     description: "Category, priority, and current status/resolution info for a support ticket."
@@ -77,5 +83,6 @@ models:
           - unique
           - not_null
           - relationships:
-              to: ref('link_support_ticket')
-              field: support_ticket_link_key
+              arguments:
+                to: ref('link_support_ticket')
+                field: support_ticket_link_key

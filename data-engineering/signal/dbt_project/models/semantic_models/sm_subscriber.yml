@@ -1,0 +1,33 @@
+semantic_models:
+  - name: sm_subscriber
+    description: >
+      One row per subscriber PER PLAN SEGMENT (same grain as dim_subscriber).
+      Base semantic model for subscriber-count and revenue metrics.
+    model: ref('dim_subscriber')
+    defaults:
+      agg_time_dimension: valid_from
+    entities:
+      - name: subscriber
+        type: primary
+        expr: subscriber_key
+    dimensions:
+      - name: valid_from
+        type: time
+        type_params:
+          time_granularity: day
+      - name: plan_tier
+        type: categorical
+      - name: status
+        type: categorical
+      - name: is_current
+        type: categorical
+    measures:
+      # count_distinct on subscriber_id (not subscriber_key) - subscriber_id
+      # repeats across a subscriber's multiple segments, subscriber_key never
+      # does, so counting the right column here matters.
+      - name: subscriber_count
+        agg: count_distinct
+        expr: subscriber_id
+      - name: monthly_revenue
+        agg: sum
+        expr: monthly_price

@@ -52,6 +52,9 @@ select
     profile.signup_date,
     plan.plan_name    as plan_tier,
     plan.plan_id,
+    -- Denormalized straight onto the dimension (not left in a separate fact)
+    -- so a revenue metric like ARPU can be computed without an extra join.
+    plan.monthly_price,
     -- If this segment has an end_date, the subscriber went on to ANOTHER
     -- plan afterwards - so they were still active during this segment no
     -- matter what happened later. Only their very last segment (end_date is

@@ -1,0 +1,76 @@
+metrics:
+
+  # --- supporting building-block metrics ---
+  # Each of the 3 metrics you actually care about (churn_rate, arpu,
+  # avg_usage_per_subscriber) is a RATIO of two simpler metrics defined here
+  # first. This is the whole point of the semantic layer: these building
+  # blocks get defined once, and both the ratio metrics AND anyone querying
+  # them directly reuse the exact same underlying SQL logic.
+
+  - name: total_subscriber_count
+    description: "Every subscriber counted once, using their current (is_current) segment."
+    type: simple
+    label: "Total Subscribers"
+    type_params:
+      measure: subscriber_count
+    filter: |
+      {{ Dimension('subscriber__is_current') }} = true
+
+  - name: churned_subscriber_count
+    description: "Subscribers whose current segment shows a churned status."
+    type: simple
+    label: "Churned Subscribers"
+    type_params:
+      measure: subscriber_count
+    filter: |
+      {{ Dimension('subscriber__is_current') }} = true
+      and {{ Dimension('subscriber__status') }} = 'churned'
+
+  - name: total_mrr
+    description: "Total monthly recurring revenue, summing the current plan price of every subscriber's current segment."
+    type: simple
+    label: "Total MRR"
+    type_params:
+      measure: monthly_revenue
+    filter: |
+      {{ Dimension('subscriber__is_current') }} = true
+
+  - name: total_data_used_mb
+    description: "Total data (MB) used across all usage events."
+    type: simple
+    label: "Total Data Used (MB)"
+    type_params:
+      measure: data_used_mb_sum
+
+  - name: usage_subscriber_count
+    description: "Distinct subscribers who generated at least one usage event."
+    type: simple
+    label: "Subscribers With Usage"
+    type_params:
+      measure: usage_subscriber_count
+
+  # --- the 3 metrics from the original project brief ---
+
+  - name: churn_rate
+    description: "Share of all subscribers who have churned."
+    type: ratio
+    label: "Churn Rate"
+    type_params:
+      numerator: churned_subscriber_count
+      denominator: total_subscriber_count
+
+  - name: arpu
+    description: "Average Revenue Per User - total MRR divided by total subscribers."
+    type: ratio
+    label: "ARPU"
+    type_params:
+      numerator: total_mrr
+      denominator: total_subscriber_count
+
+  - name: avg_usage_per_subscriber
+    description: "Average data usage (MB) per subscriber who actually used data."
+    type: ratio
+    label: "Avg Usage Per Subscriber (MB)"
+    type_params:
+      numerator: total_data_used_mb
+      denominator: usage_subscriber_count

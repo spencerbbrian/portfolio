@@ -1,0 +1,28 @@
+semantic_models:
+  - name: sm_usage
+    description: "One row per usage event - base semantic model for usage-volume metrics."
+    model: ref('fct_usage')
+    defaults:
+      agg_time_dimension: event_date
+    entities:
+      - name: usage_event
+        type: primary
+        expr: usage_event_id
+      - name: subscriber
+        type: foreign
+        expr: subscriber_key
+    dimensions:
+      - name: event_date
+        type: time
+        expr: cast(event_timestamp as date)
+        type_params:
+          time_granularity: day
+      - name: event_type
+        type: categorical
+    measures:
+      - name: data_used_mb_sum
+        agg: sum
+        expr: data_used_mb
+      - name: usage_subscriber_count
+        agg: count_distinct
+        expr: subscriber_key

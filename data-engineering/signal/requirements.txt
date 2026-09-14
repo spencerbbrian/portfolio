@@ -4,3 +4,4 @@ snowflake-connector-python[pandas]==4.7.3
 Faker==40.38.0
 pandas==2.3.3
 numpy==2.3.4
+dbt-metricflow==0.15.0

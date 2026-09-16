@@ -38,7 +38,10 @@ select
     usage.event_timestamp,
     usage.data_used_mb,
     usage.call_duration_seconds,
-    usage.sms_count
+    -- DELIBERATE CONTRACT BREAK (demo): renamed to sms_total here, but
+    -- _facts.yml still declares this column as sms_count. This should
+    -- make dbt refuse to build fct_usage once the contract check runs.
+    usage.sms_count as sms_total
 from usage
 inner join subscriber_lookup sl
     on usage.subscriber_hub_key = sl.subscriber_hub_key

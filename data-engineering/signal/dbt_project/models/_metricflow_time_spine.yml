@@ -8,3 +8,4 @@ models:
     columns:
       - name: date_day
         granularity: day
+        tests: [unique, not_null]

@@ -1,0 +1,5 @@
+fct_name,column_name,id_to_exclude,comment
+fct_model_naming_conventions,resource_name,hub_%,"Data Vault hub naming convention (hub_) - not one of dbt_project_evaluator's default Kimball-style prefixes"
+fct_model_naming_conventions,resource_name,link_%,"Data Vault link naming convention (link_) - not one of dbt_project_evaluator's default Kimball-style prefixes"
+fct_model_naming_conventions,resource_name,sat_%,"Data Vault satellite naming convention (sat_) - not one of dbt_project_evaluator's default Kimball-style prefixes"
+fct_root_models,child,dim_date,"dim_date is intentionally generated entirely from dbt_utils.date_spine() with no ref()/source() parents - a standard, accepted pattern for a generated date dimension"

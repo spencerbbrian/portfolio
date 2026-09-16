@@ -6,5 +6,6 @@ select
     data_allowance_gb,
     voice_minutes,
     sms_allowance,
-    monthly_price
+    monthly_price,
+    network_generation
 from {{ source('raw_signal', 'plans') }}

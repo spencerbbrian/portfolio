@@ -41,18 +41,26 @@ OUTPUT_DIR = "output"
 #    makes the data realistic instead of uniformly spread across all 8 options.
 # ---------------------------------------------------------------------------
 PLANS = [
-    # plan_id, plan_name,          plan_type,  data_gb, voice_min, sms,  monthly_price, weight
-    (1, "Basic 2GB",        "prepaid",  2,    100,  50,   9.99,  0.10),
-    (2, "Basic 5GB",        "prepaid",  5,    200,  100,  14.99, 0.20),
-    (3, "Standard 10GB",    "postpaid", 10,   500,  250,  24.99, 0.25),
-    (4, "Standard 20GB",    "postpaid", 20,   750,  500,  34.99, 0.18),
-    (5, "Unlimited Plus",   "postpaid", 9999, 9999, 9999, 49.99, 0.15),
-    (6, "Family Share 50GB","postpaid", 50,   1500, 1000, 59.99, 0.07),
-    (7, "Business Pro",     "postpaid", 100,  9999, 9999, 79.99, 0.03),
-    (8, "IoT Data Only",    "prepaid",  1,    0,    0,    4.99,  0.02),
+    # plan_id, plan_name,          plan_type,  data_gb, voice_min, sms,  monthly_price, network_generation, weight
+    #
+    # network_generation is a NEW field, added here to simulate the source
+    # system starting to report which network a plan runs on - this is the
+    # deliberate schema-evolution scenario for proving the vault decouples
+    # ingestion from reporting (see the README's "Proving the decoupling"
+    # section): only stg_plans, sat_plan_details, and dim_plan should need
+    # to change to pick this up - hub_plan, link_subscription, and every
+    # other model in the project should be untouched.
+    (1, "Basic 2GB",        "prepaid",  2,    100,  50,   9.99,  "4G", 0.10),
+    (2, "Basic 5GB",        "prepaid",  5,    200,  100,  14.99, "4G", 0.20),
+    (3, "Standard 10GB",    "postpaid", 10,   500,  250,  24.99, "4G", 0.25),
+    (4, "Standard 20GB",    "postpaid", 20,   750,  500,  34.99, "5G", 0.18),
+    (5, "Unlimited Plus",   "postpaid", 9999, 9999, 9999, 49.99, "5G", 0.15),
+    (6, "Family Share 50GB","postpaid", 50,   1500, 1000, 59.99, "5G", 0.07),
+    (7, "Business Pro",     "postpaid", 100,  9999, 9999, 79.99, "5G", 0.03),
+    (8, "IoT Data Only",    "prepaid",  1,    0,    0,    4.99,  "4G", 0.02),
 ]
 PLAN_IDS = [p[0] for p in PLANS]
-PLAN_WEIGHTS = [p[7] for p in PLANS]
+PLAN_WEIGHTS = [p[8] for p in PLANS]
 
 DEVICE_BRANDS = [
     ("Apple",   ["iPhone 13", "iPhone 14", "iPhone 15", "iPhone 16"], 0.40),
@@ -81,7 +89,8 @@ def build_plans_df() -> pd.DataFrame:
     return pd.DataFrame(
         PLANS,
         columns=["plan_id", "plan_name", "plan_type", "data_allowance_gb",
-                 "voice_minutes", "sms_allowance", "monthly_price", "_weight"],
+                 "voice_minutes", "sms_allowance", "monthly_price",
+                 "network_generation", "_weight"],
     ).drop(columns=["_weight"])
 
 

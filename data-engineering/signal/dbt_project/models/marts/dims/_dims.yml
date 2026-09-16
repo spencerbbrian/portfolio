@@ -12,6 +12,12 @@ models:
     columns:
       - name: plan_key
         tests: [unique, not_null]
+      - name: network_generation
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["4G", "5G"]
 
   - name: dim_device
     description: "Device dimension - one row per device, built from hub_device + sat_device_details."

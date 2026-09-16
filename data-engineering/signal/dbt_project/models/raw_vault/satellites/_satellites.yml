@@ -14,7 +14,11 @@ models:
                 field: subscriber_hub_key
 
   - name: sat_plan_details
-    description: "Descriptive attributes for a plan - name, type, allowances, price."
+    description: >
+      Descriptive attributes for a plan - name, type, allowances, price, and
+      network_generation. network_generation was added after the project's
+      first build to demonstrate the vault decoupling ingestion from
+      reporting - see the README's "Proving the decoupling" section.
     columns:
       - name: plan_hub_key
         tests:
@@ -24,6 +28,12 @@ models:
               arguments:
                 to: ref('hub_plan')
                 field: plan_hub_key
+      - name: network_generation
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["4G", "5G"]
 
   - name: sat_device_details
     description: "Descriptive attributes for a device - brand, model, IMEI, type."

@@ -10,7 +10,8 @@ select
     p.data_allowance_gb,
     p.voice_minutes,
     p.sms_allowance,
-    p.monthly_price
+    p.monthly_price,
+    p.network_generation
 from {{ ref('hub_plan') }} h
 inner join {{ ref('sat_plan_details') }} p
     on h.plan_hub_key = p.plan_hub_key

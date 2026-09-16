@@ -1,0 +1,58 @@
+name: Signal dbt CI
+
+# Runs the Signal dbt project on every push/PR that touches it, so a
+# schema-breaking change (like violating fct_usage's contract) fails loudly
+# here instead of only showing up when someone queries the warehouse later.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data-engineering/signal/dbt_project/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'data-engineering/signal/dbt_project/**'
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: data-engineering/signal/dbt_project
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dbt-snowflake
+        run: pip install dbt-core==1.12.4 dbt-snowflake==1.12.0
+
+      - name: Create dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          echo "signal:" > ~/.dbt/profiles.yml
+          echo "  target: dev" >> ~/.dbt/profiles.yml
+          echo "  outputs:" >> ~/.dbt/profiles.yml
+          echo "    dev:" >> ~/.dbt/profiles.yml
+          echo "      type: snowflake" >> ~/.dbt/profiles.yml
+          echo "      account: '${{ secrets.SNOWFLAKE_ACCOUNT }}'" >> ~/.dbt/profiles.yml
+          echo "      user: '${{ secrets.SNOWFLAKE_USER }}'" >> ~/.dbt/profiles.yml
+          echo "      password: '${{ secrets.SNOWFLAKE_PASSWORD }}'" >> ~/.dbt/profiles.yml
+          echo "      role: '${{ secrets.SNOWFLAKE_ROLE }}'" >> ~/.dbt/profiles.yml
+          echo "      database: SIGNAL_DB" >> ~/.dbt/profiles.yml
+          echo "      warehouse: '${{ secrets.SNOWFLAKE_WAREHOUSE }}'" >> ~/.dbt/profiles.yml
+          echo "      schema: DEV" >> ~/.dbt/profiles.yml
+          echo "      threads: 4" >> ~/.dbt/profiles.yml
+
+      - name: dbt deps
+        run: dbt deps
+
+      - name: dbt build
+        run: dbt build

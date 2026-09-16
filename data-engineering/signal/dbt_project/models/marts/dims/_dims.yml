@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "Standard calendar date dimension, one row per day, generated with dbt_utils.date_spine."
+    columns:
+      - name: date_key
+        tests: [unique, not_null]
+
+  - name: dim_plan
+    description: "Plan dimension - one row per plan, built from hub_plan + sat_plan_details."
+    columns:
+      - name: plan_key
+        tests: [unique, not_null]
+
+  - name: dim_device
+    description: "Device dimension - one row per device, built from hub_device + sat_device_details."
+    columns:
+      - name: device_key
+        tests: [unique, not_null]
+
+  - name: dim_subscriber
+    description: >
+      SCD2 subscriber dimension. One row per subscriber PER PLAN SEGMENT -
+      subscriber_id is intentionally NOT tested as unique here, since a
+      subscriber who switched plans has multiple rows by design.
+    columns:
+      - name: subscriber_key
+        tests: [unique, not_null]
+      - name: subscriber_id
+        tests: [not_null]

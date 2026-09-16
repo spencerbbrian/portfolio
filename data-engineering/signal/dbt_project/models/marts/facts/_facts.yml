@@ -3,37 +3,57 @@ version: 2
 models:
   - name: fct_usage
     description: "One row per usage event, joined to the subscriber version (plan segment) active at the time of the event."
+    config:
+      contract:
+        enforced: true
     columns:
       - name: usage_event_id
+        data_type: varchar(16777216)
         tests: [unique, not_null]
       - name: subscriber_key
+        data_type: varchar(32)
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('dim_subscriber')
                 field: subscriber_key
-      - name: plan_key
-        tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('dim_plan')
-                field: plan_key
       - name: device_key
+        data_type: varchar(32)
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('dim_device')
                 field: device_key
+      - name: plan_key
+        data_type: varchar(32)
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_plan')
+                field: plan_key
       - name: date_key
+        data_type: number(38,0)
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('dim_date')
                 field: date_key
+      - name: event_type
+        data_type: varchar(16777216)
+        tests: [not_null]
+      - name: event_timestamp
+        data_type: timestamp_ntz(9)
+        tests: [not_null]
+      - name: data_used_mb
+        data_type: float
+      - name: call_duration_seconds
+        data_type: float
+      - name: sms_count
+        data_type: float
 
   - name: fct_support_tickets
     description: "One row per support ticket, joined to the subscriber version active when the ticket was created."

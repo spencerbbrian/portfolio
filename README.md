@@ -1,6 +1,6 @@
 # Data Analytics & Engineering Portfolio
 
-Hi, I'm Spencer, an Analytics Engineer / Data Engineer wrapping up a Master's degree via an alternance contract at Decathlon Digital. This repo collects the data engineering, analytics engineering, and dashboarding projects I've built to practice production-grade patterns: layered dbt modeling, cloud-native pipelines, orchestration, data quality, and CI/CD.
+Hi, I'm Spencer, an Analytics Engineer / Data Engineer wrapping up a Master's degree via an alternance contract at Decathlon Digital. This repo exists to accompany my growth in the field: each project pairs a tool or pattern I wanted real, hands-on practice with (dbt, Snowflake, BigQuery, Airflow, Dagster, Kafka, Terraform, Data Vault 2.0, CI/CD) with a full build rather than a tutorial follow-along. It's a working record of what I can actually do, kept up to date as I learn, not a static highlight reel.
 
 For visual walkthroughs of select projects, see my static [portfolio site](https://sites.google.com/view/spencerbbrian/about) and my [Tableau Public profile](https://public.tableau.com/app/profile/spencer.baiden/vizzes).
 
@@ -36,6 +36,9 @@ Local Airflow deployment (Docker Compose) scheduling a daily dbt run for the Ago
 ---
 
 ## In Progress
+
+### [Signal](data-engineering/signal/) — Data Vault 2.0 + Kimball + dbt Semantic Layer (dbt, Snowflake)
+Synthetic telecom subscriber-intelligence platform combining a Data Vault 2.0 raw layer (hubs, links, satellites) with Kimball dimensional marts in a single project, served through the dbt Semantic Layer (MetricFlow) so a metric is defined once and reused everywhere. Working so far: synthetic data generation, a raw load into Snowflake, a staging layer, a fully tested raw vault, fully tested Kimball marts (including a real SCD2 dimension with correct date-range fact joins), and eight semantic-layer metrics queryable via the `mf` CLI. Still to come: dbt contracts enforced and proven in CI, GitHub Actions CI/CD, a `dbt_project_evaluator` pass, and a concrete demonstration of the vault decoupling ingestion from reporting.
 
 ### [Real-Time E-Commerce Analytics Pipeline](data-engineering/real_time_ecommerce_analytics_pipeline/) — Kafka + MongoDB Atlas + Airflow
 Event simulator publishes realistic e-commerce events (page views, cart adds, purchases) to Kafka; a consumer enriches them (geo, device) and writes to MongoDB Atlas; an Airflow DAG computes nightly product/RFM aggregates. Working so far: simulator, Kafka producer/consumer, Mongo setup + seeding, and one nightly aggregation DAG. The Streamlit dashboard, FastAPI serving layer, and Great Expectations quality suite described in the project's own README are designed but not yet built — noted here as the honest state rather than implied done.
@@ -103,8 +106,8 @@ Kept for breadth — mostly single-notebook or single-script exercises, supersed
 
 - **Languages:** Python, SQL
 - **Data Warehousing:** Snowflake, BigQuery
-- **Transformation:** dbt (dbt Core)
-- **Data Quality:** Great Expectations, dbt tests
+- **Transformation:** dbt (dbt Core), including Data Vault 2.0 modeling and the dbt Semantic Layer
+- **Data Quality:** Great Expectations, dbt tests, dbt contracts
 - **Orchestration:** Apache Airflow, Dagster
 - **Ingestion / EL:** Airbyte
 - **Streaming:** Apache Beam/Dataflow, Pub/Sub, Kafka

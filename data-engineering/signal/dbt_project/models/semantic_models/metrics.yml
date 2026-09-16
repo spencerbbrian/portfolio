@@ -52,7 +52,13 @@ metrics:
   # --- the 3 metrics from the original project brief ---
 
   - name: churn_rate
-    description: "Share of all subscribers who have churned."
+    description: >
+      Cohort-by-start-date churn rate: of subscribers whose CURRENT plan
+      segment started in a given month (their signup, or their most recent
+      plan switch), what fraction eventually churned. This is grouped by
+      when a segment STARTED, not a calendar snapshot of who churned during
+      that specific month - a genuinely different (and harder to build)
+      point-in-time version would need a periodic snapshot fact table.
     type: ratio
     label: "Churn Rate"
     type_params:

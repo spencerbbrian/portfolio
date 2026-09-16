@@ -1,0 +1,77 @@
+version: 2
+
+sources:
+  - name: raw_signal
+    description: "Raw synthetic telecom data landed by load_to_snowflake.py, untouched and unmodeled - one table per generated CSV."
+    database: SIGNAL_DB
+    schema: RAW
+    tables:
+      - name: plans
+        description: "Raw plan catalog: one row per plan offered (tier, allowances, price)."
+      - name: subscribers
+        description: "Raw subscriber roster: one row per subscriber, including their current status and churn date if churned."
+      - name: subscription_history
+        description: "Raw plan-segment history: one row per subscriber per plan segment, with start/end dates."
+      - name: devices
+        description: "Raw device registry: one row per device, linked to the subscriber it belongs to."
+      - name: usage_events
+        description: "Raw usage event log: one row per usage event (call, SMS, or data session)."
+      - name: support_tickets
+        description: "Raw support ticket log: one row per ticket, with its category, priority, and current status."
+      - name: ticket_status_history
+        description: "Raw ticket status-change log: one row per status transition a ticket went through."
+
+models:
+  - name: stg_subscribers
+    description: "One row per subscriber, with text-typed dates cast to real DATE columns."
+    columns:
+      - name: subscriber_id
+        tests: [unique, not_null]
+
+  - name: stg_plans
+    description: "One row per plan, with text-typed numeric/price columns cast to real types."
+    columns:
+      - name: plan_id
+        tests: [unique, not_null]
+
+  - name: stg_devices
+    description: "One row per device, with text-typed columns cast to real types."
+    columns:
+      - name: device_id
+        tests: [unique, not_null]
+
+  - name: stg_support_tickets
+    description: "One row per support ticket, with text-typed dates cast to real TIMESTAMP_NTZ columns."
+    columns:
+      - name: ticket_id
+        tests: [unique, not_null]
+
+  - name: stg_usage_events
+    description: "One row per usage event, with text-typed dates cast to real types."
+    columns:
+      - name: usage_event_id
+        tests: [unique, not_null]
+
+  - name: stg_subscription_history
+    description: >
+      One row per subscriber per plan segment. No single-column key here - a
+      subscriber can have several segments over time, so the real grain is
+      (subscriber_id, start_date), tested below as a composite key.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - subscriber_id
+              - start_date
+
+  - name: stg_ticket_status_history
+    description: >
+      One row per status change a ticket went through. No single-column key
+      here - a ticket has several status changes, so the real grain is
+      (ticket_id, changed_at), tested below as a composite key.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - ticket_id
+              - changed_at

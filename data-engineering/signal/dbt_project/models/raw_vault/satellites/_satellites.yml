@@ -1,0 +1,105 @@
+version: 2
+
+models:
+  - name: sat_subscriber_profile
+    description: "Descriptive attributes for a subscriber - name, contact info, signup/churn status."
+    columns:
+      - name: subscriber_hub_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('hub_subscriber')
+                field: subscriber_hub_key
+
+  - name: sat_plan_details
+    description: >
+      Descriptive attributes for a plan - name, type, allowances, price, and
+      network_generation. network_generation was added after the project's
+      first build to demonstrate the vault decoupling ingestion from
+      reporting - see the README's "Proving the decoupling" section.
+    columns:
+      - name: plan_hub_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('hub_plan')
+                field: plan_hub_key
+      - name: network_generation
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["4G", "5G"]
+
+  - name: sat_device_details
+    description: "Descriptive attributes for a device - brand, model, IMEI, type."
+    columns:
+      - name: device_hub_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('hub_device')
+                field: device_hub_key
+
+  - name: sat_usage_details
+    description: "Descriptive attributes for one usage event - type, timestamp, data/call/sms amounts."
+    columns:
+      - name: usage_event_link_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('link_usage_event')
+                field: usage_event_link_key
+
+  - name: sat_ticket_status
+    description: >
+      Status history for a support ticket. A ticket has one row per status
+      change (open, in_progress, resolved), so support_ticket_link_key alone
+      is NOT unique by design - the real grain is
+      (support_ticket_link_key, load_date), tested below as a composite key.
+    columns:
+      - name: support_ticket_link_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('link_support_ticket')
+                field: support_ticket_link_key
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - support_ticket_link_key
+              - load_date
+
+  - name: sat_subscription_details
+    description: "Start/end dates for a subscription segment - end_date is null while the segment is still active."
+    columns:
+      - name: subscription_link_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('link_subscription')
+                field: subscription_link_key
+
+  - name: sat_ticket_details
+    description: "Category, priority, and current status/resolution info for a support ticket."
+    columns:
+      - name: support_ticket_link_key
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('link_support_ticket')
+                field: support_ticket_link_key
